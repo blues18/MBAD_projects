@@ -1,11 +1,8 @@
 import 'dart:ui';
 
-import 'package:facilitiesbookingapp/models/testdata.dart';
-import 'package:facilitiesbookingapp/widgets/bottom_navigation.dart';
+import 'package:facilitiesbookingapp/models/FacilitiesDetails.dart';
 import 'package:flutter/material.dart';
-
-//import '../models/Facilities_details.dart';
-import '../models/testdata.dart';
+import '../models/FacilitiesDetails.dart';
 import 'gymBooking_screen.dart';
 
 class gym_Location_screen extends StatefulWidget {

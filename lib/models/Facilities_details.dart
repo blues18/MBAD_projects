@@ -1,5 +1,5 @@
  class facilitiesDetail {
-   final String place;
+   final String place; // LAter delete this!!!!!!!!!!!!
    final String blocks_and_level;
    final String opening_hours;
    final String facilities_type;

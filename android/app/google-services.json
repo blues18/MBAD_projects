@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "148004629491",
+    "project_id": "mbap-facilities-booking",
+    "storage_bucket": "mbap-facilities-booking.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:148004629491:android:04a5de5ac05dd63c7f4086",
+        "android_client_info": {
+          "package_name": "com.example.facilitiesbookingapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "148004629491-6hng0lonr2avupejlujas4r77n0finas.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCeQ5HR0ZcDJ7eUu5sBTNrC_M3VwdwfI9Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "148004629491-6hng0lonr2avupejlujas4r77n0finas.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
