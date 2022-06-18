@@ -1,11 +1,14 @@
 import 'package:facilitiesbookingapp/main.dart';
 import 'package:facilitiesbookingapp/models/Facilities_details.dart';
+import 'package:facilitiesbookingapp/models/class_bookingItem_for_provider.dart';
+import 'package:facilitiesbookingapp/provider/testbooking_on_provider.dart';
 import 'package:facilitiesbookingapp/screen/Facilities_screen.dart';
 import 'package:facilitiesbookingapp/screen/Favourite_screen.dart';
 import 'package:facilitiesbookingapp/screen/HomePage_screen.dart';
 import 'package:facilitiesbookingapp/screen/UserAccount_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'AuthenticationScreen/testScreen.dart';
 import 'firebase_services/firestore_service.dart';
@@ -27,18 +30,22 @@ class MyApp extends StatefulWidget{
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: Firebase.initializeApp(),
-      builder: (ctx, snapshot) => MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MainScreen(),
-      routes: {
-        test.routeName : (_) {return test();},
-        gym_Location_screen.routeName : (_) {return gym_Location_screen();},
-        homePage_screen.routeName : (_) {return homePage_screen();}
-        },
+    return MultiProvider(//provider screen
+      providers: [
+        ChangeNotifierProvider<allBookings>(
+          create: (ctx) => allBookings(),
+        )
+      ],
+      child: MaterialApp(
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: MainScreen(),
+        routes: {
+          test.routeName : (_) {return test();},
+          gym_Location_screen.routeName : (_) {return gym_Location_screen();},
+          homePage_screen.routeName : (_) {return homePage_screen();}
+          },
       ),
     );
   }
@@ -57,12 +64,6 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     FirestoreService fsService = FirestoreService();
 
-    return StreamBuilder<List<bookingGym>>(
-      stream: fsService.getGymBooking(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting)
-          return Center(child: CircularProgressIndicator());
-        else {
           return Scaffold(
             body: Column(
               children: [
@@ -73,6 +74,3 @@ class _MainScreenState extends State<MainScreen> {
           );
         }//else
       }
-    );
-  }
-}

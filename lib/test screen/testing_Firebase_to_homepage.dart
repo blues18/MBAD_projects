@@ -37,11 +37,11 @@ class _testingStreamState extends State<testingStream> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<bookingGym>>(
-        stream: fsService.getGymBooking(), //why cannot read data
+        stream: fsService.getGymBooking(),
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
+          if (snapshot.connectionState == ConnectionState.waiting)
             return Center(child: const CircularProgressIndicator());
-          } else {
+            else {
             return ListView.separated(
               itemBuilder: (cix, i) {
                 return Container(

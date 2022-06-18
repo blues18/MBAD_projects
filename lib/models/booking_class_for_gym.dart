@@ -16,7 +16,7 @@ class bookingGym {
         id = id,
         location = snapshot['location'] ?? '',
         opening_hours = snapshot['opening_hours'] ?? '',
-        bkandlevel = snapshot['Block and level'] ?? '',
+        bkandlevel = snapshot['bkandlevel'] ?? '',
         timeslot= snapshot['timeSlot'] ?? '',
-        datesslot= (snapshot['DateSlot'] ?? Timestamp.now() as Timestamp).toDate();
+        datesslot= (snapshot['dateSlot'] ?? Timestamp.now() as Timestamp).toDate();
 }

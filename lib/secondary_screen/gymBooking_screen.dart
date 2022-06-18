@@ -2,8 +2,10 @@ import 'dart:ui';
 import 'package:facilitiesbookingapp/DatePicker_folder/date_picker_timeline.dart';
 import 'package:facilitiesbookingapp/firebase_services/firestore_service.dart';
 import 'package:facilitiesbookingapp/models/FacilitiesDetails.dart';
+import 'package:facilitiesbookingapp/provider/testbooking_on_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import '../DatePicker_folder/date_picker_widgets.dart';
 
@@ -34,6 +36,7 @@ MaterialStateProperty<Color>getColor(Color color,Color colorPressed){
 
 
 class _gymbookingScreenState extends State<gymbookingScreen> {
+  var form = GlobalKey<FormState>();
   DateTime _selectedValue = DateTime.now();
   String fomattedDate = "";
   List dateinput = [];
@@ -46,6 +49,7 @@ class _gymbookingScreenState extends State<gymbookingScreen> {
   String? dateslot;
   String? bkandlevel;
   String? timeslot;
+  String? facilites_type;
 
 
   void createbooking(){
@@ -76,13 +80,62 @@ class _gymbookingScreenState extends State<gymbookingScreen> {
     );
   }
 
+  void addtofavourite(){
+    location = widget.selected.place;
+    opening_hours = widget.selected.opening_hours;
+    bkandlevel = widget.selected.location;
+
+    print(location);
+    print(opening_hours);
+    print(bkandlevel);
+
+    FirestoreService fsService = FirestoreService();
+    fsService.addtofavourite(location, opening_hours, bkandlevel);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content:Text('Successfully added to Favourite'))
+    );
+  }
+
+  void createbookingprovider(allBookings booklist){
+    location = widget.selected.place;
+    opening_hours = widget.selected.opening_hours;
+    bkandlevel = widget.selected.location;
+    timeslot = Bookingtimeslot.removeLast();
+    dateslot = dateinput.removeLast();
+    facilites_type =widget.selected.facilites_type;
+
+    print(location);
+    print(opening_hours);
+    print(bkandlevel);
+    print(timeslot);
+    print(dateslot);
+    print(facilites_type);
+
+    print(location.runtimeType);
+    print(opening_hours.runtimeType);
+    print(bkandlevel.runtimeType);
+    print(timeslot.runtimeType);
+    print(dateslot.runtimeType);
+    print(facilites_type.runtimeType);
+
+    booklist.addBooking(location, bkandlevel, opening_hours, facilites_type, dateslot, timeslot);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content:Text('SuccessfullyCreated'))
+    );
+  }
+
+
   Widget cfmButton() {
+    allBookings booklist = Provider.of<allBookings>(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       //crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         FlatButton(
           onPressed: () {
+            addtofavourite();
           },
           color: Colors.lightBlue,
           child: Row(
@@ -94,7 +147,7 @@ class _gymbookingScreenState extends State<gymbookingScreen> {
         ),
         FlatButton(
           onPressed: () {
-            createbooking();
+            createbookingprovider(booklist);
           },
           color: Colors.lightBlue,
           child: Row(
@@ -272,6 +325,7 @@ class _gymbookingScreenState extends State<gymbookingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    allBookings booklist = Provider.of<allBookings>(context);
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.selected.place),

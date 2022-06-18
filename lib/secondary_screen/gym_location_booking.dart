@@ -16,18 +16,22 @@ class _gym_Location_screenState extends State<gym_Location_screen> {
   final controller = TextEditingController();
   bool isDescending = false;
 
-  //List<facilitiesDetail> facilitiesDetails = allfacilitiesDetail;
-
   List <detail> alldetails = [
     detail(place: 'Anchorvale communtiy ceneter',
         opening_hours: '07:00 - 23:00',
-        location: 'Block 1 level 1 #01-112'),
+        location: 'Block 1 level 1 #01-112',
+        facilites_type: 'Gym'
+    ),
     detail(place: 'Fernvale community center',
         opening_hours: '07:00 - 23:59',
-        location: 'near main entrance'),
+        location: 'near main entrance',
+        facilites_type: 'Gym'
+    ),
     detail(place: 'Hougang Community center',
         opening_hours: '07:00 - 23:00',
-        location: 'Block 1 level 2 #02-001'),
+        location: 'Block 1 level 2 #02-001',
+        facilites_type: 'Gym'
+    ),
   ];
 
   Widget SortbyAlphabetically() {
