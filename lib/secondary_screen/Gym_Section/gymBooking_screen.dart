@@ -2,12 +2,8 @@ import 'dart:ui';
 import 'package:facilitiesbookingapp/DatePicker_folder/date_picker_timeline.dart';
 import 'package:facilitiesbookingapp/firebase_services/firestore_service.dart';
 import 'package:facilitiesbookingapp/models/FacilitiesDetails.dart';
-import 'package:facilitiesbookingapp/provider/testbooking_on_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
-
-import '../DatePicker_folder/date_picker_widgets.dart';
 
 class gymbookingScreen extends StatefulWidget {
 static String routeName = '/gymBookingScreen';
@@ -43,83 +39,62 @@ class _gymbookingScreenState extends State<gymbookingScreen> {
   List Bookingtimeslot = [];
 
 
-  //firebase string
   String? location;
   String? opening_hours;
-  String? dateslot;
-  String? bkandlevel;
-  String? timeslot;
-  String? facilites_type;
-
-
-  void createbooking(){
-
-    location = widget.selected.place;
-    opening_hours = widget.selected.opening_hours;
-    bkandlevel = widget.selected.location;
-    timeslot = Bookingtimeslot.removeLast();
-    dateslot = dateinput.removeLast();
-
-    print(location);
-    print(opening_hours);
-    print(bkandlevel);
-    print(timeslot);
-    print(dateslot);
-
-    print(location.runtimeType);
-    print(opening_hours.runtimeType);
-    print(bkandlevel.runtimeType);
-    print(timeslot.runtimeType);
-    print(dateslot.runtimeType);
-
-    FirestoreService fsService = FirestoreService();
-    fsService.addbookingSlot(location,opening_hours,bkandlevel,timeslot,dateslot);
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content:Text('SuccessfullyCreated'))
-    );
-  }
+  String? dateSlot;
+  String? bkandLevel;
+  String? timeSlot;
+  String? facilities_type;
 
   void addtofavourite(){
     location = widget.selected.place;
+    bkandLevel = widget.selected.location;
     opening_hours = widget.selected.opening_hours;
-    bkandlevel = widget.selected.location;
+    facilities_type = widget.selected.facilites_type;
 
     print(location);
     print(opening_hours);
-    print(bkandlevel);
+    print(bkandLevel);
+    print(facilities_type);
 
     FirestoreService fsService = FirestoreService();
-    fsService.addtofavourite(location, opening_hours, bkandlevel);
+    fsService.addtofavourite(location, opening_hours, bkandLevel,facilities_type);
 
     ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content:Text('Successfully added to Favourite'))
     );
   }
 
-  void createbookingprovider(allBookings booklist){
+  void createbooking(){
     location = widget.selected.place;
-    opening_hours = widget.selected.opening_hours;
-    bkandlevel = widget.selected.location;
-    timeslot = Bookingtimeslot.removeLast();
-    dateslot = dateinput.removeLast();
-    facilites_type =widget.selected.facilites_type;
+    //opening_hours = widget.selected.opening_hours;
+    bkandLevel = widget.selected.location;
+    timeSlot = Bookingtimeslot.removeLast();
+    dateSlot = dateinput.removeLast();
+    facilities_type =widget.selected.facilites_type;
 
     print(location);
-    print(opening_hours);
-    print(bkandlevel);
-    print(timeslot);
-    print(dateslot);
-    print(facilites_type);
+    print(bkandLevel);
+    print(timeSlot);
+    print(dateSlot);
+    print(facilities_type);
 
+    /*
     print(location.runtimeType);
-    print(opening_hours.runtimeType);
-    print(bkandlevel.runtimeType);
-    print(timeslot.runtimeType);
-    print(dateslot.runtimeType);
-    print(facilites_type.runtimeType);
+    print('1');
+    print(bkandLevel.runtimeType);
+    print('3');
+    print(timeSlot.runtimeType);
+    print('4');
+    print(dateSlot.runtimeType);
+    print('5');
+    print(facilities_type.runtimeType);
+    print('6');
+    */
 
-    booklist.addBooking(location, bkandlevel, opening_hours, facilites_type, dateslot, timeslot);
+
+    FirestoreService fsService = FirestoreService();
+    fsService.addBookingTofirebase(location, bkandLevel, facilities_type, dateSlot, timeSlot);
 
     ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content:Text('SuccessfullyCreated'))
@@ -128,7 +103,7 @@ class _gymbookingScreenState extends State<gymbookingScreen> {
 
 
   Widget cfmButton() {
-    allBookings booklist = Provider.of<allBookings>(context);
+    //allBookings booklist = Provider.of<allBookings>(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       //crossAxisAlignment: CrossAxisAlignment.center,
@@ -146,9 +121,7 @@ class _gymbookingScreenState extends State<gymbookingScreen> {
           ),
         ),
         FlatButton(
-          onPressed: () {
-            createbookingprovider(booklist);
-          },
+          onPressed: () { createbooking(); },
           color: Colors.lightBlue,
           child: Row(
             children: [
@@ -325,7 +298,7 @@ class _gymbookingScreenState extends State<gymbookingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    allBookings booklist = Provider.of<allBookings>(context);
+    //allBookings booklist = Provider.of<allBookings>(context);
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.selected.place),

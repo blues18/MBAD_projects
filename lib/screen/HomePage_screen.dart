@@ -1,13 +1,10 @@
 import 'dart:ui';
-
-import 'package:facilitiesbookingapp/models/booking_class_for_gym.dart';
-import 'package:facilitiesbookingapp/provider/testbooking_on_provider.dart';
+import 'package:facilitiesbookingapp/dataDisplay/SwimmingListBookingData.dart';
+import 'package:facilitiesbookingapp/dataDisplay/bookingListDataDisplay.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
 import '../firebase_services/firestore_service.dart';
-import '../provider/provider_listview.dart';
-import '../test screen/testing_Firebase_to_homepage.dart';
+import '../models/class_bookingItem_firebase.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class homePage_screen extends StatefulWidget {
   static String routeName = '/homepage';
@@ -17,69 +14,75 @@ class homePage_screen extends StatefulWidget {
 }
 
 class _homePage_screenState extends State<homePage_screen> {
+  FirestoreService fsService = FirestoreService();
+
   @override
   Widget build(BuildContext context) {
-    FirestoreService fsService = FirestoreService();
-    allBookings booklist = Provider.of<allBookings>(context);
-
     return Scaffold(
-              appBar: AppBar(
-                    title: Row(
+          appBar: AppBar(
+              title: Row(
+                children: [
+                  Text('HomePage', style: TextStyle(
+                      fontSize: 30, fontWeight: FontWeight.bold)),
+                  Icon(Icons.home),
+                ],
+              )
+          ),
+          body: Column(
+            children: [
+              Row(
+                  children: [
+                    Text('Events', style: TextStyle(
+                      fontSize: 30, fontWeight: FontWeight.bold,)),
+                    Icon(Icons.event_available_rounded),
+                  ]),
+              Container(
+                height: 150,
+                width: 400,
+                margin: EdgeInsets.all(10.0),
+                decoration: BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.blueGrey
+                ),
+              ),
+              Row(
+                  children: <Widget>[
+                    Text('Your Booking', style: TextStyle(
+                        fontSize: 30, fontWeight: FontWeight.bold)),
+                    Icon(Icons.book_outlined),
+                    Spacer(),
+                    FlatButton(
+                      onPressed: () {},
+                      child: const Text(
+                        'View All', style: TextStyle(fontSize: 15),
+                        textAlign: TextAlign.right,),
+                    )
+                  ]),
+              Container(
+                  height: 200,
+                  width: double.infinity,
+                  margin: EdgeInsets.all(10.0),
+                  decoration: BoxDecoration(
+                      shape: BoxShape.rectangle,
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.blueGrey
+                  ),
+                  child: SingleChildScrollView(
+                    child: Column(
                       children: [
-                        Text('HomePage',style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold)),
-                        Icon(Icons.home),
+                        display_data_list(),
+                        swimmingDataList(),
                       ],
                     )
-                  ),
-                  body: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Text('Events',style:TextStyle(fontSize: 30, fontWeight: FontWeight.bold,)),
-                            Icon(Icons.event_available_rounded),
-                          ]),
-                        Container(
-                          height: 150,
-                          width:  400,
-                          margin: EdgeInsets.all(10.0),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.rectangle,
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.blueGrey
-                          ),
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Text('Your Booking',style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
-                            Icon(Icons.book_outlined),
-                            Spacer(),
-                            FlatButton(
-                              onPressed: () {},
-                              child: const Text('View All',style:TextStyle(fontSize: 15),textAlign: TextAlign.right,),
-                            )
-                          ]),
-                        Container(
-                          height: 300,
-                          width: double.infinity,
-                          margin: EdgeInsets.all(10.0),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.rectangle,
-                              borderRadius: BorderRadius.circular(10),
-                            color: Colors.blueGrey
-                          ),
-                          child:SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                display_data_list()
-                                ]
-                              ),
-                             )
-                          )
-                      ],
                     ),
-                  );
-            }
+                  )
+            ],
+          ),
+        );
       }
+  }
+
 
 
 

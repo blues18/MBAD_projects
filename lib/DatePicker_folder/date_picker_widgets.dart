@@ -2,7 +2,7 @@ import 'package:facilitiesbookingapp/DatePicker_folder/date_picker_timeline.dart
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../secondary_screen/gymBooking_screen.dart';
+import '../secondary_screen/Gym_Section/gymBooking_screen.dart';
 
 class horizontal_date_picker extends StatefulWidget {
 

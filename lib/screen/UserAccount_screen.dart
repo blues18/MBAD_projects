@@ -1,13 +1,35 @@
-import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import '../widgets/deleteButtonAlert.dart';
 
-class userAccount_Screen extends StatelessWidget {
+class userAccount_Screen extends StatefulWidget {
 
-  Widget _textFormField(){
+  @override
+  State<userAccount_Screen> createState() => _userAccount_ScreenState();
+}
+
+class _userAccount_ScreenState extends State<userAccount_Screen> {
+  var form = GlobalKey<FormState>();
+
+  String? name;
+  int? mobileNumber;
+  String? email;
+  String? password;
+
+  void updateProfile() {
+    bool isValid = form.currentState!.validate();
+
+    if(isValid) {
+      form.currentState!.save();
+      print(name);
+      print(mobileNumber);
+      print(email);
+      print(password);
+    }
+  }
+
+
+  Widget _Formfield(){
     return Column(
      mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -25,6 +47,15 @@ class userAccount_Screen extends StatelessWidget {
                   color: Colors.black,fontWeight: FontWeight.bold
               ),
             ),
+            validator: (value){
+              if(value == null) {
+                return 'please Enter your name';
+              }else if(value.length < 1){
+                return 'please Enter your name';
+              } else
+                return null;
+            },
+            onChanged: (value) {name = value;},
           ),
         ),
         Padding(
@@ -40,6 +71,16 @@ class userAccount_Screen extends StatelessWidget {
                   color: Colors.black,fontWeight: FontWeight.bold
               ),
             ),
+            keyboardType: TextInputType.number,
+            validator: (value){
+              if(value == null) {
+                return 'Enter your mobile number';
+              } else if(value.length < 7) {
+               return 'please enter a singapore number';
+             } else
+               return null;
+            },
+            onChanged: (value) {mobileNumber = int.parse(value);},
           ),
         ),
         Padding(
@@ -55,6 +96,7 @@ class userAccount_Screen extends StatelessWidget {
                 color: Colors.black,fontWeight: FontWeight.bold
               ),
             ),
+            onChanged: (value) {email = value;},
           ),
         ),
         Padding(
@@ -70,6 +112,17 @@ class userAccount_Screen extends StatelessWidget {
                   color: Colors.black,fontWeight: FontWeight.bold
               ),
             ),
+            validator: (value) {
+              if(value == null){
+                return "change to another password";
+              }
+              else if (value.length < 10){
+                return "Please Enter a longer password more then 10 characters";
+              }
+              else
+                return null;
+            },
+            onChanged: (value) {password = value;},
           ),
         ),
 
@@ -93,7 +146,7 @@ class userAccount_Screen extends StatelessWidget {
                     ]
                 ),
                 child:RaisedButton(color:Color(0xfff6f6f6)
-                  ,onPressed: (){},
+                  ,onPressed: (){updateProfile();},
                   child: Text('Update',style: TextStyle(color: Colors.black),
                   ),
                 )
@@ -120,7 +173,14 @@ class userAccount_Screen extends StatelessWidget {
               left: 20,
               right: 20,
             ),
-              child: SingleChildScrollView(child: _textFormField()),
+              child: SingleChildScrollView(
+                  child:Container(
+                    child: Form(
+                      key: form,
+                      child: _Formfield(),
+                    ),
+                )
+              ),
           ),
           Container(
             height: 180,
@@ -162,7 +222,7 @@ class userAccount_Screen extends StatelessWidget {
             ),
           ),
         ],
-      )
+      ),
     );
   }
 }

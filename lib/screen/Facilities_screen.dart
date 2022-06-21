@@ -1,8 +1,10 @@
 import 'dart:ui';
 
+import 'package:facilitiesbookingapp/secondary_screen/Swimming_section/swimming_locationList.dart';
 import 'package:flutter/material.dart';
 
-import '../secondary_screen/gym_location_booking.dart';
+import '../secondary_screen/Gym_Section/gym_locationList_.dart';
+import '../widgets/bottom_navigation.dart';
 
 class facilities_Screen extends StatelessWidget {
 
@@ -52,7 +54,7 @@ class facilities_Screen extends StatelessWidget {
                       image: AssetImage('image_assets/swimming.jpg'),
                       fit:BoxFit.cover)),
               child: TextButton(
-                  onPressed: () {},
+                  onPressed: () => Navigator.of(context).pushNamed(swimming_location_screen.routeName),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -104,6 +106,7 @@ class facilities_Screen extends StatelessWidget {
             ),
           ],
         ),
-    ));
+    ),
+    );
   }
 }

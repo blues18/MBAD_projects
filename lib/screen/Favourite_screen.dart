@@ -1,9 +1,11 @@
 import 'dart:ui';
 
+import 'package:facilitiesbookingapp/dataDisplay/favouriteListViewData.dart';
 import 'package:facilitiesbookingapp/firebase_services/firestore_service.dart';
-import 'package:facilitiesbookingapp/models/Favourite_location.dart';
-import 'package:facilitiesbookingapp/models/booking_class_for_gym.dart';
+import 'package:facilitiesbookingapp/models/Class_Favourite_location.dart';
 import 'package:flutter/material.dart';
+
+import '../widgets/bottom_navigation.dart';
 
 class favourite_Screen extends StatelessWidget {
 FirestoreService fsService = FirestoreService();
@@ -48,6 +50,9 @@ FirestoreService fsService = FirestoreService();
                                   shape: BoxShape.rectangle,
                                   borderRadius: BorderRadius.circular(10),
                                   color: Colors.blueGrey
+                              ),
+                              child: SingleChildScrollView(
+                                child: favouriteLocationGymList(),
                               ),
                             ),
                             Row(
@@ -128,6 +133,6 @@ FirestoreService fsService = FirestoreService();
                           ]),
                     ],
                   )
-              )
+              ),
           );
         }}

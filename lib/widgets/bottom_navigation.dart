@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:facilitiesbookingapp/screen/HomePage_screen.dart';
 import 'package:facilitiesbookingapp/screen/Facilities_screen.dart';
@@ -11,6 +12,7 @@ class bottomNav extends StatefulWidget {
 }
 
 class _bottomNavState extends State<bottomNav> {
+
   int selectedIndex = 0;
 
   final screens=[
