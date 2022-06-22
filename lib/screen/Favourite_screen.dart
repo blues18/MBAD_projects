@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:facilitiesbookingapp/dataDisplay/favouriteListViewData.dart';
+import 'package:facilitiesbookingapp/dataDisplay/favouriteListViewData_swimming.dart';
 import 'package:facilitiesbookingapp/firebase_services/firestore_service.dart';
 import 'package:facilitiesbookingapp/models/Class_Favourite_location.dart';
 import 'package:flutter/material.dart';
@@ -78,6 +79,9 @@ FirestoreService fsService = FirestoreService();
                                   shape: BoxShape.rectangle,
                                   borderRadius: BorderRadius.circular(10),
                                   color: Colors.blueGrey
+                              ),
+                              child: SingleChildScrollView(
+                                child: favouriteSwimmingList(),
                               ),
                             ),
                             Row(

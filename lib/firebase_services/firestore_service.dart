@@ -88,7 +88,7 @@ class FirestoreService {
   ////////////////////////////////////////////////////////////////////////////////////
   addtofavourite(location, opening_hours, bkandLevel, facilities_type) {
     //facilities location favourite
-    return FirebaseFirestore.instance.collection('favourite')
+    return FirebaseFirestore.instance.collection('Favourite_gym_Facilities_Location')
         .add({
       'Location': location,
       'Opening_hour': opening_hours,
@@ -99,14 +99,45 @@ class FirestoreService {
 
   removedFavouriteListItem(id) {
     return FirebaseFirestore.instance
-        .collection('favourite')
+        .collection('Favourite_gym_Facilities_Location')
         .doc(id)
         .delete();
   }
 
   Stream<List<favourite_Location>> getFavouritelocation() {
     return FirebaseFirestore.instance
-        .collection('favourite')
+        .collection('Favourite_gym_Facilities_Location')
+        .snapshots()
+        .map((snapshot) =>
+        snapshot.docs
+            .map<favourite_Location>((doc) =>
+            favourite_Location.fromMap(doc.data(), doc.id))
+            .toList());
+  }
+  //////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////Swimming Favourite collection///////////////////
+
+  addtoSwimmingFavourite(location, opening_hours, bkandLevel, facilities_type) {
+    //facilities location favourite
+    return FirebaseFirestore.instance.collection('Favourite_swimming_Facilities_Location')
+        .add({
+      'Location': location,
+      'Opening_hour': opening_hours,
+      'Block and Level': bkandLevel,
+      'Facilities_Type': facilities_type,
+    });
+  }
+
+  removedFavouriteSwimmingItem(id) {
+    return FirebaseFirestore.instance
+        .collection('Favourite_swimming_Facilities_Location')
+        .doc(id)
+        .delete();
+  }
+
+  Stream<List<favourite_Location>> getFavouriteLocation_form_Swimming_Collection() {
+    return FirebaseFirestore.instance
+        .collection('Favourite_swimming_Facilities_Location')
         .snapshots()
         .map((snapshot) =>
         snapshot.docs
@@ -115,4 +146,6 @@ class FirestoreService {
             .toList());
   }
 }
+
+
 

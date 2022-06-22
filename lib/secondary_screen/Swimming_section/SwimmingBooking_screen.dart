@@ -53,7 +53,7 @@ class _swimmingBookingScreenState extends State<swimmingBookingScreen>{
     print(facilities_type);
 
     FirestoreService fsService = FirestoreService();
-    fsService.addtofavourite(location, opening_hours, bkandLevel,facilities_type);
+    fsService.addtoSwimmingFavourite(location, opening_hours, bkandLevel, facilities_type);
 
     ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content:Text('Successfully added to Favourite'))
