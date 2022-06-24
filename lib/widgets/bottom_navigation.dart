@@ -32,15 +32,15 @@ class _bottomNavState extends State<bottomNav> {
         bottomNavigationBar: BottomNavigationBar(
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home_outlined),
-                label: 'Home', backgroundColor: Colors.blue),
+                label: 'Home', backgroundColor: Colors.lightBlueAccent),
             BottomNavigationBarItem(
                 icon: Icon(Icons.sports_gymnastics_rounded),
-                label: 'Facilities', backgroundColor: Colors.blue),
+                label: 'Facilities', backgroundColor: Colors.lightBlueAccent),
             BottomNavigationBarItem(
                 icon: Icon(Icons.favorite_border_rounded),
-                label: 'Favourite', backgroundColor: Colors.blue),
+                label: 'Favourite', backgroundColor: Colors.lightBlueAccent),
             BottomNavigationBarItem(icon: Icon(Icons.account_box_rounded),
-                label: 'Account', backgroundColor: Colors.blue),
+                label: 'Account', backgroundColor: Colors.lightBlueAccent),
           ],
           currentIndex: selectedIndex,
           selectedItemColor: Colors.orange[800],

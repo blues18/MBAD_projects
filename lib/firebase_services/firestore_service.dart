@@ -1,13 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:facilitiesbookingapp/models/Class_Favourite_location.dart';
-import 'package:facilitiesbookingapp/models/class_bookingItem_firebase.dart';
-import 'package:facilitiesbookingapp/models/facilities_Detail(firebase).dart';
+import 'package:facilitiesbookingapp/models/individual%20category%20Class%20Booking/Class_Favourite_location.dart';
+import 'package:facilitiesbookingapp/models/individual%20category%20Class%20Booking/Class_bookingItems.dart';
+import 'package:facilitiesbookingapp/models/facilities%20Location%20Models/facilities_Detail(firebase).dart';
+
 
 class FirestoreService {
 
   ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////// Facilities Location ///////////////////////
 
+///////////////////////////Swimming Complex ////////////////////////////////////
   Stream<List<Facilities_Details>> getDetailsOfFacilities(){
     return FirebaseFirestore.instance
         .collection('Facilities Location and Details')
@@ -18,6 +20,18 @@ class FirestoreService {
             Facilities_Details.formMap(doc.data(), doc.id))
             .toList());
   }
+/////////////////////////Meeting Room///////////////////////////////////////////
+  Stream<List<Facilities_Details>> getDetailsOfFacilities_meetingRoom(){
+    return FirebaseFirestore.instance
+        .collection('Meetings Room Facilities')
+        .snapshots()
+        .map((snapshot) =>
+        snapshot.docs
+            .map<Facilities_Details>((doc)=>
+            Facilities_Details.formMap(doc.data(), doc.id))
+            .toList());
+  }
+
 ///////////////////////////////////////////////////////////////////////////////////
   ///////////////////////////////Gym CRUD /////////////////////////////////////////
 

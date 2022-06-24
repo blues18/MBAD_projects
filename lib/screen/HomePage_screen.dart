@@ -1,9 +1,10 @@
 import 'dart:ui';
 import 'package:facilitiesbookingapp/dataDisplay/SwimmingListBookingData.dart';
 import 'package:facilitiesbookingapp/dataDisplay/bookingListDataDisplay.dart';
+import 'package:facilitiesbookingapp/secondary_screen/view_all_screen/view_all(homepage).dart';
 import 'package:flutter/material.dart';
 import '../firebase_services/firestore_service.dart';
-import '../models/class_bookingItem_firebase.dart';
+import '../models/individual category Class Booking/Class_bookingItems.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class homePage_screen extends StatefulWidget {
@@ -28,7 +29,18 @@ class _homePage_screenState extends State<homePage_screen> {
                 ],
               )
           ),
-          body: Column(
+          body: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.bottomRight,
+               colors: [
+                 Colors.lightBlueAccent,
+                 Colors.lightBlue,
+               ]
+              ),
+            ),
+              child:Column(
             children: [
               Row(
                   children: [
@@ -40,10 +52,22 @@ class _homePage_screenState extends State<homePage_screen> {
                 height: 150,
                 width: 400,
                 margin: EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     shape: BoxShape.rectangle,
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.blueGrey
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(60),
+                      topLeft: Radius.circular(10),
+                      bottomLeft: Radius.circular(10),
+                      bottomRight: Radius.circular(10),
+                    ),
+                    gradient: LinearGradient(
+                      begin: Alignment.topRight,
+                      end: Alignment.bottomLeft,
+                      colors: [
+                        Colors.deepPurple,
+                        Colors.redAccent,
+                      ]
+                    )
                 ),
               ),
               Row(
@@ -53,7 +77,8 @@ class _homePage_screenState extends State<homePage_screen> {
                     Icon(Icons.book_outlined),
                     Spacer(),
                     FlatButton(
-                      onPressed: () {},
+                      onPressed: () => Navigator.of(context).pushNamed(View_all_At_homePage.routeName),
+
                       child: const Text(
                         'View All', style: TextStyle(fontSize: 15),
                         textAlign: TextAlign.right,),
@@ -63,10 +88,22 @@ class _homePage_screenState extends State<homePage_screen> {
                   height: 200,
                   width: double.infinity,
                   margin: EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.blueGrey
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(60),
+                        topLeft: Radius.circular(10),
+                        bottomLeft: Radius.circular(10),
+                        bottomRight: Radius.circular(10),
+                      ),
+                      gradient: LinearGradient(
+                          begin: Alignment.topRight,
+                          end: Alignment.bottomLeft,
+                          colors: [
+                            Colors.deepPurple,
+                            Colors.redAccent,
+                          ]
+                      )
                   ),
                   child: SingleChildScrollView(
                     child: Column(
@@ -78,6 +115,7 @@ class _homePage_screenState extends State<homePage_screen> {
                     ),
                   )
             ],
+          ),
           ),
         );
       }

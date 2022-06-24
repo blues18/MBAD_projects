@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////Class for Gym//////////////////////////
 
 class bookingItem {
   String id;
@@ -22,6 +24,8 @@ class bookingItem {
   dateSlot = snapshot['dateSlot']??'',
   timeSlot = snapshot['timeSlot']??''
 ;}
+////////////////////////////////////////////////////////////////////////////////
+///////////////////////////Class for Swimming////////////////////////////////////
 
 class bookingSwim {
   String id;
@@ -42,4 +46,21 @@ class bookingSwim {
   facilities_type = snapshot['facilities_type']??'',
   dateSlot = snapshot['dateSlot']??'',
   timeSlot = snapshot['timeSlot']??'';
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/////////////////////////Class for meeting /////////////////////////////////////
+class bookingMeetingRoom{
+  String id;
+  String location;
+  String bkandLevel;
+  String facilities_type;
+  String dateSlot;
+  String timeSlot;
+
+  bookingMeetingRoom(
+  {required this.id, required this.location, required this.bkandLevel, required this.facilities_type
+    , required this.timeSlot, required this.dateSlot
+});
+
 }

@@ -102,6 +102,7 @@ class _gym_Location_screenState extends State<gym_Location_screen> {
             onChanged: searchLocation,
           ),
         ),
+
       ],
     );
   }
@@ -114,7 +115,7 @@ class _gym_Location_screenState extends State<gym_Location_screen> {
       return placeSearch.contains(input);
     }).toList();
 
-    setState(() => alldetails = suggestions);
+    setState(() => alldetails = suggestions); //this is the problem when searching
   }
 
 
@@ -212,16 +213,104 @@ class _gym_Location_screenState extends State<gym_Location_screen> {
         ),
         backgroundColor: Colors.grey,
       ),
-      body: SingleChildScrollView(
-          child: Column(
+      body: Column(
             children: <Widget>[
-              //SortbyAlphabetically(),
-              searchbar(),
-              displayLocationCard(),
+              Container(
+                margin: EdgeInsets.all(10),
+                child: TextField(
+                  controller: controller,
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(Icons.search),
+                    hintText: 'search for Gym location',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      borderSide: const BorderSide(color: Colors.lightBlue),
+                    ),
+                    contentPadding: EdgeInsets.symmetric(vertical: 20),
+                  ),
+                  onChanged: searchLocation,
+                ),
+              ),
+              Expanded(
+              child: ListView.separated(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                padding: EdgeInsets.all(10),
+                itemCount: alldetails.length,
+                itemBuilder: (BuildContext context, int index) { //in progress of creating a sort but check if can removed this part instead
+                  return Card(
+                    color: Colors.lightBlue,
+                    borderOnForeground: true,
+                    elevation: 10,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)
+                    ),
+                    child: InkWell(
+                      splashColor: Colors.red.withAlpha(40),
+                      onTap: () =>
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=> gymbookingScreen(selected: alldetails[index])
+                          )
+                          ),
+                      child: Column(
+                        //mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                                width: 400,
+                                height: 100,
+                                margin: EdgeInsets.all(5),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      width: 250,
+                                      height: 100,
+                                      //color: Colors.white,
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(alldetails[index].place,
+                                              style: TextStyle(
+                                                  fontSize: 17, color: Colors.black),
+                                              textAlign: TextAlign.left),
+                                          Text(alldetails[index].location,
+                                              style: TextStyle(
+                                                  fontSize: 15, color: Colors.black),
+                                              textAlign: TextAlign.left),
+                                          Text("Opening Hours: " +
+                                              alldetails[index].opening_hours,
+                                              style: TextStyle(
+                                                  fontSize: 15, color: Colors.black),
+                                              textAlign: TextAlign.left)
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      width: 100,
+                                      height: 100,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Colors.black,
+                                        //image: DecorationImage(
+                                        //image: AssetImage(),
+                                        //fit: BoxFit.cover,
+                                        // )
+                                      ),
+                                    )
+                                  ],
+                                )
+                            ),
+                          ]
+                      ),
+                    ),
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index){
+                  return Divider(height: 3,color:  Colors.blueGrey);
+                }
+              ),
+              )
             ],
           )
-      ),
-    );
+      );
   }
 }
 

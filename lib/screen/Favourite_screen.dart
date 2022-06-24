@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:facilitiesbookingapp/dataDisplay/favouriteListViewData.dart';
 import 'package:facilitiesbookingapp/dataDisplay/favouriteListViewData_swimming.dart';
 import 'package:facilitiesbookingapp/firebase_services/firestore_service.dart';
-import 'package:facilitiesbookingapp/models/Class_Favourite_location.dart';
+import 'package:facilitiesbookingapp/models/individual%20category%20Class%20Booking/Class_Favourite_location.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/bottom_navigation.dart';

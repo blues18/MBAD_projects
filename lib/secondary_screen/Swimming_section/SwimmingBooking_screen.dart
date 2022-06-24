@@ -1,6 +1,6 @@
 import 'package:facilitiesbookingapp/DatePicker_folder/date_picker_timeline.dart';
 import 'package:facilitiesbookingapp/firebase_services/firestore_service.dart';
-import 'package:facilitiesbookingapp/models/facilities_Detail(firebase).dart';
+import 'package:facilitiesbookingapp/models/facilities%20Location%20Models/facilities_Detail(firebase).dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

@@ -1,21 +1,17 @@
-import 'package:facilitiesbookingapp/screen/Facilities_screen.dart';
-import 'package:facilitiesbookingapp/screen/Favourite_screen.dart';
-import 'package:facilitiesbookingapp/screen/HomePage_screen.dart';
-import 'package:facilitiesbookingapp/screen/UserAccount_screen.dart';
+import 'package:facilitiesbookingapp/secondary_screen/Meeting_Room_section/meeting_RoomList.section.dart';
 import 'package:facilitiesbookingapp/secondary_screen/Swimming_section/swimming_locationList.dart';
+import 'package:facilitiesbookingapp/secondary_screen/view_all_screen/view_all(homepage).dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import 'AuthenticationScreen/testScreen.dart';
 import 'firebase_services/firestore_service.dart';
-import 'models/class_bookingItem_firebase.dart';
+import 'models/individual category Class Booking/Class_bookingItems.dart';
 import 'secondary_screen/Gym_Section/gymBooking_screen.dart';
 import 'secondary_screen/Gym_Section/gym_locationList_.dart';
 import 'widgets/bottom_navigation.dart';
 
-void main() async{
-  WidgetsFlutterBinding.ensureInitialized();
+void main() {
   runApp(MyApp());
 }
 
@@ -40,7 +36,10 @@ class _MyAppState extends State<MyApp> {
           test.routeName : (_) {return test();},
           gym_Location_screen.routeName : (_) {return gym_Location_screen();},
           swimming_location_screen.routeName : (_) {return swimming_location_screen();},
-          homePage_screen.routeName : (_) {return homePage_screen();}
+          meetingRoom_location_screen.routeName : (_) {return meetingRoom_location_screen();},
+          View_all_At_homePage.routeName: (_) {return View_all_At_homePage();},
+
+          //homePage_screen.routeName : (_) {return homePage_screen();}
           },
       ),
     );

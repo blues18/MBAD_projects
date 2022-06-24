@@ -1,5 +1,5 @@
 import 'package:facilitiesbookingapp/firebase_services/firestore_service.dart';
-import 'package:facilitiesbookingapp/models/class_bookingItem_firebase.dart';
+import 'package:facilitiesbookingapp/models/individual%20category%20Class%20Booking/Class_bookingItems.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
