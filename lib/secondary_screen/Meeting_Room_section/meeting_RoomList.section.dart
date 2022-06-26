@@ -39,7 +39,7 @@ class _meetingRoom_location_screenState extends State<meetingRoom_location_scree
                       child: InkWell(
                         splashColor: Colors.red.withAlpha(40),
                         onTap: () =>
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=> MeetingRoomBookingScreen(selected: snapshot.data![i]))),
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=> MeetingRoomBookingScreen(selected: snapshot.data![i]))), //passing data to the screen class
                         child: Column(
                           //mainAxisAlignment: MainAxisAlignment.start,
                             children: [

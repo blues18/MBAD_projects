@@ -10,24 +10,25 @@ class FirestoreService {
 ///////////////////////////////////// Facilities Location ///////////////////////
 
 ///////////////////////////Swimming Complex ////////////////////////////////////
-  Stream<List<Facilities_Details>> getDetailsOfFacilities(){
+  Stream<List<Facilities_Details>> getDetailsOfFacilities() {
     return FirebaseFirestore.instance
         .collection('Facilities Location and Details')
         .snapshots()
         .map((snapshot) =>
         snapshot.docs
-            .map<Facilities_Details>((doc)=>
+            .map<Facilities_Details>((doc) =>
             Facilities_Details.formMap(doc.data(), doc.id))
             .toList());
   }
+
 /////////////////////////Meeting Room///////////////////////////////////////////
-  Stream<List<Facilities_Details>> getDetailsOfFacilities_meetingRoom(){
+  Stream<List<Facilities_Details>> getDetailsOfFacilities_meetingRoom() {
     return FirebaseFirestore.instance
         .collection('Meetings Room Facilities')
         .snapshots()
         .map((snapshot) =>
         snapshot.docs
-            .map<Facilities_Details>((doc)=>
+            .map<Facilities_Details>((doc) =>
             Facilities_Details.formMap(doc.data(), doc.id))
             .toList());
   }
@@ -68,7 +69,8 @@ class FirestoreService {
 
   /////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////Swimming CRD////////////////////////////
-  addBookingToFirebase_Swimming(location, bkandLevel, facilities_type, dateSlot, timeSlot){
+  addBookingToFirebase_Swimming(location, bkandLevel, facilities_type, dateSlot,
+      timeSlot) {
     return FirebaseFirestore.instance
         .collection('Swimming Collection')
         .add({
@@ -79,6 +81,7 @@ class FirestoreService {
       'timeSlot': timeSlot,
     });
   }
+
   removedBookingSlotSwimming(id) {
     return FirebaseFirestore.instance
         .collection('Swimming Collection')
@@ -86,23 +89,69 @@ class FirestoreService {
         .delete();
   }
 
-  Stream<List<bookingSwim>> getSwimmingBookingItem(){
+  Stream<List<bookingSwim>> getSwimmingBookingItem() {
     return FirebaseFirestore.instance
         .collection('Swimming Collection')
         .snapshots()
         .map((snapshot) =>
-        snapshot.docs.map<bookingSwim>((doc)=>
-        bookingSwim.fromMap(doc.data(), doc.id))
-        .toList());
+        snapshot.docs.map<bookingSwim>((doc) =>
+            bookingSwim.fromMap(doc.data(), doc.id))
+            .toList());
   }
 
+  ////////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////Meeting Room CRD/////////////////////////////////
 
+  addBookingToFirebase_MeetingRoom(location, bkandLevel, facilities_type,
+      dateSlot, timeSlot) {
+    return FirebaseFirestore.instance
+        .collection('MeetingRoom Collection')
+        .add({
+      'Location': location,
+      'Block and Level': bkandLevel,
+      'facilities_type': facilities_type,
+      'dateSlot': dateSlot,
+      'timeSlot': timeSlot,
+    });
+  }
+
+  removedBookingSlotMeetingRoom(id) {
+    return FirebaseFirestore.instance
+        .collection('MeetingRoom Collection')
+        .doc(id)
+        .delete();
+  }
+
+  Stream<List<bookingMeetingRoom>> getMeetingRoomBookingItem() {
+    return FirebaseFirestore.instance
+        .collection('MeetingRoom Collection')
+        .snapshots()
+        .map((snapshot) =>
+        snapshot.docs.map<bookingMeetingRoom>((doc) =>
+            bookingMeetingRoom.fromMap(doc.data(), doc.id))
+            .toList());
+  }
+
+  editBookingMeetingRoom(id, location, bkandLevel, facilities_type, dateSlot,
+      timeSlot) {
+    return FirebaseFirestore.instance
+        .collection('MeetingRoom Collection')
+        .doc(id)
+        .set({
+      'Location': location,
+      'Block and Level': bkandLevel,
+      'facilities_type': facilities_type,
+      'dateSlot': dateSlot,
+      'timeSlot': timeSlot
+    });
+  }
 
   //favourite locations///////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////
   addtofavourite(location, opening_hours, bkandLevel, facilities_type) {
     //facilities location favourite
-    return FirebaseFirestore.instance.collection('Favourite_gym_Facilities_Location')
+    return FirebaseFirestore.instance.collection(
+        'Favourite_gym_Facilities_Location')
         .add({
       'Location': location,
       'Opening_hour': opening_hours,
@@ -128,12 +177,14 @@ class FirestoreService {
             favourite_Location.fromMap(doc.data(), doc.id))
             .toList());
   }
+
   //////////////////////////////////////////////////////////////////////////////
   ///////////////////////////////Swimming Favourite collection///////////////////
 
   addtoSwimmingFavourite(location, opening_hours, bkandLevel, facilities_type) {
     //facilities location favourite
-    return FirebaseFirestore.instance.collection('Favourite_swimming_Facilities_Location')
+    return FirebaseFirestore.instance.collection(
+        'Favourite_swimming_Facilities_Location')
         .add({
       'Location': location,
       'Opening_hour': opening_hours,
@@ -149,7 +200,8 @@ class FirestoreService {
         .delete();
   }
 
-  Stream<List<favourite_Location>> getFavouriteLocation_form_Swimming_Collection() {
+  Stream<List<
+      favourite_Location>> getFavouriteLocation_form_Swimming_Collection() {
     return FirebaseFirestore.instance
         .collection('Favourite_swimming_Facilities_Location')
         .snapshots()
@@ -159,7 +211,43 @@ class FirestoreService {
             favourite_Location.fromMap(doc.data(), doc.id))
             .toList());
   }
+
+//////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////MeetingRoom Favourite Collection///////////////
+
+  addtoMeetingRoomFavourite(location, opening_hours, bkandLevel,
+      facilities_type) {
+    //facilities location favourite
+    return FirebaseFirestore.instance.collection(
+        'Favourite_MeetingRoom_Facilities_Location')
+        .add({
+      'Location': location,
+      'Opening_hour': opening_hours,
+      'Block and Level': bkandLevel,
+      'Facilities_Type': facilities_type,
+    });
+  }
+
+  removedFavouriteMeetingRoomItem(id) {
+    return FirebaseFirestore.instance
+        .collection('Favourite_MeetingRoom_Facilities_Location')
+        .doc(id)
+        .delete();
+  }
+
+  Stream<List<
+      favourite_Location>> getFavouriteLocation_from_MeetingRoom_Collection() {
+    return FirebaseFirestore.instance
+        .collection('Favourite_MeetingRoom_Facilities_Location')
+        .snapshots()
+        .map((snapshot) =>
+        snapshot.docs
+            .map<favourite_Location>((doc) =>
+            favourite_Location.fromMap(doc.data(), doc.id))
+            .toList());
+  }
 }
+
 
 
 

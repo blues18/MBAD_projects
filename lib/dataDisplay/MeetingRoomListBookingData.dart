@@ -1,16 +1,15 @@
+import 'package:facilitiesbookingapp/EditScreen(MeetingRoom)/MeetingRoomBookingEdit.dart';
 import 'package:facilitiesbookingapp/firebase_services/firestore_service.dart';
 import 'package:facilitiesbookingapp/models/individual%20category%20Class%20Booking/Class_bookingItems.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-
-class swimmingDataList extends StatefulWidget {
+class meetingRoomDataList extends StatefulWidget {
 
   @override
-  State<swimmingDataList> createState() => swimmingDataListState();
+  State<meetingRoomDataList> createState() => meetingRoomDataListState();
 }
 
-class swimmingDataListState extends State<swimmingDataList> {
+class meetingRoomDataListState extends State<meetingRoomDataList>{
   FirestoreService fsService = FirestoreService();
 
   void removedItem(String id){
@@ -24,7 +23,7 @@ class swimmingDataListState extends State<swimmingDataList> {
               TextButton(
                   onPressed: () {
                     setState(() {
-                      fsService.removedBookingSlotSwimming(id);
+                      fsService.removedBookingSlotMeetingRoom(id);
                     });
                     Navigator.of(context).pop();
                   }, child: Text('Yes')),
@@ -38,9 +37,9 @@ class swimmingDataListState extends State<swimmingDataList> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return StreamBuilder <List<bookingSwim>>(
-        stream:fsService.getSwimmingBookingItem(),
+  Widget build(BuildContext context){
+    return StreamBuilder <List<bookingMeetingRoom>>(
+        stream:fsService.getMeetingRoomBookingItem(),
         builder: (context,snapshot){
           if(snapshot.connectionState == ConnectionState.waiting)
             return Center(child: CircularProgressIndicator());
@@ -53,7 +52,7 @@ class swimmingDataListState extends State<swimmingDataList> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                        height: 100,
+                        height: 150,
                         width: 300,
                         margin: EdgeInsets.all(10),
                         decoration: BoxDecoration(
@@ -66,7 +65,25 @@ class swimmingDataListState extends State<swimmingDataList> {
                           children: [
                             Text(snapshot.data![i].location, style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold)),
                             Text('Date: ' + snapshot.data![i].dateSlot, style: TextStyle(fontSize: 17, fontWeight: FontWeight.normal)),
-                            Text('Time: ' + snapshot.data![i].timeSlot, style: TextStyle(fontSize: 17, fontWeight: FontWeight.normal))
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                             crossAxisAlignment: CrossAxisAlignment.center,
+                             children: [
+                               Text('Time: ' + snapshot.data![i].timeSlot, style: TextStyle(fontSize: 17, fontWeight: FontWeight.normal)),
+                               Container(
+                                 margin: EdgeInsets.only(right: 10),
+                                 decoration: BoxDecoration(
+                                   borderRadius: BorderRadius.circular(10),
+                                 ),
+                                 child: ElevatedButton(
+                                   onPressed: () =>
+                                     Navigator.push(context, MaterialPageRoute(builder: (context) => editBookingSlot_MeetingRoom(selected: snapshot.data![i],)))
+                                   ,
+                                   child: Text('Edit Bookings'),
+                                 ),
+                               )
+                             ],
+                              ),
                           ],
                         )
                     ),
@@ -95,4 +112,3 @@ class swimmingDataListState extends State<swimmingDataList> {
     );
   }
 }
-

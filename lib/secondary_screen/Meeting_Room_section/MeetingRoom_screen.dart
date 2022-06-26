@@ -8,9 +8,9 @@ import 'package:intl/intl.dart';
 
 class MeetingRoomBookingScreen extends StatefulWidget {
   static String routeName = '/swimmingBookingScreen';
-  final Facilities_Details selected; //change this later when creating new models
+  final Facilities_Details selected; //constructor data that is passed from previous screen
 
-  MeetingRoomBookingScreen({
+  MeetingRoomBookingScreen({  //
     Key? key,
     required this.selected,
 }) : super(key:key);
@@ -35,9 +35,10 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
   TextEditingController timeinput = TextEditingController(); //for time field
   TextEditingController textarea = TextEditingController(); // for text field
   DateTime _selectedValue = DateTime.now();
+  TimeOfDay selectedTime = TimeOfDay.now();
   String fomattedDate = "";
   List dateinput_meetingRoom = [];
-  List Bookingtimeslot_meetingRoom = [];
+  String? Bookingtimeslot_meetingRoom;
 
   String? location;
   String? opening_hours;
@@ -48,6 +49,46 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
   bool isChecked = false;
 
 
+  //////////////////////////////////////////// TimePicker ///////////////////////
+  Widget timePicker(){
+    return Container(
+      height: 80,
+      width: double.infinity,
+      decoration: BoxDecoration(
+          color: Colors.white
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          ElevatedButton(
+            onPressed: () {
+              _selectTime(context);
+            },
+            child: Text("Choose Time"),
+          ),
+          Text("${selectedTime.hour}:${selectedTime.minute}"),
+        ],
+      ),
+    );
+  }
+
+  _selectTime(BuildContext context) async {
+    final TimeOfDay? timeOfDay = await showTimePicker(
+      context: context,
+      initialTime: selectedTime,
+      initialEntryMode: TimePickerEntryMode.dial,
+
+    );
+    if (timeOfDay != null && timeOfDay != selectedTime) {
+      setState(() {
+        selectedTime = timeOfDay;
+        Bookingtimeslot_meetingRoom = selectedTime.format(context);
+        print(Bookingtimeslot_meetingRoom);
+      });
+    }
+  }
+////////////////////////////////////////////////// TimePicker////////////////////
   Widget Datepicking(){
     return Container(
         height: 160,
@@ -144,7 +185,7 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
         ),
         FlatButton(
           onPressed: () {
-            createbooking();
+            createbooking(); showMyDialog();
           },
           color: Colors.lightBlue,
           child: Row(
@@ -179,7 +220,7 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
     print(facilities_type);
 
     FirestoreService fsService = FirestoreService();
-    fsService.addtoSwimmingFavourite(location, opening_hours, bkandLevel, facilities_type);
+    fsService.addtoMeetingRoomFavourite(location, opening_hours, bkandLevel, facilities_type);
 
     ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content:Text('Successfully added to Favourite'))
@@ -188,10 +229,10 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
 
   void createbooking(){
     location = widget.selected.location;
-    //opening_hours = widget.selected.opening_hours;
+    opening_hours = widget.selected.Opening_Hour;
     bkandLevel = widget.selected.block_And_Level;
-    //timeSlot = Bookingtimeslot_swimming.removeLast();
-    //dateSlot = dateinput_swimming.removeLast();
+    timeSlot = Bookingtimeslot_meetingRoom;
+    dateSlot = dateinput_meetingRoom.removeLast();
     facilities_type =widget.selected.Facilities_Type;
 
     print(location);
@@ -213,12 +254,40 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
     print('6');
     */
 
-
     FirestoreService fsService = FirestoreService();
-    fsService.addBookingToFirebase_Swimming(location, bkandLevel, facilities_type, dateSlot, timeSlot);
+    fsService.addBookingToFirebase_MeetingRoom(location, bkandLevel, facilities_type, dateSlot, timeSlot);
 
-    ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content:Text('SuccessfullyCreated'))
+  }
+
+  Future<void> showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      //barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.blueGrey,
+          //title: const Text('AlertDialog Title'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('Successful Booked', style: TextStyle(fontSize: 25,fontWeight: FontWeight.w500,color: Colors.lightBlueAccent)),
+                SizedBox(height: 20),
+                Icon(Icons.book_rounded,size: 30, color: Colors.lightBlueAccent),
+                SizedBox(height: 20),
+                Text('Have a Nice Day', style: TextStyle(fontSize: 25,fontWeight: FontWeight.w500,color: Colors.lightBlueAccent)),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('ok', style: TextStyle(fontSize: 20)),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -326,7 +395,7 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
               ),
               child: Text('Notices'),
             ),
-            timePickerWidget(),
+            timePicker(),
             SizedBox(height: 10),
             TextfieldRemarks(),
             SizedBox(height: 20),

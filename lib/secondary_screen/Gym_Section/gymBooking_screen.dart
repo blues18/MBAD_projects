@@ -11,7 +11,7 @@ final detail selected;
 
 gymbookingScreen({
   Key? key,
-  required this.selected,
+  required this.selected,s
 }): super(key: key);
 
 
@@ -96,11 +96,43 @@ class _gymbookingScreenState extends State<gymbookingScreen> {
     FirestoreService fsService = FirestoreService();
     fsService.addBookingTofirebase(location, bkandLevel, facilities_type, dateSlot, timeSlot);
 
-    ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content:Text('SuccessfullyCreated'))
+    /*ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content:Text('SuccessfullyCreated')),
     );
+     */
   }
 
+  Future<void> showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      //barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.teal,
+          //title: const Text('AlertDialog Title'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('Successful Booked', style: TextStyle(fontSize: 25,fontWeight: FontWeight.w500,color: Colors.lightBlueAccent)),
+                SizedBox(height: 20),
+                Icon(Icons.book_rounded,size: 30, color: Colors.lightBlueAccent),
+                SizedBox(height: 20),
+                Text('Have a Nice Day', style: TextStyle(fontSize: 25,fontWeight: FontWeight.w500,color: Colors.lightBlueAccent)),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('ok', style: TextStyle(fontSize: 20)),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   Widget cfmButton() {
     //allBookings booklist = Provider.of<allBookings>(context);
@@ -121,7 +153,7 @@ class _gymbookingScreenState extends State<gymbookingScreen> {
           ),
         ),
         FlatButton(
-          onPressed: () { createbooking(); },
+          onPressed: () { createbooking(); showMyDialog(); },
           color: Colors.lightBlue,
           child: Row(
             children: [

@@ -1,16 +1,14 @@
 import 'package:facilitiesbookingapp/firebase_services/firestore_service.dart';
-import 'package:facilitiesbookingapp/models/individual%20category%20Class%20Booking/Class_bookingItems.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:facilitiesbookingapp/models/individual%20category%20Class%20Booking/Class_Favourite_location.dart';
 import 'package:flutter/material.dart';
 
-
-class swimmingDataList extends StatefulWidget {
+class favouriteMeetingRoomList extends StatefulWidget {
 
   @override
-  State<swimmingDataList> createState() => swimmingDataListState();
+  State<favouriteMeetingRoomList> createState() => favouriteMeetingRoomListState();
 }
 
-class swimmingDataListState extends State<swimmingDataList> {
+class favouriteMeetingRoomListState extends State<favouriteMeetingRoomList>{
   FirestoreService fsService = FirestoreService();
 
   void removedItem(String id){
@@ -19,12 +17,12 @@ class swimmingDataListState extends State<swimmingDataList> {
         builder: (context){
           return AlertDialog(
             title: Text('Comfirmation'),
-            content: Text('Are you sure to want to delete?'),
+            content: Text('Are you sure to want to remove this from your favourite List?'),
             actions: [
               TextButton(
                   onPressed: () {
                     setState(() {
-                      fsService.removedBookingSlotSwimming(id);
+                      fsService.removedFavouriteMeetingRoomItem(id);
                     });
                     Navigator.of(context).pop();
                   }, child: Text('Yes')),
@@ -39,8 +37,10 @@ class swimmingDataListState extends State<swimmingDataList> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder <List<bookingSwim>>(
-        stream:fsService.getSwimmingBookingItem(),
+    FirestoreService fsService = FirestoreService();
+
+    return StreamBuilder <List<favourite_Location>>(
+        stream:fsService.getFavouriteLocation_from_MeetingRoom_Collection(),
         builder: (context,snapshot){
           if(snapshot.connectionState == ConnectionState.waiting)
             return Center(child: CircularProgressIndicator());
@@ -53,7 +53,7 @@ class swimmingDataListState extends State<swimmingDataList> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                        height: 100,
+                        height: 150,
                         width: 300,
                         margin: EdgeInsets.all(10),
                         decoration: BoxDecoration(
@@ -64,9 +64,9 @@ class swimmingDataListState extends State<swimmingDataList> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(snapshot.data![i].location, style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold)),
-                            Text('Date: ' + snapshot.data![i].dateSlot, style: TextStyle(fontSize: 17, fontWeight: FontWeight.normal)),
-                            Text('Time: ' + snapshot.data![i].timeSlot, style: TextStyle(fontSize: 17, fontWeight: FontWeight.normal))
+                            Text(snapshot.data![i].favourite_location, style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold)),
+                            Text('Opening Hour: ' + snapshot.data![i].favourite_opening_hours, style: TextStyle(fontSize: 17, fontWeight: FontWeight.normal)),
+                            Text('Facilities:' + snapshot.data![i].favourite_facilities_type, style: TextStyle(fontSize: 17, fontWeight: FontWeight.normal))
                           ],
                         )
                     ),
@@ -95,4 +95,3 @@ class swimmingDataListState extends State<swimmingDataList> {
     );
   }
 }
-

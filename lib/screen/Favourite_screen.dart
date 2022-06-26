@@ -1,12 +1,11 @@
 import 'dart:ui';
 
-import 'package:facilitiesbookingapp/dataDisplay/favouriteListViewData.dart';
+import 'package:facilitiesbookingapp/dataDisplay/favouriteListViewData_gym.dart';
+import 'package:facilitiesbookingapp/dataDisplay/favouriteListViewData_meetingRoom.dart';
 import 'package:facilitiesbookingapp/dataDisplay/favouriteListViewData_swimming.dart';
 import 'package:facilitiesbookingapp/firebase_services/firestore_service.dart';
 import 'package:facilitiesbookingapp/models/individual%20category%20Class%20Booking/Class_Favourite_location.dart';
 import 'package:flutter/material.dart';
-
-import '../widgets/bottom_navigation.dart';
 
 class favourite_Screen extends StatelessWidget {
 FirestoreService fsService = FirestoreService();
@@ -24,7 +23,18 @@ FirestoreService fsService = FirestoreService();
                   )
               ),
               body: SingleChildScrollView(
-                  child: Stack(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end:  Alignment.bottomRight,
+                        colors: [
+                          Colors.white70,
+                          Colors.lightBlueAccent
+                        ]
+                      )
+                    ),
+                    child: Stack(
                     children: <Widget>[
                       Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -108,6 +118,9 @@ FirestoreService fsService = FirestoreService();
                                   borderRadius: BorderRadius.circular(10),
                                   color: Colors.blueGrey
                               ),
+                                child: SingleChildScrollView(
+                                  child: favouriteMeetingRoomList(),
+                                ),
                             ),
                             Row(
                                 children: <Widget>[
@@ -137,6 +150,7 @@ FirestoreService fsService = FirestoreService();
                           ]),
                     ],
                   )
-              ),
+                ),
+              )
           );
         }}

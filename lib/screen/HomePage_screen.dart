@@ -1,7 +1,9 @@
 import 'dart:ui';
+import 'package:facilitiesbookingapp/dataDisplay/MeetingRoomListBookingData.dart';
 import 'package:facilitiesbookingapp/dataDisplay/SwimmingListBookingData.dart';
-import 'package:facilitiesbookingapp/dataDisplay/bookingListDataDisplay.dart';
+import 'package:facilitiesbookingapp/dataDisplay/GymListDataData.dart';
 import 'package:facilitiesbookingapp/secondary_screen/view_all_screen/view_all(homepage).dart';
+import 'package:facilitiesbookingapp/widgets/bottom_navigation.dart';
 import 'package:flutter/material.dart';
 import '../firebase_services/firestore_service.dart';
 import '../models/individual category Class Booking/Class_bookingItems.dart';
@@ -32,11 +34,11 @@ class _homePage_screenState extends State<homePage_screen> {
           body: Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                begin: Alignment.centerLeft,
-                end: Alignment.bottomRight,
-               colors: [
-                 Colors.lightBlueAccent,
-                 Colors.lightBlue,
+                  begin: Alignment.topLeft,
+                  end:  Alignment.bottomRight,
+                  colors: [
+                    Colors.white70,
+                    Colors.lightBlueAccent
                ]
               ),
             ),
@@ -85,7 +87,7 @@ class _homePage_screenState extends State<homePage_screen> {
                     )
                   ]),
               Container(
-                  height: 200,
+                  height: 300,
                   width: double.infinity,
                   margin: EdgeInsets.all(10.0),
                   decoration: const BoxDecoration(
@@ -110,6 +112,7 @@ class _homePage_screenState extends State<homePage_screen> {
                       children: [
                         display_data_list(),
                         swimmingDataList(),
+                        meetingRoomDataList(),
                       ],
                     )
                     ),

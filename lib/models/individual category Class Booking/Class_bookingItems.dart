@@ -50,7 +50,7 @@ class bookingSwim {
 
 ////////////////////////////////////////////////////////////////////////////////
 /////////////////////////Class for meeting /////////////////////////////////////
-class bookingMeetingRoom{
+class bookingMeetingRoom {
   String id;
   String location;
   String bkandLevel;
@@ -59,8 +59,18 @@ class bookingMeetingRoom{
   String timeSlot;
 
   bookingMeetingRoom(
-  {required this.id, required this.location, required this.bkandLevel, required this.facilities_type
-    , required this.timeSlot, required this.dateSlot
-});
+      {required this.id, required this.location, required this.bkandLevel, required this.facilities_type
+        , required this.timeSlot, required this.dateSlot
+      });
 
+  bookingMeetingRoom.fromMap(Map <String, dynamic> snapshot, String id):
+      id = id,
+        location = snapshot['Location']??'',
+        bkandLevel = snapshot['Block and Level']??'',
+        facilities_type = snapshot['facilities_type']??'',
+        dateSlot = snapshot['dateSlot']??'',
+        timeSlot = snapshot['timeSlot']??'';
 }
+  //////////////////////////////////////////////////////////////////////////////
+///////////////////////////////MeetingRoom//////////////////////////////////////////
+
