@@ -15,11 +15,12 @@ class _View_all_At_homePageState extends State<View_all_At_homePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white70,
           title: Row(
             children: [
               Text('Your Booking', style: TextStyle(
-                  fontSize: 30, fontWeight: FontWeight.bold)),
-              Icon(Icons.book_rounded),
+                  fontSize: 30, fontWeight: FontWeight.bold ,color: Colors.black87)),
+              Icon(Icons.book_rounded,color: Colors.black87),
             ],
           )
       ),

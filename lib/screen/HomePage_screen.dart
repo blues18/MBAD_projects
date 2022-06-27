@@ -3,11 +3,8 @@ import 'package:facilitiesbookingapp/dataDisplay/MeetingRoomListBookingData.dart
 import 'package:facilitiesbookingapp/dataDisplay/SwimmingListBookingData.dart';
 import 'package:facilitiesbookingapp/dataDisplay/GymListDataData.dart';
 import 'package:facilitiesbookingapp/secondary_screen/view_all_screen/view_all(homepage).dart';
-import 'package:facilitiesbookingapp/widgets/bottom_navigation.dart';
 import 'package:flutter/material.dart';
 import '../firebase_services/firestore_service.dart';
-import '../models/individual category Class Booking/Class_bookingItems.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class homePage_screen extends StatefulWidget {
   static String routeName = '/homepage';
@@ -23,11 +20,12 @@ class _homePage_screenState extends State<homePage_screen> {
   Widget build(BuildContext context) {
     return Scaffold(
           appBar: AppBar(
+            backgroundColor: Colors.white70,
               title: Row(
                 children: [
                   Text('HomePage', style: TextStyle(
-                      fontSize: 30, fontWeight: FontWeight.bold)),
-                  Icon(Icons.home),
+                      fontSize: 30, fontWeight: FontWeight.bold,color: Colors.black54)),
+                  Icon(Icons.home, color: Colors.black54,),
                 ],
               )
           ),

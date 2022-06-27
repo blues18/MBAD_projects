@@ -7,7 +7,7 @@ class Facilities_Details { //details for Facilities locations for listviews
 
   Facilities_Details(
       {required this.id, required this.location, required this.block_And_Level, required this.Opening_Hour,
-        required this.Facilities_Type});
+        required this.Facilities_Type,});
 
   Facilities_Details.formMap(Map <String, dynamic> snapshot,String id):
       id = id,

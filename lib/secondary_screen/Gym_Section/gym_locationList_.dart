@@ -21,17 +21,21 @@ class _gym_Location_screenState extends State<gym_Location_screen> {
     detail(place: 'Anchorvale communtiy ceneter',
         opening_hours: '07:00 - 23:00',
         location: 'Block 1 level 1 #01-112',
-        facilites_type: 'Gym'
+        facilites_type: 'Gym',
+        image_assets: 'image_assets/gym.jpg'
     ),
     detail(place: 'Fernvale community center',
         opening_hours: '07:00 - 23:59',
         location: 'near main entrance',
-        facilites_type: 'Gym'
+        facilites_type: 'Gym',
+        image_assets: 'image_assets/swimming.jpg'
+
     ),
     detail(place: 'Hougang Community center',
         opening_hours: '07:00 - 23:00',
         location: 'Block 1 level 2 #02-001',
-        facilites_type: 'Gym'
+        facilites_type: 'Gym',
+        image_assets: 'image_assets/gym.jpg'
     ),
   ];
 
@@ -102,7 +106,6 @@ class _gym_Location_screenState extends State<gym_Location_screen> {
             onChanged: searchLocation,
           ),
         ),
-
       ],
     );
   }
@@ -179,10 +182,10 @@ class _gym_Location_screenState extends State<gym_Location_screen> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 color: Colors.black,
-                                //image: DecorationImage(
-                                //image: AssetImage(),
-                                //fit: BoxFit.cover,
-                                // )
+                                image: DecorationImage(
+                                image: AssetImage(alldetails[index].image_assets),
+                                fit: BoxFit.cover,
+                                )
                               ),
                             )
                           ],

@@ -31,16 +31,16 @@ class _bottomNavState extends State<bottomNav> {
       ),
         bottomNavigationBar: BottomNavigationBar(
           items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.home_outlined),
-                label: 'Home', backgroundColor: Colors.lightBlueAccent),
+            BottomNavigationBarItem(icon: Icon(Icons.home_outlined, color: Colors.black87),
+                label: 'Home', backgroundColor: Colors.white70),
             BottomNavigationBarItem(
-                icon: Icon(Icons.sports_gymnastics_rounded),
-                label: 'Facilities', backgroundColor: Colors.lightBlueAccent),
+                icon: Icon(Icons.sports_gymnastics_rounded, color: Colors.black87),
+                label: 'Facilities'),
             BottomNavigationBarItem(
-                icon: Icon(Icons.favorite_border_rounded),
-                label: 'Favourite', backgroundColor: Colors.lightBlueAccent),
-            BottomNavigationBarItem(icon: Icon(Icons.account_box_rounded),
-                label: 'Account', backgroundColor: Colors.lightBlueAccent),
+                icon: Icon(Icons.favorite_border_rounded, color: Colors.black87),
+                label: 'Favourite'),
+            BottomNavigationBarItem(icon: Icon(Icons.account_box_rounded, color: Colors.black87),
+                label: 'Account'),
           ],
           currentIndex: selectedIndex,
           selectedItemColor: Colors.orange[800],

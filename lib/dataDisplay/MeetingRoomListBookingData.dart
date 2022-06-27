@@ -80,8 +80,12 @@ class meetingRoomDataListState extends State<meetingRoomDataList>{
                                      Navigator.push(context, MaterialPageRoute(builder: (context) => editBookingSlot_MeetingRoom(selected: snapshot.data![i],)))
                                    ,
                                    child: Text('Edit Bookings'),
+                                   style:  ElevatedButton.styleFrom(
+                                     primary: Colors.black87, // background
+                                     onPrimary: Colors.white, // foreground
+                                   ),
+                                   )
                                  ),
-                               )
                              ],
                               ),
                           ],

@@ -15,10 +15,11 @@ class facilities_Screen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white70,
         title:  Row(
           children: [
-            Text('Facilities',style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
-            Icon(Icons.sports_gymnastics_rounded)
+            Text('Facilities',style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.black87)),
+            Icon(Icons.sports_gymnastics_rounded, color: Colors.black87,)
           ],
         )
       ),

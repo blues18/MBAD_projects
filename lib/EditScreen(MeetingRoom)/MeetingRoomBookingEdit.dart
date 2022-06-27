@@ -1,9 +1,7 @@
 import 'package:facilitiesbookingapp/DatePicker_folder/date_picker_timeline.dart';
 import 'package:facilitiesbookingapp/firebase_services/firestore_service.dart';
 import 'package:facilitiesbookingapp/main.dart';
-import 'package:facilitiesbookingapp/models/facilities%20Location%20Models/facilities_Detail(firebase).dart';
 import 'package:facilitiesbookingapp/models/individual%20category%20Class%20Booking/Class_bookingItems.dart';
-import 'package:facilitiesbookingapp/screen/HomePage_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
@@ -108,7 +106,7 @@ class _editBookingSlot_MeetingRoomState extends State<editBookingSlot_MeetingRoo
       ),
       child:ElevatedButton(
         onPressed: () {
-          showMyDialog(); changesSent();
+          showMyDialog(); changesSent(widget.selected.id);
         },
         child: Row(
           children: [
@@ -120,7 +118,7 @@ class _editBookingSlot_MeetingRoomState extends State<editBookingSlot_MeetingRoo
     );
   }
 
-  void changesSent(){
+  void changesSent(String id){
     location = widget.selected.location;
     bkandLevel = widget.selected.bkandLevel;
     timeSlot = timeSlot_change;
@@ -133,8 +131,8 @@ class _editBookingSlot_MeetingRoomState extends State<editBookingSlot_MeetingRoo
     print(dateSlot);
     print(facilities_type);
 
-    //FirestoreService fsService = FirestoreService();
-    //fsService.editBookingMeetingRoom(id, location, bkandLevel, facilities_type, dateSlot, timeSlot);
+    FirestoreService fsService = FirestoreService();
+    fsService.editBookingMeetingRoom(id, location, bkandLevel, facilities_type, dateSlot, timeSlot);
 
     Navigator.push(context, new MaterialPageRoute(builder: (context) =>  new MyApp())); // return back to homepage
   }//edit functions to firebase

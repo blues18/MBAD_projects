@@ -4,7 +4,6 @@ import 'package:facilitiesbookingapp/dataDisplay/favouriteListViewData_gym.dart'
 import 'package:facilitiesbookingapp/dataDisplay/favouriteListViewData_meetingRoom.dart';
 import 'package:facilitiesbookingapp/dataDisplay/favouriteListViewData_swimming.dart';
 import 'package:facilitiesbookingapp/firebase_services/firestore_service.dart';
-import 'package:facilitiesbookingapp/models/individual%20category%20Class%20Booking/Class_Favourite_location.dart';
 import 'package:flutter/material.dart';
 
 class favourite_Screen extends StatelessWidget {
@@ -14,11 +13,12 @@ FirestoreService fsService = FirestoreService();
   Widget build(BuildContext context) {
     return Scaffold(
               appBar: AppBar(
+                backgroundColor: Colors.white70,
                   title: Row(
                       children: [
                         Text('Favourite', style: TextStyle(
-                            fontSize: 30, fontWeight: FontWeight.bold)),
-                        Icon(Icons.favorite),
+                            fontSize: 30, fontWeight: FontWeight.bold,color: Colors.black87)),
+                        Icon(Icons.favorite, color: Colors.black87),
                       ]
                   )
               ),
