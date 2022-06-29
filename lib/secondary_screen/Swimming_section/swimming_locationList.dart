@@ -3,22 +3,20 @@ import 'package:facilitiesbookingapp/models/facilities%20Location%20Models/facil
 import 'package:facilitiesbookingapp/secondary_screen/Swimming_section/SwimmingBooking_screen.dart';
 import 'package:flutter/material.dart';
 
-class swimming_location_screen  extends StatefulWidget {
-  static String routeName = '/meetingRoom_Location_Screen';
-
-
+class swimming_location_screen extends StatefulWidget {
+  static String routeName = '/swimming_Location_Screen';
 
   @override
-  State<swimming_location_screen> createState() => _swimming_location_screenState();
+  State<swimming_location_screen> createState() =>
+      _swimming_location_screenState();
 }
-class _swimming_location_screenState extends State<swimming_location_screen>{
 
-
-  Widget displayFacilitiesLocation(){
+class _swimming_location_screenState extends State<swimming_location_screen> {
+  Widget displayFacilitiesLocation() {
     FirestoreService fsService = FirestoreService();
     return StreamBuilder<List<Facilities_Details>>(
-        stream: fsService.getDetailsOfFacilities(), //need to change!
-        builder: (context,snapshot) {
+        stream: fsService.getDetailsOfFacilities_Swimming(), //need to change!
+        builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting)
             return Center(child: CircularProgressIndicator());
           else {
@@ -28,20 +26,23 @@ class _swimming_location_screenState extends State<swimming_location_screen>{
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   padding: EdgeInsets.all(10),
-                  itemBuilder: (ctx, i){
+                  itemBuilder: (ctx, i) {
                     return Card(
                       color: Colors.lightBlue,
                       borderOnForeground: true,
                       elevation: 10,
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)
-                      ),
+                          borderRadius: BorderRadius.circular(10)),
                       child: InkWell(
                         splashColor: Colors.red.withAlpha(40),
-                        onTap: () =>
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=> swimmingBookingScreen(selected: snapshot.data![i]))), //passing data to the screen class
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => swimmingBookingScreen(
+                                    selected: snapshot.data![
+                                        i]))), //passing data to the screen class
                         child: Column(
-                          //mainAxisAlignment: MainAxisAlignment.start,
+                            //mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Container(
                                   width: 400,
@@ -54,20 +55,28 @@ class _swimming_location_screenState extends State<swimming_location_screen>{
                                         height: 100,
                                         //color: Colors.white,
                                         child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text(snapshot.data![i].location,
                                                 style: TextStyle(
-                                                    fontSize: 17, color: Colors.black),
+                                                    fontSize: 17,
+                                                    color: Colors.black),
                                                 textAlign: TextAlign.left),
-                                            Text(snapshot.data![i].block_And_Level,
+                                            Text(
+                                                snapshot
+                                                    .data![i].block_And_Level,
                                                 style: TextStyle(
-                                                    fontSize: 15, color: Colors.black),
+                                                    fontSize: 15,
+                                                    color: Colors.black),
                                                 textAlign: TextAlign.left),
-                                            Text("Opening Hours: " +
-                                                snapshot.data![i].Opening_Hour,
+                                            Text(
+                                                "Opening Hours: " +
+                                                    snapshot
+                                                        .data![i].Opening_Hour,
                                                 style: TextStyle(
-                                                    fontSize: 15, color: Colors.black),
+                                                    fontSize: 15,
+                                                    color: Colors.black),
                                                 textAlign: TextAlign.left)
                                           ],
                                         ),
@@ -76,7 +85,8 @@ class _swimming_location_screenState extends State<swimming_location_screen>{
                                         width: 100,
                                         height: 100,
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                           color: Colors.black,
                                           //image: DecorationImage(
                                           //image: AssetImage(),
@@ -85,21 +95,21 @@ class _swimming_location_screenState extends State<swimming_location_screen>{
                                         ),
                                       )
                                     ],
-                                  )
-                              ),
-                            ]
-                        ),
+                                  )),
+                            ]),
                       ),
                     );
                   },
-                  separatorBuilder: (ctx, i){
-                    return Divider(height: 3, color: Colors.blueGrey,);
+                  separatorBuilder: (ctx, i) {
+                    return Divider(
+                      height: 3,
+                      color: Colors.blueGrey,
+                    );
                   },
                   itemCount: snapshot.data!.length),
             );
           }
-        }
-    );
+        });
   }
 
   Widget build(BuildContext context) {
@@ -109,11 +119,8 @@ class _swimming_location_screenState extends State<swimming_location_screen>{
       ),
       body: SingleChildScrollView(
           child: Column(
-            children: <Widget>[
-              displayFacilitiesLocation()
-            ],
-          )
-      ),
+        children: <Widget>[displayFacilitiesLocation()],
+      )),
     );
   }
 }
