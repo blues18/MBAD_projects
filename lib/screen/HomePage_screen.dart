@@ -3,11 +3,16 @@ import 'package:facilitiesbookingapp/dataDisplay/MeetingRoomListBookingData.dart
 import 'package:facilitiesbookingapp/dataDisplay/SwimmingListBookingData.dart';
 import 'package:facilitiesbookingapp/dataDisplay/GymListDataData.dart';
 import 'package:facilitiesbookingapp/secondary_screen/view_all_screen/view_all(homepage).dart';
+import 'package:facilitiesbookingapp/widgets/bottom_navigation.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../firebase_services/firestore_service.dart';
 
 class homePage_screen extends StatefulWidget {
   static String routeName = '/homepage';
+
+  //User currectUserData;
+  //homePage_screen(this.currectUserData);
 
   @override
   State<homePage_screen> createState() => _homePage_screenState();

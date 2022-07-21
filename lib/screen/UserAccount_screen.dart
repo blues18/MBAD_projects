@@ -1,8 +1,14 @@
+import 'package:facilitiesbookingapp/firebase_services/authentication_services.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../widgets/deleteButtonAlert.dart';
 
 class userAccount_Screen extends StatefulWidget {
+  static String routeName ='/userAccount';
+
+  //User currectUserData;
+  //userAccount_Screen(this.currectUserData);
 
   @override
   State<userAccount_Screen> createState() => _userAccount_ScreenState();

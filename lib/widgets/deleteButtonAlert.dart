@@ -1,9 +1,34 @@
+import 'package:facilitiesbookingapp/firebase_services/authentication_services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../AuthenticationScreen/testScreen.dart';
+class deleteAlertButton extends StatefulWidget {
 
-class deleteAlertButton extends StatelessWidget {
+  @override
+  State<deleteAlertButton> createState() => _deleteAlertButton();
+
+}
+
+class _deleteAlertButton extends State <deleteAlertButton> {
+
+  logOut() {
+    Authentication_services authService = Authentication_services();
+    return authService.loginOut().then((value) {
+      FocusScope.of(context).unfocus();
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Logout successfully!'),
+      ));
+    }).catchError((error) {
+      FocusScope.of(context).unfocus();
+      String message = error.toString as String;
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(message),
+      ));
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,25 +47,30 @@ class deleteAlertButton extends StatelessWidget {
         onPressed: () => showDialog<String>(
             context: context,
             builder: (BuildContext context) => CupertinoAlertDialog(
-                  title: Text("Are you sure you wanna delete Account?"),
+                  title: Text("Are you sure you want Log out"),
                   content: Text(
-                      "you will be forced sign out and can no longer login to this account again"),
+                      "you will be redirected back to login screen"),
                   actions: <Widget>[
                     TextButton(
                       onPressed: () => Navigator.pop(context, 'Cancel'),
                       child: Text('Cancel'),
                     ),
                     TextButton(
-                      onPressed: () => Navigator.of(context).pushNamed(test.routeName),
-                      child: Text('Yes'),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        logOut();
+                      },
+                        child: Text('Yes'),
                     )
                   ],
                 )),
         child: Text(
-          'Delete Account',
+          'Log Out',
           style: TextStyle(color: Colors.red),
         ),
       ),
     );
   }
 }
+
+

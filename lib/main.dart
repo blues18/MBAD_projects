@@ -1,9 +1,16 @@
+import 'package:facilitiesbookingapp/AuthenticationScreen/reset_Password_Screen.dart';
+import 'package:facilitiesbookingapp/firebase_services/authentication_services.dart';
 import 'package:facilitiesbookingapp/secondary_screen/Meeting_Room_section/meeting_RoomList.section.dart';
 import 'package:facilitiesbookingapp/secondary_screen/view_all_screen/view_all(homepage).dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:facilitiesbookingapp/screen/HomePage_screen.dart';
+import 'package:facilitiesbookingapp/screen/UserAccount_screen.dart';
+import 'package:facilitiesbookingapp/widgets/bottom_navigation.dart';
 
-import 'AuthenticationScreen/testScreen.dart';
+import 'AuthenticationScreen/Login_Screen.dart';
+import 'AuthenticationScreen/Register_Screen.dart';
 import 'firebase_services/firestore_service.dart';
 import 'models/individual category Class Booking/Class_bookingItems.dart';
 import 'secondary_screen/Gym_Section/gym_locationList_.dart';
@@ -20,20 +27,33 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  Authentication_services authServices = Authentication_services();
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: Firebase.initializeApp(),
-      builder: (ctx, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
+      builder: (ctx, snapshot) => snapshot.connectionState == ConnectionState.waiting ?
+          Center(child: CircularProgressIndicator()):
+        StreamBuilder<User?>(
+          stream: authServices.getAuthenticationUser(),
+          builder: (context, snapshot){
           return MaterialApp(
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),
-            home: MainScreen(),
+            home: snapshot.connectionState == ConnectionState.waiting ?
+                Center(child: CircularProgressIndicator()) :
+                snapshot.hasData ? MainScreen(snapshot.data as User): LoginScreen(),
             routes: {
-              test.routeName: (_) {
-                return test();
+              LoginScreen.routeName: (_) {
+                return LoginScreen();
+              },
+              register_Screen.routeName: (_){
+                return register_Screen();
+              },
+              reset_screen.routeName: (_){
+                return reset_screen();
               },
               gym_Location_screen.routeName: (_) {
                 return gym_Location_screen();
@@ -47,20 +67,16 @@ class _MyAppState extends State<MyApp> {
               View_all_At_homePage.routeName: (_) {
                 return View_all_At_homePage();
               },
-
-              //homePage_screen.routeName : (_) {return homePage_screen();}
-            },
-          );
-        } else {
-          return const MaterialApp(
-            home: Scaffold(
-              body: Center(
-                child: CircularProgressIndicator(),
-              ),
-            ),
-          );
-        }
-      },
+              homePage_screen.routeName : (_) {
+                return homePage_screen();
+                },
+              userAccount_Screen.routeName : (_){
+                return userAccount_Screen();
+                },
+              },
+            );
+          }
+      )
     );
   }
 }
@@ -68,6 +84,9 @@ class _MyAppState extends State<MyApp> {
 class MainScreen extends StatefulWidget {
   static String routeName = '/';
   int selectedIndex = 0;
+
+  User currectUserData;
+  MainScreen(this.currectUserData);
 
   @override
   State<MainScreen> createState() => _MainScreenState();

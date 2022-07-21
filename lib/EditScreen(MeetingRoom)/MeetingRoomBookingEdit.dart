@@ -26,7 +26,7 @@ class _editBookingSlot_MeetingRoomState extends State<editBookingSlot_MeetingRoo
   TimeOfDay selectedTime = TimeOfDay.now(); //time
   String fomattedDate = "";
   String? dateselected_change;
-  String? timeSlot_change; //
+  String? timeSlot_change;//
 
   String? location;
   String? opening_hours;
