@@ -1,27 +1,42 @@
-class Facilities_Details_Meeting_Room{ //saved for part 3
+class Facilities_Details_Meeting_Room{
   String id;
-  String location;
-  String block_And_Level;
-  String room_Number;
-  String opening_Hour;
-  String facilities_Type;
-  String facilities_Notice;
-  int Room_Size;
+  String Location;
+  String Block_And_Level;
+  String Room_Number;
+  String Opening_Hour;
+  String Facilities_Type;
+  String Facilities_Notice;
+  String Room_Size;
   int pax_size;
-  bool Smart_tv;
-  bool Whiteboard;
+  bool smart_tv;
+  bool whiteboard;
   bool wifi;
-  bool DigitalAvSolution;
+  bool digitalAvSolution;
   bool officeSupplies;
-  bool AccessToRefreshment;
+  bool accessToRefreshment;
+
 
   Facilities_Details_Meeting_Room(
-  {required this.id, required this.location, required this.block_And_Level, required this.room_Number
-    ,required this.opening_Hour, required this.facilities_Type, required this.facilities_Notice,
-    required this.Room_Size, required this.pax_size, required this.Smart_tv, required this.Whiteboard
-    ,required this.wifi, required this.DigitalAvSolution, required this.officeSupplies
-    ,required this.AccessToRefreshment
-});
+      {required this.id, required this.Location, required this.Block_And_Level, required this.Room_Number
+        ,required this.Opening_Hour, required this.Facilities_Type, required this.Facilities_Notice,
+        required this.Room_Size,required this.pax_size, required this.smart_tv, required this.whiteboard
+        ,required this.wifi, required this.digitalAvSolution,required this.officeSupplies
+        ,required this.accessToRefreshment});
 
-
-}
+  Facilities_Details_Meeting_Room.fromMap(Map <String, dynamic> snapshot,String id):
+        id = id,
+        Location = snapshot['Location'] ?? '',
+        Block_And_Level = snapshot['Block_and_Level']??'',
+        Room_Number = snapshot['Room_Number']??'',
+        Opening_Hour = snapshot['Opening_hour']??'',
+        Facilities_Type = snapshot['Facilities_Type']??'',
+        Facilities_Notice = snapshot['Facilities_Notice']??'',
+        Room_Size = snapshot['Room_size']??'',
+        pax_size = snapshot['Pax_size']??'',
+        smart_tv = snapshot['Smart_tv']??'',
+        whiteboard = snapshot['Whiteboard']??'',
+        wifi = snapshot['Wifi']??'',
+        digitalAvSolution = snapshot['DigitalAvSolution']??'',
+        officeSupplies = snapshot['officeSupplies']??'',
+        accessToRefreshment = snapshot['AccessToRefreshment']??''
+  ;}

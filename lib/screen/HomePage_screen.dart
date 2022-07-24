@@ -3,8 +3,6 @@ import 'package:facilitiesbookingapp/dataDisplay/MeetingRoomListBookingData.dart
 import 'package:facilitiesbookingapp/dataDisplay/SwimmingListBookingData.dart';
 import 'package:facilitiesbookingapp/dataDisplay/GymListDataData.dart';
 import 'package:facilitiesbookingapp/secondary_screen/view_all_screen/view_all(homepage).dart';
-import 'package:facilitiesbookingapp/widgets/bottom_navigation.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../firebase_services/firestore_service.dart';
 
@@ -54,7 +52,7 @@ class _homePage_screenState extends State<homePage_screen> {
                     Icon(Icons.event_available_rounded),
                   ]),
               Container(
-                height: 150,
+                height: 100,
                 width: 400,
                 margin: EdgeInsets.all(10.0),
                 decoration: const BoxDecoration(

@@ -51,7 +51,7 @@ class _reset_screenState extends State<reset_screen> {
           Positioned(
             bottom: 0,
             child:Container(
-                height: 640,
+                height: 440,
                 width: 395,
                 decoration: BoxDecoration(
                     color: HexColor.fromHex('#67E0FF'),
@@ -70,7 +70,7 @@ class _reset_screenState extends State<reset_screen> {
                             style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold,color: HexColor.fromHex('#293D45')),
                           textAlign: TextAlign.left,
                         ),
-                        SizedBox(height: 40),
+                        SizedBox(height: 20),
                         Container(
                           padding: EdgeInsets.all(10),
                           child: Form(

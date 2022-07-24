@@ -57,10 +57,21 @@ class bookingMeetingRoom {
   String facilities_type;
   String dateSlot;
   String timeSlot;
+  String Room_Number;
+  String Room_Size;
+  bool smart_tv;
+  bool whiteboard;
+  bool wifi;
+  bool digitalAvSolution;
+  bool officeSupplies;
+  bool accessToRefreshment;
+
 
   bookingMeetingRoom(
       {required this.id, required this.location, required this.bkandLevel, required this.facilities_type
-        , required this.timeSlot, required this.dateSlot
+        , required this.timeSlot, required this.dateSlot,required this.Room_Size, required this.Room_Number
+        ,required this.smart_tv,required this.whiteboard, required this.wifi, required this.digitalAvSolution
+        ,required this.officeSupplies, required this.accessToRefreshment
       });
 
   bookingMeetingRoom.fromMap(Map <String, dynamic> snapshot, String id):
@@ -69,8 +80,16 @@ class bookingMeetingRoom {
         bkandLevel = snapshot['Block and Level']??'',
         facilities_type = snapshot['facilities_type']??'',
         dateSlot = snapshot['dateSlot']??'',
-        timeSlot = snapshot['timeSlot']??'';
-}
+        timeSlot = snapshot['timeSlot']??'',
+        Room_Number = snapshot['Room_number']??'',
+        Room_Size = snapshot['Room_size']??'',
+        smart_tv = snapshot['Smart_tv']??'',
+        whiteboard = snapshot['Whiteboard']??'',
+        wifi = snapshot['Wifi']??'',
+        digitalAvSolution = snapshot['DigitalAvSolution']??'',
+        officeSupplies = snapshot['OfficeSupplies']??'',
+        accessToRefreshment = snapshot['AccessToRefreshment']??''
+  ;}
   //////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////MeetingRoom//////////////////////////////////////////
 

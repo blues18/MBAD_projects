@@ -1,4 +1,3 @@
-import 'package:facilitiesbookingapp/firebase_services/authentication_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +14,7 @@ class userAccount_Screen extends StatefulWidget {
 }
 
 class _userAccount_ScreenState extends State<userAccount_Screen> {
+  final user = FirebaseAuth.instance.currentUser!;
   var form = GlobalKey<FormState>();
 
   String? name;
@@ -22,8 +22,12 @@ class _userAccount_ScreenState extends State<userAccount_Screen> {
   String? email;
   String? password;
 
+
+
   void updateProfile() {
     bool isValid = form.currentState!.validate();
+    print(user.email);
+
 
     if(isValid) {
       form.currentState!.save();
@@ -97,7 +101,7 @@ class _userAccount_ScreenState extends State<userAccount_Screen> {
               counterStyle: TextStyle(color: Colors.black),
               focusColor: Colors.black,
               icon: Icon(Icons.email),
-              hintText: 'Email',
+              hintText: user.email,
               hintStyle: TextStyle(
                 color: Colors.black,fontWeight: FontWeight.bold
               ),
@@ -113,7 +117,7 @@ class _userAccount_ScreenState extends State<userAccount_Screen> {
               counterStyle: TextStyle(color: Colors.black),
               focusColor: Colors.black,
               icon: Icon(Icons.email),
-              hintText: 'Password',
+              hintText: 'password',
               hintStyle: TextStyle(
                   color: Colors.black,fontWeight: FontWeight.bold
               ),

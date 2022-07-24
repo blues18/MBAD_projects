@@ -1,14 +1,15 @@
+import 'dart:ffi';
+
 import 'package:facilitiesbookingapp/DatePicker_folder/date_picker_timeline.dart';
 import 'package:facilitiesbookingapp/firebase_services/firestore_service.dart';
-import 'package:facilitiesbookingapp/models/facilities%20Location%20Models/facilities_Detail(firebase).dart';
-import 'package:facilitiesbookingapp/widgets/timePicker.dart';
+import 'package:facilitiesbookingapp/models/facilities%20Location%20Models/facilities_Details_For_MeetingRoom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
 class MeetingRoomBookingScreen extends StatefulWidget {
-  static String routeName = '/swimmingBookingScreen';
-  final Facilities_Details selected; //constructor data that is passed from previous screen
+  static String routeName = '/meetingRoom Details';
+  final Facilities_Details_Meeting_Room selected; //constructor data that is passed from previous screen
 
   MeetingRoomBookingScreen({  //
     Key? key,
@@ -46,8 +47,14 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
   String? bkandLevel;
   String? timeSlot;
   String? facilities_type;
-  bool isChecked = false;
-
+  String? Room_size;
+  String? Room_number;
+  bool? tickBox_smartTv;
+  bool? tickBox_Whiteboard;
+  bool? tickBox_Wifi;
+  bool? tickBox_digitalAvSolution;
+  bool? tickBox_officeSupplies;
+  bool? tickBox_accessToRefreshment;
 
   //////////////////////////////////////////// TimePicker ///////////////////////
   Widget timePicker(){
@@ -209,8 +216,8 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
   }
 
   void addtofavourite(){
-    location = widget.selected.location;
-    bkandLevel = widget.selected.block_And_Level;
+    location = widget.selected.Location;
+    bkandLevel = widget.selected.Block_And_Level;
     opening_hours = widget.selected.Opening_Hour;
     facilities_type = widget.selected.Facilities_Type;
 
@@ -228,12 +235,14 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
   }
 
   void createbooking(){
-    location = widget.selected.location;
+    location = widget.selected.Location;
     opening_hours = widget.selected.Opening_Hour;
-    bkandLevel = widget.selected.block_And_Level;
+    bkandLevel = widget.selected.Block_And_Level;
     timeSlot = Bookingtimeslot_meetingRoom;
     dateSlot = dateinput_meetingRoom.removeLast();
     facilities_type =widget.selected.Facilities_Type;
+    Room_size = widget.selected.Room_Size;
+    Room_number = widget.selected.Room_Number;
 
     print(location);
     print(bkandLevel);
@@ -241,21 +250,18 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
     print(dateSlot);
     print(facilities_type);
 
-    /*
-    print(location.runtimeType);
-    print('1');
-    print(bkandLevel.runtimeType);
-    print('3');
-    print(timeSlot.runtimeType);
-    print('4');
-    print(dateSlot.runtimeType);
-    print('5');
-    print(facilities_type.runtimeType);
-    print('6');
-    */
+    print(tickBox_smartTv);
+    print(tickBox_Whiteboard);
+    print(tickBox_Wifi);
+    print(tickBox_digitalAvSolution);
+    print(tickBox_officeSupplies);
+    print(tickBox_accessToRefreshment);
+
 
     FirestoreService fsService = FirestoreService();
-    fsService.addBookingToFirebase_MeetingRoom(location, bkandLevel, facilities_type, dateSlot, timeSlot);
+    fsService.addBookingToFirebase_MeetingRoom(location, bkandLevel, facilities_type, dateSlot, timeSlot
+    ,Room_number,Room_size,tickBox_smartTv,tickBox_Whiteboard,tickBox_Wifi,tickBox_digitalAvSolution
+    ,tickBox_officeSupplies,tickBox_accessToRefreshment);
 
   }
 
@@ -292,6 +298,14 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
   }
 
   void add_ons_checkBox(){
+
+    tickBox_smartTv = widget.selected.smart_tv;
+    tickBox_Whiteboard = widget.selected.whiteboard;
+    tickBox_Wifi = widget.selected.wifi;
+    tickBox_digitalAvSolution = widget.selected.digitalAvSolution;
+    tickBox_officeSupplies = widget.selected.officeSupplies;
+    tickBox_accessToRefreshment = widget.selected.accessToRefreshment;
+
     showDialog(
         context: context,
         builder:(context){
@@ -305,10 +319,80 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
                       title: Text('items'),
                       subtitle: Text('items examples'),
                       //tileColor: Colors.lightBlueAccent,
-                      value: isChecked,
+                      value: tickBox_smartTv,
                       onChanged: (bool? value) {
                         setState(() {
-                          isChecked = value!;
+                          tickBox_smartTv = value!;
+                        });
+                      },
+                      activeColor: Colors.lightBlueAccent,
+                      checkColor: Colors.redAccent,
+                    ),
+                    CheckboxListTile(
+                      controlAffinity: ListTileControlAffinity.leading,
+                      title: Text('items'),
+                      subtitle: Text('items examples'),
+                      //tileColor: Colors.lightBlueAccent,
+                      value: tickBox_Whiteboard,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          tickBox_Whiteboard = value!;
+                        });
+                      },
+                      activeColor: Colors.lightBlueAccent,
+                      checkColor: Colors.redAccent,
+                    ),
+                    CheckboxListTile(
+                      controlAffinity: ListTileControlAffinity.leading,
+                      title: Text('items'),
+                      subtitle: Text('items examples'),
+                      //tileColor: Colors.lightBlueAccent,
+                      value: tickBox_Wifi,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          tickBox_Wifi = value!;
+                        });
+                      },
+                      activeColor: Colors.lightBlueAccent,
+                      checkColor: Colors.redAccent,
+                    ),
+                    CheckboxListTile(
+                      controlAffinity: ListTileControlAffinity.leading,
+                      title: Text('items'),
+                      subtitle: Text('items examples'),
+                      //tileColor: Colors.lightBlueAccent,
+                      value: tickBox_digitalAvSolution,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          tickBox_accessToRefreshment = value!;
+                        });
+                      },
+                      activeColor: Colors.lightBlueAccent,
+                      checkColor: Colors.redAccent,
+                    ),
+                    CheckboxListTile(
+                      controlAffinity: ListTileControlAffinity.leading,
+                      title: Text('items'),
+                      subtitle: Text('items examples'),
+                      //tileColor: Colors.lightBlueAccent,
+                      value: tickBox_officeSupplies,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          tickBox_officeSupplies = value!;
+                        });
+                      },
+                      activeColor: Colors.lightBlueAccent,
+                      checkColor: Colors.redAccent,
+                    ),
+                    CheckboxListTile(
+                      controlAffinity: ListTileControlAffinity.leading,
+                      title: Text('items'),
+                      subtitle: Text('items examples'),
+                      //tileColor: Colors.lightBlueAccent,
+                      value: tickBox_accessToRefreshment,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          tickBox_accessToRefreshment = value!;
                         });
                       },
                       activeColor: Colors.lightBlueAccent,
@@ -369,8 +453,8 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(widget.selected.location,style: TextStyle(fontSize: 23, fontWeight: FontWeight.w800)),
-                  Text(widget.selected.block_And_Level,style: TextStyle(fontSize: 23,fontWeight: FontWeight.w400)),
+                  Text(widget.selected.Location,style: TextStyle(fontSize: 23, fontWeight: FontWeight.w800)),
+                  Text(widget.selected.Block_And_Level,style: TextStyle(fontSize: 23,fontWeight: FontWeight.w400)),
                   Text('Opening Hour:' + widget.selected.Opening_Hour,style: TextStyle(fontSize: 23,fontWeight: FontWeight.w400)),
                 ],
               ),

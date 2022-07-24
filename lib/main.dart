@@ -1,5 +1,7 @@
 import 'package:facilitiesbookingapp/AuthenticationScreen/reset_Password_Screen.dart';
 import 'package:facilitiesbookingapp/firebase_services/authentication_services.dart';
+import 'package:facilitiesbookingapp/screen/Facilities_screen.dart';
+import 'package:facilitiesbookingapp/screen/Favourite_screen.dart';
 import 'package:facilitiesbookingapp/secondary_screen/Meeting_Room_section/meeting_RoomList.section.dart';
 import 'package:facilitiesbookingapp/secondary_screen/view_all_screen/view_all(homepage).dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,12 +9,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:facilitiesbookingapp/screen/HomePage_screen.dart';
 import 'package:facilitiesbookingapp/screen/UserAccount_screen.dart';
-import 'package:facilitiesbookingapp/widgets/bottom_navigation.dart';
 
 import 'AuthenticationScreen/Login_Screen.dart';
 import 'AuthenticationScreen/Register_Screen.dart';
-import 'firebase_services/firestore_service.dart';
-import 'models/individual category Class Booking/Class_bookingItems.dart';
 import 'secondary_screen/Gym_Section/gym_locationList_.dart';
 import 'secondary_screen/Swimming_section/swimming_locationList.dart';
 import 'widgets/bottom_navigation.dart';
@@ -81,9 +80,10 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
+
+
 class MainScreen extends StatefulWidget {
   static String routeName = '/';
-  int selectedIndex = 0;
 
   User currectUserData;
   MainScreen(this.currectUserData);
@@ -93,24 +93,52 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+
+  int selectedIndex = 0;
+
+  final screens = [
+    homePage_screen(),
+    facilities_Screen(),
+    favourite_Screen(),
+    userAccount_Screen(),
+  ];
+
+
+
   @override
   Widget build(BuildContext context) {
-    FirestoreService fsService = FirestoreService();
-
-    return StreamBuilder<List<bookingItem>>(
-      stream: fsService.getBookingTicketGym(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting)
-          return Center(child: CircularProgressIndicator());
-        else {
-          return Scaffold(
-            body: Column(
-              children: [],
-            ),
-            bottomNavigationBar: bottomNav(),
-          );
-        } //else
-      },
+    return Scaffold(
+      body: IndexedStack(
+        index: selectedIndex,
+        children: screens,
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home_outlined,
+              color: Colors.black87),
+              label: 'Home', backgroundColor: Colors.white70),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.sports_gymnastics_rounded,
+                  color: Colors.black87),
+              label: 'Facilities'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.favorite_border_rounded, color: Colors.black87),
+              label: 'Favourite'),
+          BottomNavigationBarItem(icon: Icon(Icons.account_box_rounded,
+              color: Colors.black87),
+              label: 'Account'),
+        ],
+        currentIndex: selectedIndex,
+        selectedItemColor: Colors.orange[800],
+        onTap: (index) {
+          setState(() {
+            selectedIndex = index;
+          });
+        },
+      ),
     );
   }
 }
+
+
+

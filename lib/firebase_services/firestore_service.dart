@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:facilitiesbookingapp/models/facilities%20Location%20Models/facilities_Detail(firebase).dart';
+import 'package:facilitiesbookingapp/models/facilities%20Location%20Models/facilities_Details_For_MeetingRoom.dart';
 import 'package:facilitiesbookingapp/models/individual%20category%20Class%20Booking/Class_Favourite_location.dart';
 import 'package:facilitiesbookingapp/models/individual%20category%20Class%20Booking/Class_bookingItems.dart';
 
@@ -11,6 +12,7 @@ class FirestoreService {
   Stream<List<Facilities_Details>> getDetailsOfFacilities_Swimming() {
     return FirebaseFirestore.instance
         .collection('Facilities Location and Details')
+        .orderBy('Location', descending: false)
         .snapshots()
         .map((snapshot) => snapshot.docs
             .map<Facilities_Details>(
@@ -28,6 +30,19 @@ class FirestoreService {
                 (doc) => Facilities_Details.formMap(doc.data(), doc.id))
             .toList());
   }
+  /////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////New_meeting_Room class////////////////////////////////
+
+Stream<List<Facilities_Details_Meeting_Room>> getDetailsOfFacilities_MeetingRooms(){
+  return FirebaseFirestore.instance
+      .collection('Meeting Room Facilities Data')
+      .snapshots()
+      .map((snapshot) => snapshot.docs
+      .map<Facilities_Details_Meeting_Room>(
+          (doc) => Facilities_Details_Meeting_Room.fromMap(doc.data(), doc.id))
+      .toList());
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////////
   ///////////////////////////////Gym CRUD /////////////////////////////////////////
@@ -93,13 +108,22 @@ class FirestoreService {
   //////////////////////////////Meeting Room CRD/////////////////////////////////
 
   addBookingToFirebase_MeetingRoom(
-      location, bkandLevel, facilities_type, dateSlot, timeSlot) {
+      location, bkandLevel, facilities_type, dateSlot, timeSlot, Room_Number, Room_Size,
+      smart_tv, whiteboard, wifi, digitalAvSolution, officeSupplies, accessToRefreshment) {
     return FirebaseFirestore.instance.collection('MeetingRoom Collection').add({
       'Location': location,
       'Block and Level': bkandLevel,
       'facilities_type': facilities_type,
       'dateSlot': dateSlot,
       'timeSlot': timeSlot,
+      'Room_number':Room_Number,
+      'Room_size': Room_Size,
+      'Smart_tv': smart_tv,
+      'Whiteboard':whiteboard,
+      'Wifi':wifi,
+      'DigitalAvSolution':digitalAvSolution,
+      'OfficeSupplies':officeSupplies,
+      'AccessToRefreshment':accessToRefreshment,
     });
   }
 
