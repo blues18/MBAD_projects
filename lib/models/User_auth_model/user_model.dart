@@ -1,10 +1,10 @@
-class user_model{
+class userModel {
+  String userName;
+  String mobilePhone;
 
-  String uid;
-  String name_display;
-  String url_imaghe;
-  String phone_number;
+  userModel({required this.userName, required this.mobilePhone});
 
-  user_model({ required this.uid, required this.name_display ,
-    required this.phone_number, required this.url_imaghe});
-}
+  userModel.fromMap(Map<String, dynamic>? snapshot):
+      userName = snapshot!['UserName']??'',
+      mobilePhone = snapshot['UserPhoneNumber']??''
+;}

@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:facilitiesbookingapp/DatePicker_folder/date_picker_timeline.dart';
 import 'package:facilitiesbookingapp/firebase_services/firestore_service.dart';
 import 'package:facilitiesbookingapp/models/facilities%20Location%20Models/facilities_Details_For_MeetingRoom.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
@@ -40,6 +41,7 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
   String fomattedDate = "";
   List dateinput_meetingRoom = [];
   String? Bookingtimeslot_meetingRoom;
+  final user = FirebaseAuth.instance.currentUser!;
 
   String? location;
   String? opening_hours;
@@ -49,6 +51,7 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
   String? facilities_type;
   String? Room_size;
   String? Room_number;
+  String? Email;
   bool? tickBox_smartTv;
   bool? tickBox_Whiteboard;
   bool? tickBox_Wifi;
@@ -220,6 +223,7 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
     bkandLevel = widget.selected.Block_And_Level;
     opening_hours = widget.selected.Opening_Hour;
     facilities_type = widget.selected.Facilities_Type;
+    Email = user.email;
 
     print(location);
     print(opening_hours);
@@ -227,7 +231,7 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
     print(facilities_type);
 
     FirestoreService fsService = FirestoreService();
-    fsService.addtoMeetingRoomFavourite(location, opening_hours, bkandLevel, facilities_type);
+    fsService.addtoMeetingRoomFavourite(location, opening_hours, bkandLevel, facilities_type,Email);
 
     ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content:Text('Successfully added to Favourite'))
@@ -243,12 +247,20 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
     facilities_type =widget.selected.Facilities_Type;
     Room_size = widget.selected.Room_Size;
     Room_number = widget.selected.Room_Number;
+    Email= user.email;
+    tickBox_smartTv = widget.selected.smart_tv;
+    tickBox_Whiteboard = widget.selected.whiteboard;
+    tickBox_Wifi = widget.selected.wifi;
+    tickBox_digitalAvSolution = widget.selected.digitalAvSolution;
+    tickBox_officeSupplies = widget.selected.officeSupplies;
+    tickBox_accessToRefreshment = widget.selected.accessToRefreshment;
 
     print(location);
     print(bkandLevel);
     print(timeSlot);
     print(dateSlot);
     print(facilities_type);
+    print(Email);
 
     print(tickBox_smartTv);
     print(tickBox_Whiteboard);
@@ -260,7 +272,7 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
 
     FirestoreService fsService = FirestoreService();
     fsService.addBookingToFirebase_MeetingRoom(location, bkandLevel, facilities_type, dateSlot, timeSlot
-    ,Room_number,Room_size,tickBox_smartTv,tickBox_Whiteboard,tickBox_Wifi,tickBox_digitalAvSolution
+    ,Room_number,Room_size,Email,tickBox_smartTv,tickBox_Whiteboard,tickBox_Wifi,tickBox_digitalAvSolution
     ,tickBox_officeSupplies,tickBox_accessToRefreshment);
 
   }
@@ -316,11 +328,11 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
                   children: [
                     CheckboxListTile(
                       controlAffinity: ListTileControlAffinity.leading,
-                      title: Text('items'),
+                      title: Text('Smart_Tv'),
                       subtitle: Text('items examples'),
                       //tileColor: Colors.lightBlueAccent,
                       value: tickBox_smartTv,
-                      onChanged: (bool? value) {
+                      onChanged: (value) {
                         setState(() {
                           tickBox_smartTv = value!;
                         });
@@ -330,11 +342,11 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
                     ),
                     CheckboxListTile(
                       controlAffinity: ListTileControlAffinity.leading,
-                      title: Text('items'),
+                      title: Text('Whitebaord'),
                       subtitle: Text('items examples'),
                       //tileColor: Colors.lightBlueAccent,
                       value: tickBox_Whiteboard,
-                      onChanged: (bool? value) {
+                      onChanged: (value) {
                         setState(() {
                           tickBox_Whiteboard = value!;
                         });
@@ -344,11 +356,11 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
                     ),
                     CheckboxListTile(
                       controlAffinity: ListTileControlAffinity.leading,
-                      title: Text('items'),
+                      title: Text('Wifi'),
                       subtitle: Text('items examples'),
                       //tileColor: Colors.lightBlueAccent,
                       value: tickBox_Wifi,
-                      onChanged: (bool? value) {
+                      onChanged: (value) {
                         setState(() {
                           tickBox_Wifi = value!;
                         });
@@ -358,11 +370,11 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
                     ),
                     CheckboxListTile(
                       controlAffinity: ListTileControlAffinity.leading,
-                      title: Text('items'),
+                      title: Text('Digital Av Solution'),
                       subtitle: Text('items examples'),
                       //tileColor: Colors.lightBlueAccent,
                       value: tickBox_digitalAvSolution,
-                      onChanged: (bool? value) {
+                      onChanged: (value) {
                         setState(() {
                           tickBox_accessToRefreshment = value!;
                         });
@@ -372,7 +384,7 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
                     ),
                     CheckboxListTile(
                       controlAffinity: ListTileControlAffinity.leading,
-                      title: Text('items'),
+                      title: Text('Offices Supplies'),
                       subtitle: Text('items examples'),
                       //tileColor: Colors.lightBlueAccent,
                       value: tickBox_officeSupplies,
@@ -386,7 +398,7 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
                     ),
                     CheckboxListTile(
                       controlAffinity: ListTileControlAffinity.leading,
-                      title: Text('items'),
+                      title: Text('Access To Refreshment'),
                       subtitle: Text('items examples'),
                       //tileColor: Colors.lightBlueAccent,
                       value: tickBox_accessToRefreshment,

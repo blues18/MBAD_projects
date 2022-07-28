@@ -1,6 +1,7 @@
 import 'package:facilitiesbookingapp/DatePicker_folder/date_picker_timeline.dart';
 import 'package:facilitiesbookingapp/firebase_services/firestore_service.dart';
 import 'package:facilitiesbookingapp/models/facilities%20Location%20Models/facilities_Detail(firebase).dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -29,6 +30,7 @@ class swimmingBookingScreen extends StatefulWidget {
   }
 
 class _swimmingBookingScreenState extends State<swimmingBookingScreen>{
+  final user = FirebaseAuth.instance.currentUser!;
   DateTime _selectedValue = DateTime.now();
   String fomattedDate = "";
   List dateinput_swimming = [];
@@ -40,12 +42,14 @@ class _swimmingBookingScreenState extends State<swimmingBookingScreen>{
   String? bkandLevel;
   String? timeSlot;
   String? facilities_type;
+  String? Email;
 
   void addtofavourite(){
     location = widget.selected.location;
     bkandLevel = widget.selected.block_And_Level;
     opening_hours = widget.selected.Opening_Hour;
     facilities_type = widget.selected.Facilities_Type;
+    Email = user.email;
 
     print(location);
     print(opening_hours);
@@ -53,7 +57,7 @@ class _swimmingBookingScreenState extends State<swimmingBookingScreen>{
     print(facilities_type);
 
     FirestoreService fsService = FirestoreService();
-    fsService.addtoSwimmingFavourite(location, opening_hours, bkandLevel, facilities_type);
+    fsService.addtoSwimmingFavourite(location, opening_hours, bkandLevel, facilities_type,Email);
 
     ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content:Text('Successfully added to Favourite'))
@@ -62,34 +66,26 @@ class _swimmingBookingScreenState extends State<swimmingBookingScreen>{
 
   void createbooking(){
     location = widget.selected.location;
-    //opening_hours = widget.selected.opening_hours;
     bkandLevel = widget.selected.block_And_Level;
     timeSlot = Bookingtimeslot_swimming.removeLast();
     dateSlot = dateinput_swimming.removeLast();
     facilities_type =widget.selected.Facilities_Type;
+    Email= user.email;
 
     print(location);
     print(bkandLevel);
     print(timeSlot);
     print(dateSlot);
     print(facilities_type);
-
-    /*
-    print(location.runtimeType);
-    print('1');
-    print(bkandLevel.runtimeType);
-    print('3');
-    print(timeSlot.runtimeType);
-    print('4');
-    print(dateSlot.runtimeType);
-    print('5');
-    print(facilities_type.runtimeType);
-    print('6');
-    */
+    print(Email);
 
 
     FirestoreService fsService = FirestoreService();
-    fsService.addBookingToFirebase_Swimming(location, bkandLevel, facilities_type, dateSlot, timeSlot);
+    fsService.addBookingToFirebase_Swimming(location, bkandLevel, facilities_type, dateSlot, timeSlot,Email);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content:Text('Successfully booked'))
+    );
   }
 
   Future<void> showMyDialog() async {

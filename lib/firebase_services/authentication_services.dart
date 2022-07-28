@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:facilitiesbookingapp/models/User_auth_model/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class Authentication_services{
@@ -19,5 +21,26 @@ class Authentication_services{
   }
   loginOut(){
     return FirebaseAuth.instance.signOut();
+  }
+
+  Future<void> registerUser(email, userName, userPhoneNumber){
+    return FirebaseFirestore.instance
+        .collection('UserData')
+        .doc(email)
+        .set({'UserName': userName, 'UserPhoneNumber': userPhoneNumber});
+  }
+
+  Stream<userModel>getUserAuthenticationData(){
+    return FirebaseFirestore.instance
+        .collection('UserData')
+        .doc(FirebaseAuth.instance.currentUser!.email)
+        .snapshots()
+        .map<userModel>((doc) => userModel.fromMap(doc.data()));
+  }
+  UpdateUser(email, userName, UserPhoneNumber){
+    return FirebaseFirestore.instance
+        .collection('UserData')
+        .doc(email)
+        .update({'UserName': userName,'UserPhoneNumber':UserPhoneNumber});
   }
 }

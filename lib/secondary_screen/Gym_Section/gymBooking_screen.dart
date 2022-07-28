@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:facilitiesbookingapp/DatePicker_folder/date_picker_timeline.dart';
 import 'package:facilitiesbookingapp/firebase_services/firestore_service.dart';
 import 'package:facilitiesbookingapp/models/FacilitiesDetails.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -33,6 +34,7 @@ MaterialStateProperty<Color>getColor(Color color,Color colorPressed){
 
 class _gymbookingScreenState extends State<gymbookingScreen> {
   var form = GlobalKey<FormState>();
+  final user = FirebaseAuth.instance.currentUser!;
   DateTime _selectedValue = DateTime.now();
   String fomattedDate = "";
   List dateinput = [];
@@ -45,12 +47,14 @@ class _gymbookingScreenState extends State<gymbookingScreen> {
   String? bkandLevel;
   String? timeSlot;
   String? facilities_type;
+  String? Email;
 
   void addtofavourite(){
     location = widget.selected.place;
     bkandLevel = widget.selected.location;
     opening_hours = widget.selected.opening_hours;
     facilities_type = widget.selected.facilites_type;
+    Email = user.email;
 
     print(location);
     print(opening_hours);
@@ -58,7 +62,7 @@ class _gymbookingScreenState extends State<gymbookingScreen> {
     print(facilities_type);
 
     FirestoreService fsService = FirestoreService();
-    fsService.addtofavourite(location, opening_hours, bkandLevel,facilities_type);
+    fsService.addtofavourite(location, opening_hours, bkandLevel,facilities_type,Email);
 
     ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content:Text('Successfully added to Favourite'))
@@ -67,39 +71,26 @@ class _gymbookingScreenState extends State<gymbookingScreen> {
 
   void createbooking(){
     location = widget.selected.place;
-    //opening_hours = widget.selected.opening_hours;
     bkandLevel = widget.selected.location;
     timeSlot = Bookingtimeslot.removeLast();
     dateSlot = dateinput.removeLast();
     facilities_type =widget.selected.facilites_type;
+    Email= user.email;
 
     print(location);
     print(bkandLevel);
     print(timeSlot);
     print(dateSlot);
     print(facilities_type);
-
-    /*
-    print(location.runtimeType);
-    print('1');
-    print(bkandLevel.runtimeType);
-    print('3');
-    print(timeSlot.runtimeType);
-    print('4');
-    print(dateSlot.runtimeType);
-    print('5');
-    print(facilities_type.runtimeType);
-    print('6');
-    */
+    print(Email);
 
 
     FirestoreService fsService = FirestoreService();
-    fsService.addBookingTofirebase(location, bkandLevel, facilities_type, dateSlot, timeSlot);
+    fsService.addBookingTofirebase(location, bkandLevel, facilities_type, dateSlot, timeSlot,Email);
 
-    /*ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content:Text('SuccessfullyCreated')),
+    ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content:Text('Successfully booked')),
     );
-     */
   }
 
   Future<void> showMyDialog() async {
@@ -135,7 +126,6 @@ class _gymbookingScreenState extends State<gymbookingScreen> {
   }
 
   Widget cfmButton() {
-    //allBookings booklist = Provider.of<allBookings>(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       //crossAxisAlignment: CrossAxisAlignment.center,

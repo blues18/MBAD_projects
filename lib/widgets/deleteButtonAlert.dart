@@ -2,14 +2,14 @@ import 'package:facilitiesbookingapp/firebase_services/authentication_services.d
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class deleteAlertButton extends StatefulWidget {
+class logout extends StatefulWidget {
 
   @override
-  State<deleteAlertButton> createState() => _deleteAlertButton();
+  State<logout> createState() => _logout();
 
 }
 
-class _deleteAlertButton extends State <deleteAlertButton> {
+class _logout extends State <logout> {
 
   logOut() {
     Authentication_services authService = Authentication_services();

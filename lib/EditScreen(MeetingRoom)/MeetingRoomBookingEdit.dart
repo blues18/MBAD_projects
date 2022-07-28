@@ -2,6 +2,7 @@ import 'package:facilitiesbookingapp/DatePicker_folder/date_picker_timeline.dart
 import 'package:facilitiesbookingapp/firebase_services/firestore_service.dart';
 import 'package:facilitiesbookingapp/main.dart';
 import 'package:facilitiesbookingapp/models/individual%20category%20Class%20Booking/Class_bookingItems.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
@@ -27,6 +28,7 @@ class _editBookingSlot_MeetingRoomState extends State<editBookingSlot_MeetingRoo
   String fomattedDate = "";
   String? dateselected_change;
   String? timeSlot_change;//
+  final user = FirebaseAuth.instance.currentUser!;
 
   String? location;
   String? opening_hours;
@@ -34,7 +36,15 @@ class _editBookingSlot_MeetingRoomState extends State<editBookingSlot_MeetingRoo
   String? bkandLevel;
   String? timeSlot;
   String? facilities_type;
-  bool isChecked = false;
+  String? Room_size;
+  String? Room_number;
+  String? Email;
+  bool? tickBox_smartTv;
+  bool? tickBox_Whiteboard;
+  bool? tickBox_Wifi;
+  bool? tickBox_digitalAvSolution;
+  bool? tickBox_officeSupplies;
+  bool? tickBox_accessToRefreshment;
 
   Widget timePicker(){
     return Container(
@@ -124,15 +134,19 @@ class _editBookingSlot_MeetingRoomState extends State<editBookingSlot_MeetingRoo
     timeSlot = timeSlot_change;
     dateSlot = dateselected_change;
     facilities_type =widget.selected.facilities_type;
+    Email = user.email;
 
     print(location);
     print(bkandLevel);
     print(timeSlot);
     print(dateSlot);
     print(facilities_type);
+    print(Email);
 
     FirestoreService fsService = FirestoreService();
-    fsService.editBookingMeetingRoom(id, location, bkandLevel, facilities_type, dateSlot, timeSlot);
+    fsService.editBookingMeetingRoom(id, location, bkandLevel, facilities_type, dateSlot, timeSlot
+        ,Room_number,Room_size,Email,tickBox_smartTv,tickBox_Whiteboard,tickBox_Wifi,tickBox_digitalAvSolution
+        ,tickBox_officeSupplies,tickBox_accessToRefreshment);
 
     Navigator.push(context, new MaterialPageRoute(builder: (context) =>  new MyApp())); // return back to homepage
   }//edit functions to firebase

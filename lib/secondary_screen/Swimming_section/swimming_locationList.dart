@@ -19,6 +19,8 @@ class _swimming_location_screenState extends State<swimming_location_screen> {
   final controller = TextEditingController();
   bool isDescending = false;
 
+  List<String> testlistitem = [];
+
 
   Widget searchbar() {
     return Column(
@@ -197,35 +199,11 @@ class _swimming_location_screenState extends State<swimming_location_screen> {
 class mySearchfield extends SearchDelegate{
   FirestoreService fsService = FirestoreService();
 
+  final testlocation = FirebaseFirestore.instance
+      .collection('Facilities Location and Details')
+      .where('Location');
 
   List<String> tests = [];
-
-  final TestLists = FirebaseFirestore.instance
-      .collection('Meetings Room Facilities')
-      .doc('id')
-      .collection('Location')
-      .snapshots();
-
-
-
-
-  Widget testingStoring() {
-    return StreamBuilder<List<Facilities_Details>>(
-        stream:  fsService.getDetailsOfFacilities_Swimming(),
-        builder: (context, snapshot){
-          return ListView.builder(
-            itemCount: snapshot.data!.length,
-            itemBuilder: (ctx,i){
-              tests.add(snapshot.data![i].location);
-              //print(tests);
-              return ListTile(
-                title: Text(snapshot.data![i].location),
-              );
-            },
-          );
-        }
-    );
-  }
 
   @override
   List<Widget>? buildActions(BuildContext context) =>[ //icon clear
@@ -264,7 +242,6 @@ class mySearchfield extends SearchDelegate{
     List<String> suggestions = tests.where((test){
         final result = test.toLowerCase();
         final input = query.toLowerCase();
-        print(TestLists);
         return result.contains(input);
     }).toList();
 
@@ -285,15 +262,35 @@ class mySearchfield extends SearchDelegate{
     }
 
 
-
-
+    Widget testingStoring() {
+      return StreamBuilder<List<Facilities_Details>>(
+          stream:  fsService.getDetailsOfFacilities_Swimming(),
+          builder: (context, snapshot){
+            return ListView.builder(
+              itemCount: snapshot.data!.length,
+              itemBuilder: (ctx,i){
+                tests.add(snapshot.data![i].location);
+                print(testlocation);
+                if(snapshot.data![i].location == suggestions){
+                  return displayingResults();
+                }
+                else{
+                  return ListTile(
+                    title: Text(snapshot.data![i].location),
+                  );
+                }
+              },
+            );
+          }
+      );
+    }
 
 
 
       return Stack(
         children: [
           testingStoring(),
-          displayingResults(),
+          //displayingResults(),
         ],
       );
     }
