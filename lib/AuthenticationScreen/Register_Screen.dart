@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:facilitiesbookingapp/AuthenticationScreen/Login_Screen.dart';
 import 'package:facilitiesbookingapp/firebase_services/authentication_services.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
@@ -24,6 +25,7 @@ class _register_ScreenState extends State<register_Screen> {
   String? comfirmPassword;
   String? user_Name;
   String? mobile_Number;
+  String? Url_image;
 
   register() {
     bool isValid = formcheck.currentState!.validate();
@@ -37,11 +39,12 @@ class _register_ScreenState extends State<register_Screen> {
           content: Text('Password and Confirm Password does not match!'),
         ));
       }
-
       Authentication_services authService = Authentication_services();
 
+      Url_image='';
+
       return authService.register(email, password).then((value) {
-        return authService.registerUser(email, user_Name, mobile_Number).then((
+        return authService.registerUser(email, user_Name, mobile_Number, Url_image).then((
             value) {
           FocusScope.of(context).unfocus();
           ScaffoldMessenger.of(context).hideCurrentSnackBar();

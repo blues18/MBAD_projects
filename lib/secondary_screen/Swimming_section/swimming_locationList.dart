@@ -290,7 +290,7 @@ class mySearchfield extends SearchDelegate{
       return Stack(
         children: [
           testingStoring(),
-          //displayingResults(),
+          displayingResults(),
         ],
       );
     }

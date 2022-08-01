@@ -23,12 +23,19 @@ class Authentication_services{
     return FirebaseAuth.instance.signOut();
   }
 
-  Future<void> registerUser(email, userName, userPhoneNumber){
+  Future<void> registerUser(email, userName, userPhoneNumber, image_url){
     return FirebaseFirestore.instance
         .collection('UserData')
         .doc(email)
-        .set({'UserName': userName, 'UserPhoneNumber': userPhoneNumber});
+        .set({'UserName': userName, 'UserPhoneNumber': userPhoneNumber, 'Url_Image': image_url});
   }
+ addImage(email, image_Url){
+    return FirebaseFirestore.instance
+        .collection('UserData')
+        .doc(email)
+        .update({'Url_Image': image_Url});
+  }
+
 
   Stream<userModel>getUserAuthenticationData(){
     return FirebaseFirestore.instance
@@ -37,10 +44,11 @@ class Authentication_services{
         .snapshots()
         .map<userModel>((doc) => userModel.fromMap(doc.data()));
   }
+
   UpdateUser(email, userName, UserPhoneNumber){
     return FirebaseFirestore.instance
         .collection('UserData')
         .doc(email)
-        .update({'UserName': userName,'UserPhoneNumber':UserPhoneNumber});
+        .update({'UserName': userName,'UserPhoneNumber':UserPhoneNumber,});
   }
 }

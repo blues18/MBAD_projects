@@ -45,6 +45,9 @@ dependencies:
   firebase_auth: ^3.4.2
   firebase_storage: ^10.3.2
   intl_phone_number_input: ^0.7.0+2
+  image_picker: ^0.8.5+3
+  path: ^1.8.0
+
 
 dev_dependencies:
   flutter_test:
@@ -74,6 +77,7 @@ flutter:
      - image_assets/swimming.jpg
      - image_assets/mutil_purpose_Hall.jpg
      - image_assets/meeting_room.jpg
+     - image_assets/no_image.webp
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
