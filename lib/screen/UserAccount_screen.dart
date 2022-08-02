@@ -1,8 +1,6 @@
 import 'dart:io';
 import 'package:facilitiesbookingapp/firebase_services/authentication_services.dart';
-import 'package:facilitiesbookingapp/firebase_services/firestore_service.dart';
 import 'package:facilitiesbookingapp/models/User_auth_model/user_model.dart';
-import 'package:facilitiesbookingapp/secondary_screen/Meeting_Room_section/MeetingRoom_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
@@ -296,8 +294,6 @@ class _userAccount_ScreenState extends State<userAccount_Screen> {
   }
 
 
-
-
   @override
   Widget build(BuildContext context) {
     Authentication_services authService = Authentication_services();
@@ -309,10 +305,8 @@ class _userAccount_ScreenState extends State<userAccount_Screen> {
               return Center(child: CircularProgressIndicator());
             else{
               return Scaffold(
-                //backgroundColor: Colors.green,
                 body:Stack(
                   children: [
-
                     Container(
                       color: Color(0xfff6f6f6),
                       height: double.infinity,

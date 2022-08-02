@@ -36,6 +36,10 @@ class Authentication_services{
         .update({'Url_Image': image_Url});
   }
 
+ User? getcurrentUser(){
+    print(FirebaseAuth.instance.currentUser);
+    return FirebaseAuth.instance.currentUser;
+ }
 
   Stream<userModel>getUserAuthenticationData(){
     return FirebaseFirestore.instance

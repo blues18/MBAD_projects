@@ -42,7 +42,7 @@ class _register_ScreenState extends State<register_Screen> {
       Authentication_services authService = Authentication_services();
 
       Url_image='';
-
+      email!.toLowerCase();
       return authService.register(email, password).then((value) {
         return authService.registerUser(email, user_Name, mobile_Number, Url_image).then((
             value) {
@@ -85,7 +85,7 @@ class _register_ScreenState extends State<register_Screen> {
                   return null;
               },
               onSaved: (value) {
-                email = value;
+                email= value!.toLowerCase();
               },
             ),
             SizedBox(height: 20),

@@ -13,10 +13,13 @@ class meetingRoom_location_screen  extends StatefulWidget {
 class _meetingRoom_location_screenState extends State<meetingRoom_location_screen>{
   bool isDescending = false;
 
+ String? collapsedButton; //store for later functions
+
   Widget SortbyAlphabetically() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        ExpensionfilterButton(),
         SizedBox(height: 20),
         Container(
           decoration: BoxDecoration(
@@ -146,4 +149,27 @@ class _meetingRoom_location_screenState extends State<meetingRoom_location_scree
           )
     );
   }
+
+  Widget ExpensionfilterButton() {
+    return Column(
+      children: <Widget>[
+        ExpansionTile(
+            title: Text('Filter button'),
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(onPressed:() {}, child: Text('Small')),
+                  TextButton(onPressed:() {}, child: Text('Medium')),
+                  TextButton(onPressed:() {}, child: Text('Large')),
+                ],
+              )
+            ],
+        )
+      ],
+    );
+  }
+
+
+
 }
