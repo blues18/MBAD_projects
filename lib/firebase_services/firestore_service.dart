@@ -4,10 +4,21 @@ import 'package:facilitiesbookingapp/models/facilities%20Location%20Models/facil
 import 'package:facilitiesbookingapp/models/individual%20category%20Class%20Booking/Class_Favourite_location.dart';
 import 'package:facilitiesbookingapp/models/individual%20category%20Class%20Booking/Class_bookingItems.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class FirestoreService {
   ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////// Facilities Location ///////////////////////
+
+///////////////////////////////homepage Event image display//////////////////
+Stream<List<eventurldisplay>> getEventImage(){
+ return FirebaseFirestore.instance
+     .collection('Event_Images')
+     .snapshots()
+     .map((snapshot) => snapshot.docs
+     .map<eventurldisplay>(
+         (doc) => eventurldisplay.formMap(doc.data(), doc.id)).toList());
+}
 
 ///////////////////////////Swimming Complex ////////////////////////////////////
   Stream<List<Facilities_Details>> getDetailsOfFacilities_Swimming() {
@@ -21,21 +32,10 @@ class FirestoreService {
             .toList());
   }
 
-  Stream<List<Facilities_Details>>getLocationOnly(){
-    return FirebaseFirestore.instance
-        .collection('Facilities Location and Details')
-        .where('Location',isEqualTo: 'Location')
-        .snapshots()
-        .map((snapshot) => snapshot.docs
-        .map<Facilities_Details>(
-            (doc) => Facilities_Details.formMap(doc.data(), doc.id))
-        .toList());
-  }
-
 /////////////////////////Meeting Room///////////////////////////////////////////
   Stream<List<Facilities_Details>> getDetailsOfFacilities_meetingRoom() {
     return FirebaseFirestore.instance
-        .collection('Meetings Room Facilities')
+        .collection('Meetings Room Facilities Data')
         .snapshots()
         .map((snapshot) => snapshot.docs
             .map<Facilities_Details>(

@@ -2,22 +2,33 @@ import 'package:facilitiesbookingapp/AuthenticationScreen/reset_Password_Screen.
 import 'package:facilitiesbookingapp/firebase_services/authentication_services.dart';
 import 'package:facilitiesbookingapp/screen/Facilities_screen.dart';
 import 'package:facilitiesbookingapp/screen/Favourite_screen.dart';
+import 'package:facilitiesbookingapp/searchfunctions/search_function.dart';
 import 'package:facilitiesbookingapp/secondary_screen/Meeting_Room_section/meeting_RoomList.section.dart';
 import 'package:facilitiesbookingapp/secondary_screen/view_all_screen/view_all(homepage).dart';
+import 'package:facilitiesbookingapp/splashScreen/splashScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:facilitiesbookingapp/screen/HomePage_screen.dart';
 import 'package:facilitiesbookingapp/screen/UserAccount_screen.dart';
+import 'package:provider/provider.dart';
 
 import 'AuthenticationScreen/Login_Screen.dart';
 import 'AuthenticationScreen/Register_Screen.dart';
 import 'secondary_screen/Gym_Section/gym_locationList_.dart';
 import 'secondary_screen/Swimming_section/swimming_locationList.dart';
-import 'widgets/bottom_navigation.dart';
+
 
 void main() {
-  runApp(MyApp());
+
+  runApp(
+      MultiProvider(providers: [
+        ChangeNotifierProvider<search_function>(create:(context)=>search_function()),
+      ],
+        child:MyApp()
+      )
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -27,6 +38,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   Authentication_services authServices = Authentication_services();
+  TextEditingController searchFunctionQuery = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +55,7 @@ class _MyAppState extends State<MyApp> {
             ),
             home: snapshot.connectionState == ConnectionState.waiting ?
                 Center(child: CircularProgressIndicator()) :
-                snapshot.hasData ? MainScreen(snapshot.data as User): LoginScreen(),
+                snapshot.hasData ? splashScreen(): LoginScreen(),
             routes: {
               LoginScreen.routeName: (_) {
                 return LoginScreen();
@@ -75,7 +87,7 @@ class _MyAppState extends State<MyApp> {
               },
             );
           }
-      )
+      ),
     );
   }
 }
@@ -83,10 +95,7 @@ class _MyAppState extends State<MyApp> {
 
 
 class MainScreen extends StatefulWidget {
-  static String routeName = '/';
-
-  User currectUserData;
-  MainScreen(this.currectUserData);
+  //static String routeName = '/';
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -103,39 +112,43 @@ class _MainScreenState extends State<MainScreen> {
     userAccount_Screen(),
   ];
 
-
-
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
+      backgroundColor: Colors.black87,
       body: IndexedStack(
         index: selectedIndex,
         children: screens,
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_outlined,
-              color: Colors.black87),
-              label: 'Home', backgroundColor: Colors.white70),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.sports_gymnastics_rounded,
-                  color: Colors.black87),
-              label: 'Facilities'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.favorite_border_rounded, color: Colors.black87),
-              label: 'Favourite'),
-          BottomNavigationBarItem(icon: Icon(Icons.account_box_rounded,
-              color: Colors.black87),
-              label: 'Account'),
-        ],
-        currentIndex: selectedIndex,
-        selectedItemColor: Colors.orange[800],
-        onTap: (index) {
-          setState(() {
-            selectedIndex = index;
-          });
-        },
-      ),
+      bottomNavigationBar: FloatingNavbar(
+          backgroundColor: Colors.cyan,
+          items:  [
+            FloatingNavbarItem(
+                icon: Icons.home_outlined,
+                title: 'Home',
+            ),
+            FloatingNavbarItem(
+              icon: Icons.sports_gymnastics_rounded,
+              title: 'Facilities',
+            ),
+            FloatingNavbarItem(
+              icon: Icons.favorite_border_rounded,
+              title: 'Favourite',
+            ),
+            FloatingNavbarItem(
+              icon: Icons.person_outline_rounded,
+              title: 'Account'
+            )
+          ],
+          currentIndex: selectedIndex,
+          selectedItemColor: Colors.orangeAccent[800],
+          onTap: (index) {
+            setState(() {
+              selectedIndex = index;
+            });
+          },
+        ),
     );
   }
 }

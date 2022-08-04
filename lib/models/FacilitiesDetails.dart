@@ -8,3 +8,4 @@ class detail {
   detail({ required this.place, required this.opening_hours, required this.location,
     required this.facilites_type, required this.image_assets});
 }
+

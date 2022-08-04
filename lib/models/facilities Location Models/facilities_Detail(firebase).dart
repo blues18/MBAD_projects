@@ -22,3 +22,11 @@ class Facilities_Details { //details for Facilities locations for listviews
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+class eventurldisplay{
+  String imageAsset;
+
+  eventurldisplay({required this.imageAsset});
+
+eventurldisplay.formMap(Map <String, dynamic> snapshot,String id):
+      imageAsset = snapshot['Event_Image']??''
+;}

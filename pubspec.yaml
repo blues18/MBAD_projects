@@ -47,11 +47,30 @@ dependencies:
   intl_phone_number_input: ^0.7.0+2
   image_picker: ^0.8.5+3
   path: ^1.8.0
+  carousel_slider: ^4.1.1
+  smooth_page_indicator: ^1.0.0+2
+  floating_bottom_navigation_bar: ^1.5.2
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.9.3
+  flutter_native_splash: ^2.1.2+1
+
+flutter_icons:
+  android: true
+  ios: false
+  image_path: "image_assets/BlueBook2.webp"
+  adaptive_icon_background: "#0a89bf"
+  adaptive_icon_foreground: "image_assets/BlueBook2.webp"
+
+flutter_native_splash:
+  image: "image_assets/Splash_screen.png"
+  android: true
+  ios: false
+  color: "#0d0d0c"
+
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -78,6 +97,8 @@ flutter:
      - image_assets/mutil_purpose_Hall.jpg
      - image_assets/meeting_room.jpg
      - image_assets/no_image.webp
+     - image_assets/splash2.png
+     - image_assets/BlueBook2.webp
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

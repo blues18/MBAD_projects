@@ -100,6 +100,7 @@ class _userAccount_ScreenState extends State<userAccount_Screen> {
 
   Widget Profiletext(){
     Authentication_services authService = Authentication_services();
+    print(user.email);
     return StreamBuilder<userModel>(
         stream: authService.getUserAuthenticationData(),
         builder: (context, snapshot){
