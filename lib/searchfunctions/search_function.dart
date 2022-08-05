@@ -4,6 +4,12 @@ import 'package:flutter/cupertino.dart';
 
 class search_function with ChangeNotifier{
 
+  List<Facilities_Details> storeListfirst = []; //create a list first
+
+  List<Facilities_Details> getSearchResults(){
+    return storeListfirst;
+  }
+
   String searchQuery = '';
 
   List<Facilities_Details> storeSwimmingLocationList = []; //test see if can store the list
@@ -17,7 +23,7 @@ class search_function with ChangeNotifier{
         switch (change.type) {
           case DocumentChangeType.added:
             storeSwimmingLocationList.add(location);
-            print('is it${storeSwimmingLocationList}');
+            print(storeSwimmingLocationList.length);
             break;
           case DocumentChangeType.modified:
             storeSwimmingLocationList.removeWhere((element) => element.id == location.id);

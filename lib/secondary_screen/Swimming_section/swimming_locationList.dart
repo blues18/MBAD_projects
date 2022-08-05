@@ -2,10 +2,12 @@
 import 'package:facilitiesbookingapp/firebase_services/firestore_service.dart';
 import 'package:facilitiesbookingapp/models/facilities%20Location%20Models/facilities_Detail(firebase).dart';
 import 'package:facilitiesbookingapp/secondary_screen/Swimming_section/SwimmingBooking_screen.dart';
-import 'package:facilitiesbookingapp/secondary_screen/Swimming_section/displaySwimmingList.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:facilitiesbookingapp/searchfunctions/search_function.dart';
+import 'package:facilitiesbookingapp/secondary_screen/Swimming_section/swimming_locationList.dart';
+
+import 'displaySwimmingList.dart';
 
 class swimming_location_screen extends StatefulWidget {
   static String routeName = '/swimming_Location_Screen';
@@ -26,14 +28,14 @@ class _swimming_location_screenState extends State<swimming_location_screen> {
   @override
   Widget build(BuildContext context) {
 
-    search_function storeList = Provider.of<search_function>(context);
+    search_function storeListfirst = Provider.of<search_function>(context);
 
     Widget searchfield(){
       return TextField(
         controller: searchController,
         onChanged: (value){
           setState((){
-            storeList.searchQuery = value.toLowerCase(); //Calls the searchString in movieshowList
+            storeListfirst.searchQuery = value.toLowerCase(); //Calls the searchString in movieshowList
           });
         },
         decoration: InputDecoration(
@@ -42,6 +44,25 @@ class _swimming_location_screenState extends State<swimming_location_screen> {
         ),
       );
     }
+
+
+    Widget displaytest(){
+      return Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Container(
+                height: 600,
+                child: display_SearchResults(
+                  storeListfirst.getSearchResults(), searchController: searchController,
+                ),
+            )
+          ],
+        ),
+      );
+    }
+
+
 
     Widget displayFacilitiesLocation() {
       FirestoreService fsService = FirestoreService();
@@ -162,7 +183,7 @@ class _swimming_location_screenState extends State<swimming_location_screen> {
               ),
             ),
           ),
-          Expanded(child: displayFacilitiesLocation())
+          Expanded(child: displaytest())
         ],
       );
     }
@@ -171,9 +192,15 @@ class _swimming_location_screenState extends State<swimming_location_screen> {
       appBar: AppBar(
         title: Text('Swimming Pool'),
       ),
-      body: Stack(
-        children:[
-          SortbyAlphabetically(),
+      resizeToAvoidBottomInset: false,
+      body: Column(
+        children: [
+          searchfield(),
+          Stack(
+            children:[
+              displaytest()
+            ],
+          )
         ],
       )
     );
@@ -181,103 +208,3 @@ class _swimming_location_screenState extends State<swimming_location_screen> {
 }
 
 
-/*
-class mySearchfield extends SearchDelegate{
-  FirestoreService fsService = FirestoreService();
-
-  List<String> tests = [];
-
-  final testlocation = FirebaseFirestore.instance
-      .collection('Facilities Location and Details')
-      .where('Location');
-
-  @override
-  List<Widget>? buildActions(BuildContext context) =>[ //icon clear
-    IconButton(
-        onPressed: (){
-          if(query.isEmpty){
-            close(context,null);
-          }else {
-            query = '';
-          }
-        },
-        icon: const Icon(Icons.clear)
-    ),
-  ];
-
-  @override
-  Widget? buildLeading(BuildContext context) => IconButton( //leading icon which is back
-      onPressed: () => close(context, null),
-      icon: const Icon(Icons.arrow_back_rounded)
-  );
-
-  @override
-  Widget buildResults(BuildContext context) {
-    return Center(
-      child: Text(
-        query,
-        style: TextStyle(fontSize: 60,fontWeight: FontWeight.bold),
-      ),
-    );
-
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-
-    List<Facilities_Details> suggestions = test2.where((test){
-        final result = test.location;
-        final input = query.toLowerCase();
-        return result.contains(input);
-    }).toList();
-
-    Widget displayingResults() {
-      print(test2);
-      return ListView.builder(
-        itemCount: suggestions.length,
-        itemBuilder: (context, i){
-          final suggestion = suggestions[i];
-
-          return ListTile(
-            title: Text(suggestion.location),
-            onTap: () {
-              showResults(context);
-            },
-          );
-        },
-      );
-    }
-
-
-    Widget testingStoring() {
-      return StreamBuilder<List<Facilities_Details>>(
-          stream:  fsService.getDetailsOfFacilities_Swimming(),
-          builder: (context, snapshot){
-            return ListView.builder(
-              itemCount: snapshot.data!.length,
-              itemBuilder: (ctx,i){
-                tests.add(snapshot.data![i].location);
-                print(testlocation);
-                if(snapshot.data![i].location == suggestions){
-                  return displayingResults();
-                }
-                else{
-                  return ListTile(
-                    title: Text(snapshot.data![i].location),
-                  );
-                }
-              },
-            );
-          }
-      );
-    }
-
-
-      return Stack(
-        children: [
-          displayingResults()
-        ],
-      );
-    }
-  }
- */
