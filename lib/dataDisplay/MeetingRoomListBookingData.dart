@@ -55,39 +55,58 @@ class meetingRoomDataListState extends State<meetingRoomDataList>{
                         height: 150,
                         width: 300,
                         margin: EdgeInsets.all(10),
+                        padding: EdgeInsets.only(
+                          left: 10,
+                          right: 10,
+                        ),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color: Colors.lightGreen
+                            gradient: LinearGradient(
+                                begin: Alignment.topRight,
+                                end:  Alignment.bottomLeft,
+                                colors: [
+                                  Color(0xFF3C786C),
+                                  Color(0xFF295249),
+                                ]
+                            )
                         ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        child: Row(
                           children: [
-                            Text(snapshot.data![i].location, style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold)),
-                            Text('Date: ' + snapshot.data![i].dateSlot, style: TextStyle(fontSize: 17, fontWeight: FontWeight.normal)),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                             crossAxisAlignment: CrossAxisAlignment.center,
-                             children: [
-                               Text('Time: ' + snapshot.data![i].timeSlot, style: TextStyle(fontSize: 17, fontWeight: FontWeight.normal)),
-                               Container(
-                                 margin: EdgeInsets.only(right: 10),
-                                 decoration: BoxDecoration(
-                                   borderRadius: BorderRadius.circular(10),
-                                 ),
-                                 child: ElevatedButton(
-                                   onPressed: () =>
-                                     Navigator.push(context, MaterialPageRoute(builder: (context) => editBookingSlot_MeetingRoom(selected: snapshot.data![i],)))
-                                   ,
-                                   child: Text('Edit Bookings'),
-                                   style:  ElevatedButton.styleFrom(
-                                     primary: Colors.black87, // background
-                                     onPrimary: Colors.white, // foreground
-                                   ),
-                                   )
-                                 ),
-                             ],
-                              ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(height: 10),
+                                Text(snapshot.data![i].location, style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold, color: Colors.white)),
+                                SizedBox(height: 10),
+                                Text('Date: ' + snapshot.data![i].dateSlot, style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: Colors.white70)),
+                                SizedBox(height: 5),
+                                Text('Time: ' + snapshot.data![i].timeSlot, style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: Colors.white70)),
+                                SizedBox(height: 10),
+                                Row(
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Colors.deepOrangeAccent,
+                                      ),
+                                      child: Text(snapshot.data![i].facilities_type,style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold, color: Colors.white)),
+                                    ),
+                                    SizedBox(width: 10),
+                                    ElevatedButton(
+                                      onPressed: () =>
+                                          Navigator.push(context, MaterialPageRoute(builder: (context) => editBookingSlot_MeetingRoom(selected: snapshot.data![i],)))
+                                      ,
+                                      child: Text('Edit Bookings'),
+                                      style:  ElevatedButton.styleFrom(
+                                        primary: Colors.black87, // background
+                                        onPrimary: Colors.white, // foreground
+                                      ),
+                                    )
+                                  ],
+                                )
+                              ],
+                            )
                           ],
                         )
                     ),

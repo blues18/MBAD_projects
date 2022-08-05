@@ -28,7 +28,7 @@ class display_GymResults extends StatelessWidget {
                 final item = sortItems[i];
                 return InkWell(
                   splashColor: Colors.red,
-                  //onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => gymbookingScreen(selected: item))),
+                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => gymbookingScreen(selected: item))),
                   child: Container(
                     margin: EdgeInsets.all(10),
                     width: double.infinity,

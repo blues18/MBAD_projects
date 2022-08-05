@@ -53,22 +53,55 @@ class swimmingDataListState extends State<swimmingDataList> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                        height: 100,
+                        height: 150,
                         width: 300,
                         margin: EdgeInsets.all(10),
+                        padding: EdgeInsets.only(
+                          left: 10,
+                          right: 10,
+                        ),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color: Colors.lightGreen
+                            gradient: LinearGradient(
+                                begin: Alignment.topRight,
+                                end:  Alignment.bottomLeft,
+                                colors: [
+                                  Color(0xFF3C786C),
+                                  Color(0xFF295249),
+                                ]
+                            )
                         ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        child: Row(
                           children: [
-                            Text(snapshot.data![i].location, style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold)),
-                            Text('Date: ' + snapshot.data![i].dateSlot, style: TextStyle(fontSize: 17, fontWeight: FontWeight.normal)),
-                            Text('Time: ' + snapshot.data![i].timeSlot, style: TextStyle(fontSize: 17, fontWeight: FontWeight.normal))
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(height: 10),
+                                Text(snapshot.data![i].location, style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold, color: Colors.white)),
+                                SizedBox(height: 10),
+                                Text('Date: ' + snapshot.data![i].dateSlot, style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: Colors.white70)),
+                                SizedBox(height: 5),
+                                Text('Time: ' + snapshot.data![i].timeSlot, style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: Colors.white70)),
+                                SizedBox(height: 10),
+                                Row(
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Colors.lightBlueAccent,
+                                      ),
+                                      child: Text(snapshot.data![i].facilities_type,style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white)),
+                                    ),
+                                    SizedBox(width: 10),
+                                    Icon(Icons.sports_gymnastics_rounded,color: Colors.white)
+                                  ],
+                                )
+                              ],
+                            )
                           ],
                         )
+
                     ),
                     Container(
                       height: 100,
@@ -87,7 +120,7 @@ class swimmingDataListState extends State<swimmingDataList> {
               },
               itemCount: snapshot.data!.length,
               separatorBuilder: (ctx, i) {
-                return Divider(height: 3, color: Colors.blueGrey);
+                return Divider(height: 1, color: Colors.blueGrey);
               },
             );
           }

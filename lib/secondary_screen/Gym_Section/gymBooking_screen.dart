@@ -1,18 +1,18 @@
 import 'dart:ui';
 import 'package:facilitiesbookingapp/DatePicker_folder/date_picker_timeline.dart';
 import 'package:facilitiesbookingapp/firebase_services/firestore_service.dart';
-import 'package:facilitiesbookingapp/models/FacilitiesDetails.dart';
+import 'package:facilitiesbookingapp/models/facilities%20Location%20Models/facilities_Detail(firebase).dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class gymbookingScreen extends StatefulWidget {
 static String routeName = '/gymBookingScreen';
-final detail selected;
+final Facilities_Details selected;
 
 gymbookingScreen({
   Key? key,
-  required this.selected,s
+  required this.selected,
 }): super(key: key);
 
 
@@ -33,7 +33,6 @@ MaterialStateProperty<Color>getColor(Color color,Color colorPressed){
 
 
 class _gymbookingScreenState extends State<gymbookingScreen> {
-  var form = GlobalKey<FormState>();
   final user = FirebaseAuth.instance.currentUser!;
   DateTime _selectedValue = DateTime.now();
   String fomattedDate = "";
@@ -50,10 +49,10 @@ class _gymbookingScreenState extends State<gymbookingScreen> {
   String? Email;
 
   void addtofavourite(){
-    location = widget.selected.place;
+    location = widget.selected.location;
     bkandLevel = widget.selected.location;
-    opening_hours = widget.selected.opening_hours;
-    facilities_type = widget.selected.facilites_type;
+    opening_hours = widget.selected.Opening_Hour;
+    facilities_type = widget.selected.Facilities_Type;
     Email = user.email;
 
     print(location);
@@ -62,7 +61,7 @@ class _gymbookingScreenState extends State<gymbookingScreen> {
     print(facilities_type);
 
     FirestoreService fsService = FirestoreService();
-    fsService.addtofavourite(location, opening_hours, bkandLevel,facilities_type,Email);
+    fsService.addtofavourite(location, opening_hours,bkandLevel,facilities_type,Email);
 
     ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content:Text('Successfully added to Favourite'))
@@ -70,11 +69,11 @@ class _gymbookingScreenState extends State<gymbookingScreen> {
   }
 
   void createbooking(){
-    location = widget.selected.place;
+    location = widget.selected.location;
     bkandLevel = widget.selected.location;
     timeSlot = Bookingtimeslot.removeLast();
     dateSlot = dateinput.removeLast();
-    facilities_type =widget.selected.facilites_type;
+    facilities_type =widget.selected.Facilities_Type;
     Email= user.email;
 
     print(location);
@@ -323,7 +322,7 @@ class _gymbookingScreenState extends State<gymbookingScreen> {
     //allBookings booklist = Provider.of<allBookings>(context);
     return Scaffold(
         appBar: AppBar(
-          title: Text(widget.selected.place),
+          title: Text(widget.selected.location),
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -346,13 +345,13 @@ class _gymbookingScreenState extends State<gymbookingScreen> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    Text(widget.selected.place, style: TextStyle(
+                    Text(widget.selected.location, style: TextStyle(
                         fontSize: 20, fontWeight: FontWeight.bold),),
                     SizedBox(height: 10),
-                    Text(widget.selected.location,
+                    Text(widget.selected.block_And_Level,
                         style: TextStyle(fontSize: 15)),
                     SizedBox(height: 10),
-                    Text(widget.selected.opening_hours,
+                    Text(widget.selected.Opening_Hour,
                         style: TextStyle(fontSize: 15)),
                   ],
                 ),

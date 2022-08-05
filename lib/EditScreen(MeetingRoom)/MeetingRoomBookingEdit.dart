@@ -128,13 +128,14 @@ class _editBookingSlot_MeetingRoomState extends State<editBookingSlot_MeetingRoo
     );
   }
 
-  void changesSent(String id){
+  void changesSent(String id){  //this part need to change edit or it will read null
     location = widget.selected.location;
     bkandLevel = widget.selected.bkandLevel;
     timeSlot = timeSlot_change;
     dateSlot = dateselected_change;
     facilities_type =widget.selected.facilities_type;
     Email = user.email;
+
 
     print(location);
     print(bkandLevel);
