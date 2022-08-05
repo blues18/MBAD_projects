@@ -3,6 +3,7 @@ import 'package:facilitiesbookingapp/firebase_services/authentication_services.d
 import 'package:facilitiesbookingapp/screen/Facilities_screen.dart';
 import 'package:facilitiesbookingapp/screen/Favourite_screen.dart';
 import 'package:facilitiesbookingapp/searchfunctions/search_function.dart';
+import 'package:facilitiesbookingapp/searchfunctions/search_function_meeting_room.dart';
 import 'package:facilitiesbookingapp/secondary_screen/Meeting_Room_section/meeting_RoomList.section.dart';
 import 'package:facilitiesbookingapp/secondary_screen/view_all_screen/view_all(homepage).dart';
 import 'package:facilitiesbookingapp/splashScreen/splashScreen.dart';
@@ -16,6 +17,7 @@ import 'package:provider/provider.dart';
 
 import 'AuthenticationScreen/Login_Screen.dart';
 import 'AuthenticationScreen/Register_Screen.dart';
+import 'searchfunctions/search_function_gym.dart';
 import 'secondary_screen/Gym_Section/gym_locationList_.dart';
 import 'secondary_screen/Swimming_section/swimming_locationList.dart';
 
@@ -25,6 +27,8 @@ void main() {
   runApp(
       MultiProvider(providers: [
         ChangeNotifierProvider<search_function>(create:(context)=>search_function()),
+        ChangeNotifierProvider<search_function_meetingRoom>(create:(context)=>search_function_meetingRoom()),
+        ChangeNotifierProvider<search_function_Gym>(create:(context)=>search_function_Gym()),
       ],
         child:MyApp()
       )

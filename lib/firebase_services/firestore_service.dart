@@ -32,16 +32,8 @@ Stream<List<eventurldisplay>> getEventImage(){
             .toList());
   }
 
-/////////////////////////Meeting Room///////////////////////////////////////////
-  Stream<List<Facilities_Details>> getDetailsOfFacilities_meetingRoom() {
-    return FirebaseFirestore.instance
-        .collection('Meetings Room Facilities Data')
-        .snapshots()
-        .map((snapshot) => snapshot.docs
-            .map<Facilities_Details>(
-                (doc) => Facilities_Details.formMap(doc.data(), doc.id))
-            .toList());
-  }
+
+
   /////////////////////////////////////////////////////////////////////////////
   ////////////////////////////New_meeting_Room class////////////////////////////////
 

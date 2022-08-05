@@ -1,8 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:facilitiesbookingapp/searchfunctions/search_function.dart';
-
 import 'displaySwimmingList.dart';
 
 class swimming_location_screen extends StatefulWidget {
@@ -100,40 +98,40 @@ class _swimming_location_screenState extends State<swimming_location_screen> {
     }
 
     return Scaffold(
-          appBar: AppBar(
-            title: Text('Swimming Pool'),
-            flexibleSpace: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end:  Alignment.bottomRight,
-                    colors: [
-                      Color(0xFF135A4F),
-                      Color(0xFF174A63),
-                    ]
-                ),
+        appBar: AppBar(
+          title: Text('Swimming Pool'),
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end:  Alignment.bottomRight,
+                  colors: [
+                    Color(0xFF135A4F),
+                    Color(0xFF174A63),
+                  ]
               ),
             ),
           ),
-          resizeToAvoidBottomInset: false,
+        ),
+        resizeToAvoidBottomInset: false,
 
-          body: Container(
+        body: Container(
             decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end:  Alignment.bottomRight,
-                colors: [
-                Color(0xFF256F62),
-                Color(0xFF337095),
-                ]
+              gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end:  Alignment.bottomRight,
+                  colors: [
+                    Color(0xFF256F62),
+                    Color(0xFF337095),
+                  ]
+              ),
             ),
-      ),
-      child:Stack(
-            children:[
-              SortbyAlphabetically()
-            ],
-          )
-      )
+            child:Stack(
+              children:[
+                SortbyAlphabetically()
+              ],
+            )
+        )
     );
   }
 }
