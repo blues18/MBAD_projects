@@ -5,11 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class display_SearchResults extends StatelessWidget {
-  display_SearchResults(this.storeListfirst, {Key? key, required this.searchController}) : super(key: key);
+  display_SearchResults(this.storeListfirst,this.isDescending, {Key? key, required this.searchController}) : super(key: key);
   List<Facilities_Details> storeListfirst;
   final TextEditingController searchController;
-  bool isDescending = false;
 
+  bool isDescending = false;
+/*
 
   Widget SortbyAlphabetically() {
     return Column(
@@ -30,7 +31,7 @@ class display_SearchResults extends StatelessWidget {
                 style: TextStyle(fontSize: 20, color: Colors.white)
             ),
             onPressed: () {
-                 isDescending = !isDescending;
+                 isDescending = true;
               }
             ),
           ),
@@ -38,6 +39,8 @@ class display_SearchResults extends StatelessWidget {
       ],
     );
   }
+
+ */
 
   Widget GetAlldsiplayCard(){
     return Consumer(
@@ -135,6 +138,6 @@ class display_SearchResults extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SortbyAlphabetically();
+    return GetAlldsiplayCard();
   }
 }
