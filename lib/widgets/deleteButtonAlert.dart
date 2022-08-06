@@ -1,3 +1,4 @@
+import 'package:facilitiesbookingapp/AuthenticationScreen/Login_Screen.dart';
 import 'package:facilitiesbookingapp/firebase_services/authentication_services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,7 @@ class _logout extends State <logout> {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('Logout successfully!'),
       ));
+      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
     }).catchError((error) {
       FocusScope.of(context).unfocus();
       String message = error.toString as String;
