@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:facilitiesbookingapp/DatePicker_folder/date_picker_timeline.dart';
 import 'package:facilitiesbookingapp/firebase_services/firestore_service.dart';
 import 'package:facilitiesbookingapp/models/facilities%20Location%20Models/facilities_Details_For_MeetingRoom.dart';
@@ -39,8 +37,9 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
   DateTime _selectedValue = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
   String fomattedDate = "";
-  List dateinput_meetingRoom = [];
-  String? Bookingtimeslot_meetingRoom;
+  String dateinput_meetingRoom = 'None';
+  String Bookingtimeslot_meetingRoom = 'None';
+  String other_request = 'None';
   final user = FirebaseAuth.instance.currentUser!;
 
   String? location;
@@ -52,6 +51,8 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
   String? Room_size;
   String? Room_number;
   String? Email;
+  String? facilities_image;
+  String? User_request;
   bool? tickBox_smartTv;
   bool? tickBox_Whiteboard;
   bool? tickBox_Wifi;
@@ -61,25 +62,23 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
 
   //////////////////////////////////////////// TimePicker ///////////////////////
   Widget timePicker(){
-    return Container(
-      height: 80,
-      width: double.infinity,
-      decoration: BoxDecoration(
-          color: Colors.white
-      ),
-      child: Column(
+    return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: Colors.cyan,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(25)
+              ),
+            ),
             onPressed: () {
               _selectTime(context);
             },
             child: Text("Choose Time"),
           ),
-          Text("${selectedTime.hour}:${selectedTime.minute}"),
         ],
-      ),
     );
   }
 
@@ -101,36 +100,60 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
 ////////////////////////////////////////////////// TimePicker////////////////////
   Widget Datepicking(){
     return Container(
-        height: 160,
+        height: 145,
         width: double.infinity,
         padding: EdgeInsets.all(20.0),
+        margin: EdgeInsets.only(
+          top: 10,
+          left: 10,
+          right: 10,
+        ),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [
+                  Color(0xFF558D81),
+                  Color(0xFF3A9C9E)
+                ]
+            )
+        ),
         child: Column(
             children: <Widget>[
-              Text(fomattedDate.toString()),
-              //Text(storedtest.join(',')),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text('Swipe',style: TextStyle(fontSize: 20, color: Colors.white)),
+                  Icon(Icons.arrow_forward, color:Colors.white,)
+                ],
+              ),
               DatePickerTimeline(_selectedValue, onDateChange: (date) {
                 setState(() {
                   _selectedValue = date;
                   fomattedDate = DateFormat.yMMMEd().format(_selectedValue);
-                  dateinput_meetingRoom.add(fomattedDate);
-                  if(dateinput_meetingRoom.length == 2){
-                    dateinput_meetingRoom.removeLast();
-                  }
+                  dateinput_meetingRoom = fomattedDate;
                 });
               }, key: null, )
             ]
         ));
   }
 
+
+
   Widget add_ons_and_office_Button(){
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         ElevatedButton(
             onPressed: () {
               add_ons_checkBox();
             },
+            style: ElevatedButton.styleFrom(
+              primary: Colors.orangeAccent
+            ),
             child: Row(
             children:[
               Text('Add-Ons'),
@@ -142,6 +165,9 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
             onPressed: () {
               Office_contacts();
             },
+            style: ElevatedButton.styleFrom(
+                primary: Colors.orangeAccent
+            ),
             child: Row(
               children:[
                 Text('Office Contacts'),
@@ -157,6 +183,14 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
     return Container(
       alignment: Alignment.center,
       padding: EdgeInsets.all(20),
+      margin: EdgeInsets.only(
+        left: 10,
+        right: 10,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: Colors.white
+      ),
       child: Column(
         children: [
           TextField(
@@ -167,8 +201,9 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
                 hintText: "Other Request",
                 focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(width: 1, color: Colors.redAccent)
-                )
+                ),
             ),
+            onChanged: (value) {other_request = value;},
           ),
         ],
       ),
@@ -176,32 +211,37 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
   }
 
   Widget Comfirmation_and_Favourtie_Button() {
-    //allBookings booklist = Provider.of<allBookings>(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
-      //crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         FlatButton(
           onPressed: () {
             addtofavourite();
           },
-          color: Colors.lightBlue,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          color: Colors.cyan,
           child: Row(
             children: [
-              Icon(Icons.star),
-              Text('Add to Favourite'),
+              Icon(Icons.star, color: Colors.white,),
+              Text('Add to Favourite', style: TextStyle(color: Colors.white)),
             ],
           ),
         ),
         FlatButton(
           onPressed: () {
-            createbooking(); showMyDialog();
+            createbooking();
+            showMyDialog();
           },
-          color: Colors.lightBlue,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          color: Colors.orangeAccent,
           child: Row(
             children: [
-              Text('Book'),
-              Icon(Icons.arrow_forward_ios_rounded),
+              Text('Book',  style: TextStyle(color: Colors.white)),
+              Icon(Icons.arrow_forward_ios_rounded, color: Colors.white),
             ],
           ),
         ),
@@ -223,6 +263,7 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
     bkandLevel = widget.selected.Block_And_Level;
     opening_hours = widget.selected.Opening_Hour;
     facilities_type = widget.selected.Facilities_Type;
+    facilities_image = widget.selected.Url_image;
     Email = user.email;
 
     print(location);
@@ -231,7 +272,7 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
     print(facilities_type);
 
     FirestoreService fsService = FirestoreService();
-    fsService.addtoMeetingRoomFavourite(location, opening_hours, bkandLevel, facilities_type,Email);
+    fsService.addtoMeetingRoomFavourite(location, opening_hours, bkandLevel, facilities_type,facilities_image,Email);
 
     ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content:Text('Successfully added to Favourite'))
@@ -243,10 +284,11 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
     opening_hours = widget.selected.Opening_Hour;
     bkandLevel = widget.selected.Block_And_Level;
     timeSlot = Bookingtimeslot_meetingRoom;
-    dateSlot = dateinput_meetingRoom.removeLast();
+    dateSlot = dateinput_meetingRoom;
     facilities_type =widget.selected.Facilities_Type;
     Room_size = widget.selected.Room_Size;
     Room_number = widget.selected.Room_Number;
+    User_request = other_request;
     Email= user.email;
     tickBox_smartTv = widget.selected.smart_tv;
     tickBox_Whiteboard = widget.selected.whiteboard;
@@ -272,7 +314,7 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
 
     FirestoreService fsService = FirestoreService();
     fsService.addBookingToFirebase_MeetingRoom(location, bkandLevel, facilities_type, dateSlot, timeSlot
-    ,Room_number,Room_size,Email,tickBox_smartTv,tickBox_Whiteboard,tickBox_Wifi,tickBox_digitalAvSolution
+    ,Room_number,Room_size,User_request,Email,tickBox_smartTv,tickBox_Whiteboard,tickBox_Wifi,tickBox_digitalAvSolution
     ,tickBox_officeSupplies,tickBox_accessToRefreshment);
 
   }
@@ -434,70 +476,185 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
         });
   }
 
+  Widget display_selected_time_and_sort(){
+    return Container(
+      height: 140,
+      width: double.infinity,
+      margin: EdgeInsets.only(
+        left: 10,
+        right: 10,
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width:double.infinity,
+            padding:EdgeInsets.all(10),
+            margin: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.cyan
+            ),
+            child: Text('Date Selected: ' + dateinput_meetingRoom,
+                style: TextStyle(fontSize: 16,fontWeight: FontWeight.w700,color: Colors.white)
+            ),
+          ),
+          Container(
+            width:double.infinity,
+            padding:EdgeInsets.all(10),
+            margin: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.cyan
+            ),
+            child: Text('TimeSlot Selected: ' + Bookingtimeslot_meetingRoom,
+                style: TextStyle(fontSize: 16,fontWeight: FontWeight.w700,color: Colors.white)
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget> [
-            Stack(                  //might have to change to stack instead
-             children: [
-               Container(
-                 height: 200,
-                 width: double.infinity,
-                 decoration: BoxDecoration(
-                   color:Colors.green
-                 ),
-                 child: Image.asset('image_assets/meeting_room.jpg',fit: BoxFit.cover),
-               ),
-               previousScreenButton(),
-             ],
+      appBar: AppBar(
+        title: Text(widget.selected.Location),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            border: Border(
+                bottom: BorderSide(
+                    color:Colors.black,
+                    width: 2.0
+                )
             ),
-            Container(
-              height: 240,
-              width: double.infinity,
-              margin: EdgeInsets.all(20), //can be top and left only
-              decoration: BoxDecoration(
-                color: Colors.deepPurple
+            gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end:  Alignment.bottomRight,
+                colors: [
+                  Color(0xFF135A4F),
+                  Color(0xFF174A63),
+                ]
+            ),
+          ),
+        ),
+      ),
+
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end:  Alignment.bottomRight,
+              colors: [
+                Color(0xFF256F62),
+                Color(0xFF337095),
+              ]
+          ),
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget> [
+              Stack(                  //might have to change to stack instead
+               children: [
+                 Container(
+                   height: 200,
+                   width: double.infinity,
+                   margin: EdgeInsets.only(
+                       left: 10,
+                       right: 10
+                   ), //can be top and left
+                   decoration: BoxDecoration(
+                     color:Colors.green
+                   ),
+                   child: Image.network(widget.selected.Url_image,fit: BoxFit.cover),
+                 ),
+               ],
               ),
-              child: Column(
+              Container(
+                height: 200,
+                width: double.infinity,
+                padding: EdgeInsets.all(10),
+                margin: EdgeInsets.only(
+                  left: 10,
+                  right: 10
+                ), //can be top and left only
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(10),
+                    bottomLeft: Radius.circular(10)
+                  ),
+                  gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end:  Alignment.bottomRight,
+                      colors: [
+                        Color(0xFF1C5A52),
+                        Color(0xFF2C898E),
+                      ]
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(widget.selected.Location,style: TextStyle(fontSize: 25, fontWeight: FontWeight.w800,color: Colors.white)),
+                    SizedBox(height: 10),
+                    Text('Meeting Room: '+ widget.selected.Room_Number,style: TextStyle(fontSize: 22, fontWeight: FontWeight.w400,color: Colors.white)),
+                    SizedBox(height: 4),
+                    Text('Room Size: ' + widget.selected.Room_Size,style: TextStyle(fontSize: 22, fontWeight: FontWeight.w400,color: Colors.white)),
+                    SizedBox(height: 4),
+                    Text('Block: ' + widget.selected.Block_And_Level,style: TextStyle(fontSize: 22,fontWeight: FontWeight.w400,color: Colors.white)),
+                    SizedBox(height: 4),
+                    Text('Opening Hour:' + widget.selected.Opening_Hour,style: TextStyle(fontSize: 22,fontWeight: FontWeight.w400,color: Colors.white)),
+                  ],
+                ),
+              ),
+
+              SizedBox(height: 15),
+              Text('Equimpment and Items',style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),textAlign: TextAlign.left,),
+              add_ons_and_office_Button(),
+              SizedBox(height: 10),
+              Container(
+                height: 150,
+                padding: EdgeInsets.all(10),
+                margin: EdgeInsets.only(
+                  right: 20,
+                  left: 20,
+                ),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: Colors.black54,
+                      width: 4,
+                    ),
+                    color: Colors.white
+                ),
+                child: Text(widget.selected.Facilities_Notice),
+              ),
+              SizedBox(height: 15),
+              Text('Choose your Date',style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),textAlign: TextAlign.left,),
+              Datepicking(),
+              SizedBox(height: 15),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(widget.selected.Location,style: TextStyle(fontSize: 23, fontWeight: FontWeight.w800)),
-                  Text(widget.selected.Block_And_Level,style: TextStyle(fontSize: 23,fontWeight: FontWeight.w400)),
-                  Text('Opening Hour:' + widget.selected.Opening_Hour,style: TextStyle(fontSize: 23,fontWeight: FontWeight.w400)),
+                  Text('Choose your Timing',style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),textAlign: TextAlign.left,),
+                  SizedBox(width: 60),
+                  timePicker(),
                 ],
               ),
-            ),
-            SizedBox(height: 20,),
-            add_ons_and_office_Button(),
-            Datepicking(),
-            Container(
-              height: 150,
-              margin: EdgeInsets.only(
-                right: 20,
-                left: 20,
-              ),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(
-                  color: Colors.black54,
-                  width: 4,
-                ),
-                color: Colors.green
-              ),
-              child: Text('Notices'),
-            ),
-            timePicker(),
-            SizedBox(height: 10),
-            TextfieldRemarks(),
-            SizedBox(height: 20),
-            Comfirmation_and_Favourtie_Button(),
-            SizedBox(height: 40),
-          ],
+              display_selected_time_and_sort(),
+              SizedBox(height: 10),
+              TextfieldRemarks(),
+              SizedBox(height: 20),
+              Comfirmation_and_Favourtie_Button(),
+              SizedBox(height: 40),
+            ],
+          ),
         ),
       ),
     );

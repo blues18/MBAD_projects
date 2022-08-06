@@ -115,7 +115,7 @@ class _userAccount_ScreenState extends State<userAccount_Screen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text("My Account", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold,color: Colors.black)),
+                    const Text("My Account", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold,color: Colors.white)),
 
                     ElevatedButton.icon(
                         label: Text('Edit Profile'),
@@ -141,7 +141,7 @@ class _userAccount_ScreenState extends State<userAccount_Screen> {
                   width: double.infinity,
                   height: 300,
                   decoration: BoxDecoration(
-                    color: Colors.white70,
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(15),
                     boxShadow: const [BoxShadow(
                       color: Color.fromARGB(90,20, 20, 20),
@@ -258,8 +258,8 @@ class _userAccount_ScreenState extends State<userAccount_Screen> {
                             ]
                         ),
                         child:RaisedButton(
-                          color:Color(0xfff6f6f6)
-                          ,onPressed: () => showDialog<String>(
+                          color:Color(0xfff6f6f6),
+                          onPressed: () => showDialog<String>(
                               context: context,
                               builder: (BuildContext context) => CupertinoAlertDialog(
                                 title: Text('Comfirm Update'),
@@ -309,7 +309,6 @@ class _userAccount_ScreenState extends State<userAccount_Screen> {
                 body:Stack(
                   children: [
                     Container(
-                      color: Color(0xfff6f6f6),
                       height: double.infinity,
                       width: double.infinity,
                       padding: EdgeInsets.only(
@@ -317,6 +316,17 @@ class _userAccount_ScreenState extends State<userAccount_Screen> {
                         left: 20,
                         right: 20,
                       ),
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              begin: Alignment.topRight,
+                              end: Alignment.bottomLeft,
+                              colors: [
+                                Color(0xFF096866),
+                                Color(0xFF0A5466),
+                              ]
+                          )
+                      ),
+
                       child: SingleChildScrollView(
                           child:Container(
                             child: Form(
@@ -328,7 +338,16 @@ class _userAccount_ScreenState extends State<userAccount_Screen> {
                     ),
                     Container(
                       height: 180,
-                      color: Colors.white,
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              begin: Alignment.topRight,
+                              end: Alignment.bottomLeft,
+                              colors: [
+                                Color(0xFF094241),
+                                Color(0xFF042932),
+                              ]
+                          )
+                      ),
                     ),
                     Container(
                       width: double.infinity,
@@ -368,7 +387,7 @@ class _userAccount_ScreenState extends State<userAccount_Screen> {
                                         Container(
                                         width: 120,
                                         height: 100,
-                                        decoration: BoxDecoration(color: Colors.grey),
+                                        decoration: BoxDecoration(color: Colors.white),
                                         child: image != null ? FittedBox(fit: BoxFit.fill,
                                             child: Image.file(image!)) : Center()
                                           ),

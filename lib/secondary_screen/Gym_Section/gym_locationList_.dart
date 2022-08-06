@@ -1,12 +1,10 @@
 import 'dart:ui';
 
-import 'package:facilitiesbookingapp/models/FacilitiesDetails.dart';
 import 'package:facilitiesbookingapp/searchfunctions/search_function_gym.dart';
 import 'package:facilitiesbookingapp/secondary_screen/Gym_Section/displayGymList.dart';
-import 'package:facilitiesbookingapp/secondary_screen/Gym_Section/gymBooking_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../models/FacilitiesDetails.dart';
+
 
 class gym_Location_screen extends StatefulWidget {
   static String routeName = '/gymLocationScreen';

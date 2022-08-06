@@ -15,14 +15,26 @@ class _View_all_At_homePageState extends State<View_all_At_homePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white70,
-          title: Row(
-            children: [
-              Text('Your Booking', style: TextStyle(
-                  fontSize: 30, fontWeight: FontWeight.bold ,color: Colors.black87)),
-              Icon(Icons.book_rounded,color: Colors.black87),
-            ],
-          )
+        title:
+        Row(
+          children: [
+            Text('Your Booking', style: TextStyle(
+                fontSize: 30, fontWeight: FontWeight.bold ,color: Colors.black87)),
+            Icon(Icons.book_rounded,color: Colors.white),
+          ],
+        ),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end:  Alignment.bottomRight,
+                colors: [
+                  Color(0xFF135A4F),
+                  Color(0xFF174A63),
+                ]
+            ),
+          ),
+        ),
       ),
       body: Container(
         height: double.infinity,
@@ -37,25 +49,6 @@ class _View_all_At_homePageState extends State<View_all_At_homePage> {
         child:SingleChildScrollView(
           child: Column(
             children: [
-              /*
-              Container(
-                height: 75,
-                  decoration: BoxDecoration(
-                      color: Colors.blueGrey,
-                      borderRadius: new BorderRadius.only(
-                        topLeft: Radius.circular(40.0),
-                        topRight: Radius.circular(40.0),
-                      )
-                  ),
-                child:Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Icon(Icons.filter_1_rounded,size: 40,),
-                    SizedBox(width: 140,),
-                  ],
-                )
-              ),
-               */
               display_data_list(),
               swimmingDataList(),
               meetingRoomDataList(),

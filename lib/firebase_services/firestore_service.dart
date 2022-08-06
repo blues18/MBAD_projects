@@ -113,7 +113,7 @@ Stream<List<Facilities_Details_Meeting_Room>> getDetailsOfFacilities_MeetingRoom
   //////////////////////////////Meeting Room CRD/////////////////////////////////
 
   addBookingToFirebase_MeetingRoom(
-      location, bkandLevel, facilities_type, dateSlot, timeSlot, Room_Number, Room_Size, email,
+      location, bkandLevel, facilities_type, dateSlot, timeSlot, Room_Number, Room_Size,User_request,email,
       smart_tv, whiteboard, wifi, digitalAvSolution, officeSupplies, accessToRefreshment) {
     return FirebaseFirestore.instance.collection('MeetingRoom_Booking_Collection').add({
       'Location': location,
@@ -123,6 +123,7 @@ Stream<List<Facilities_Details_Meeting_Room>> getDetailsOfFacilities_MeetingRoom
       'timeSlot': timeSlot,
       'Room_number':Room_Number,
       'Room_size': Room_Size,
+      'User_request': User_request,
       'Email': email,
       'Smart_tv': smart_tv,
       'Whiteboard':whiteboard,
@@ -176,7 +177,7 @@ Stream<List<Facilities_Details_Meeting_Room>> getDetailsOfFacilities_MeetingRoom
 
   //favourite locations///////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////
-  addtofavourite(location, opening_hours, bkandLevel, facilities_type, email) {
+  addtofavourite(location, opening_hours, bkandLevel, facilities_type,facilities_image,email) {
     //facilities location favourite
     return FirebaseFirestore.instance
         .collection('Favourite_gym_Facilities_Location')
@@ -185,6 +186,7 @@ Stream<List<Facilities_Details_Meeting_Room>> getDetailsOfFacilities_MeetingRoom
       'Opening_hour': opening_hours,
       'Block and Level': bkandLevel,
       'Facilities_Type': facilities_type,
+      'Facilities_image': facilities_image,
       'Email': email,
     });
   }
@@ -209,7 +211,7 @@ Stream<List<Facilities_Details_Meeting_Room>> getDetailsOfFacilities_MeetingRoom
   //////////////////////////////////////////////////////////////////////////////
   ///////////////////////////////Swimming Favourite collection///////////////////
 
-  addtoSwimmingFavourite(location, opening_hours, bkandLevel, facilities_type, email) {
+  addtoSwimmingFavourite(location, opening_hours, bkandLevel, facilities_type,facilities_image, email) {
     //facilities location favourite
     return FirebaseFirestore.instance
         .collection('Favourite_swimming_Facilities_Location')
@@ -218,6 +220,7 @@ Stream<List<Facilities_Details_Meeting_Room>> getDetailsOfFacilities_MeetingRoom
       'Opening_hour': opening_hours,
       'Block and Level': bkandLevel,
       'Facilities_Type': facilities_type,
+      'Facilities_image':facilities_image,
       'Email': email,
     });
   }
@@ -244,7 +247,7 @@ Stream<List<Facilities_Details_Meeting_Room>> getDetailsOfFacilities_MeetingRoom
 ///////////////////////////////////MeetingRoom Favourite Collection///////////////
 
   addtoMeetingRoomFavourite(
-      location, opening_hours, bkandLevel, facilities_type, email) {
+      location, opening_hours, bkandLevel, facilities_type,facilities_image, email) {
     //facilities location favourite
     return FirebaseFirestore.instance
         .collection('Favourite_MeetingRoom_Facilities_Location')
@@ -253,6 +256,7 @@ Stream<List<Facilities_Details_Meeting_Room>> getDetailsOfFacilities_MeetingRoom
       'Opening_hour': opening_hours,
       'Block and Level': bkandLevel,
       'Facilities_Type': facilities_type,
+      'Facilities_image':facilities_image,
       'Email':email
     });
   }

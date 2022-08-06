@@ -8,6 +8,7 @@ class Facilities_Details_Meeting_Room{
   String Facilities_Notice;
   String Room_Size;
   String Url_image;
+  String User_request;
   int pax_size;
   bool smart_tv;
   bool whiteboard;
@@ -20,7 +21,7 @@ class Facilities_Details_Meeting_Room{
   Facilities_Details_Meeting_Room(
       {required this.id, required this.Location, required this.Block_And_Level, required this.Room_Number
         ,required this.Opening_Hour, required this.Facilities_Type, required this.Facilities_Notice,
-        required this.Room_Size,required this.Url_image, required this.pax_size, required this.smart_tv, required this.whiteboard
+        required this.Room_Size,required this.Url_image,required this.User_request, required this.pax_size, required this.smart_tv, required this.whiteboard
         ,required this.wifi, required this.digitalAvSolution,required this.officeSupplies
         ,required this.accessToRefreshment});
 
@@ -34,6 +35,7 @@ class Facilities_Details_Meeting_Room{
         Facilities_Notice = snapshot['Facilities_Notice']??'',
         Room_Size = snapshot['Room_size']??'',
         Url_image = snapshot['Url_image']??'',
+        User_request = snapshot['User_request']??'',
         pax_size = snapshot['Pax_size']??'',
         smart_tv = snapshot['Smart_tv']??'',
         whiteboard = snapshot['Whiteboard']??'',

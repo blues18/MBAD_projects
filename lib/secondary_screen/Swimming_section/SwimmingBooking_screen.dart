@@ -33,8 +33,8 @@ class _swimmingBookingScreenState extends State<swimmingBookingScreen>{
   final user = FirebaseAuth.instance.currentUser!;
   DateTime _selectedValue = DateTime.now();
   String fomattedDate = "";
-  List dateinput_swimming = [];
-  List Bookingtimeslot_swimming = [];
+  String dateinput_swimming = 'None';
+  String Bookingtimeslot_swimming = 'None';
 
   String? location;
   String? opening_hours;
@@ -42,6 +42,7 @@ class _swimmingBookingScreenState extends State<swimmingBookingScreen>{
   String? bkandLevel;
   String? timeSlot;
   String? facilities_type;
+  String? facilities_image;
   String? Email;
 
   void addtofavourite(){
@@ -49,6 +50,7 @@ class _swimmingBookingScreenState extends State<swimmingBookingScreen>{
     bkandLevel = widget.selected.block_And_Level;
     opening_hours = widget.selected.Opening_Hour;
     facilities_type = widget.selected.Facilities_Type;
+    facilities_image = widget.selected.Url_image;
     Email = user.email;
 
     print(location);
@@ -57,7 +59,7 @@ class _swimmingBookingScreenState extends State<swimmingBookingScreen>{
     print(facilities_type);
 
     FirestoreService fsService = FirestoreService();
-    fsService.addtoSwimmingFavourite(location, opening_hours, bkandLevel, facilities_type,Email);
+    fsService.addtoSwimmingFavourite(location, opening_hours, bkandLevel, facilities_type, facilities_image,Email);
 
     ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content:Text('Successfully added to Favourite'))
@@ -67,8 +69,8 @@ class _swimmingBookingScreenState extends State<swimmingBookingScreen>{
   void createbooking(){
     location = widget.selected.location;
     bkandLevel = widget.selected.block_And_Level;
-    timeSlot = Bookingtimeslot_swimming.removeLast();
-    dateSlot = dateinput_swimming.removeLast();
+    timeSlot = Bookingtimeslot_swimming;
+    dateSlot = dateinput_swimming;
     facilities_type =widget.selected.Facilities_Type;
     Email= user.email;
 
@@ -121,32 +123,37 @@ class _swimmingBookingScreenState extends State<swimmingBookingScreen>{
   }
 
   Widget cfmButton() {
-    //allBookings booklist = Provider.of<allBookings>(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
-      //crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         FlatButton(
           onPressed: () {
             addtofavourite();
           },
-          color: Colors.lightBlue,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          color: Colors.cyan,
           child: Row(
             children: [
-              Icon(Icons.star),
-              Text('Add to Favourite'),
+              Icon(Icons.star, color: Colors.white,),
+              Text('Add to Favourite', style: TextStyle(color: Colors.white)),
             ],
           ),
         ),
         FlatButton(
           onPressed: () {
-            createbooking(); showMyDialog();
+            createbooking();
+            showMyDialog();
           },
-          color: Colors.lightBlue,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          color: Colors.lightBlueAccent,
           child: Row(
             children: [
-              Text('Book'),
-              Icon(Icons.arrow_forward_ios_rounded),
+              Text('Book',  style: TextStyle(color: Colors.white)),
+              Icon(Icons.arrow_forward_ios_rounded, color: Colors.white),
             ],
           ),
         ),
@@ -156,26 +163,46 @@ class _swimmingBookingScreenState extends State<swimmingBookingScreen>{
 
   Widget Datepicking(){
     return Container(
-        height: 160,
+        height: 145,
         width: double.infinity,
         padding: EdgeInsets.all(20.0),
+        margin: EdgeInsets.only(
+          top: 10,
+          left: 10,
+          right: 10,
+        ),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [
+                  Color(0xFF558D81),
+                  Color(0xFF3A9C9E)
+                ]
+            )
+        ),
         child: Column(
             children: <Widget>[
-              Text(fomattedDate.toString()),
-              //Text(storedtest.join(',')),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text('Swipe',style: TextStyle(fontSize: 20, color: Colors.white)),
+                  Icon(Icons.arrow_forward, color:Colors.white,)
+                ],
+              ),
               DatePickerTimeline(_selectedValue, onDateChange: (date) {
                 setState(() {
                   _selectedValue = date;
                   fomattedDate = DateFormat.yMMMEd().format(_selectedValue);
-                  dateinput_swimming.add(fomattedDate);
-                  if(dateinput_swimming.length == 2){
-                    dateinput_swimming.removeLast();
-                  }
+                  dateinput_swimming = fomattedDate;
                 });
               }, key: null, )
             ]
         ));
   }
+
 
   Widget timeSlotButton() {
     return Column(
@@ -185,61 +212,53 @@ class _swimmingBookingScreenState extends State<swimmingBookingScreen>{
           children: [
             ElevatedButton(
               style: ButtonStyle(
-                  overlayColor: getColor(Colors.white, Colors.teal)
+                backgroundColor: getColor(Colors.cyan, Colors.white),
+                overlayColor: getColor(Colors.white, Colors.teal),
               ),
               child: Text('07:00'),
               onPressed: () {
                 setState(() {
                   String testlistslot1 = '07:00';
-                  Bookingtimeslot_swimming.insert(0,testlistslot1);
-                  if (Bookingtimeslot_swimming.length == 2){
-                    Bookingtimeslot_swimming.removeLast();
-                  }
+                  Bookingtimeslot_swimming =testlistslot1;
                 });
               },
             ),
             ElevatedButton(
               style: ButtonStyle(
+                  backgroundColor: getColor(Colors.cyan, Colors.white),
                   overlayColor: getColor(Colors.white, Colors.teal)
               ),
               child: Text('09:00'),
               onPressed: () {
                 setState(() {
                   String testlistslot1 = '09:00';
-                  Bookingtimeslot_swimming.insert(0,testlistslot1);
-                  if (Bookingtimeslot_swimming.length == 2){
-                    Bookingtimeslot_swimming.removeLast();
-                  }
+                  Bookingtimeslot_swimming =testlistslot1;
                 });
               },
             ),
             ElevatedButton(
               style: ButtonStyle(
+                  backgroundColor: getColor(Colors.cyan, Colors.white),
                   overlayColor: getColor(Colors.white, Colors.teal)
               ),
               child: Text('11:00'),
               onPressed: () {
                 setState(() {
                   String testlistslot1 = '11:00';
-                  Bookingtimeslot_swimming.insert(0,testlistslot1);
-                  if (Bookingtimeslot_swimming.length == 2){
-                    Bookingtimeslot_swimming.removeLast();
-                  }
+                  Bookingtimeslot_swimming =testlistslot1;
                 });
               },
             ),
             ElevatedButton(
               style: ButtonStyle(
+                  backgroundColor: getColor(Colors.cyan, Colors.white),
                   overlayColor: getColor(Colors.white, Colors.teal)
               ),
               child: Text('13:00'),
               onPressed: () {
                 setState(() {
                   String testlistslot1 = '13:00';
-                  Bookingtimeslot_swimming.insert(0,testlistslot1);
-                  if (Bookingtimeslot_swimming.length == 2){
-                    Bookingtimeslot_swimming.removeLast();
-                  }
+                  Bookingtimeslot_swimming =testlistslot1;
                 });
               },
             ),
@@ -250,61 +269,53 @@ class _swimmingBookingScreenState extends State<swimmingBookingScreen>{
           children: [
             ElevatedButton(
               style: ButtonStyle(
+                  backgroundColor: getColor(Colors.cyan, Colors.white),
                   overlayColor: getColor(Colors.white, Colors.teal)
               ),
               child: Text('15:00'),
               onPressed: () {
                 setState(() {
                   String testlistslot1 = '15:00';
-                  Bookingtimeslot_swimming.insert(0,testlistslot1);
-                  if (Bookingtimeslot_swimming.length == 2){
-                    Bookingtimeslot_swimming.removeLast();
-                  }
+                  Bookingtimeslot_swimming =testlistslot1;
                 });
               },
             ),
             ElevatedButton(
               style: ButtonStyle(
+                  backgroundColor: getColor(Colors.cyan, Colors.white),
                   overlayColor: getColor(Colors.white, Colors.teal)
               ),
               child: Text('17:00'),
               onPressed: () {
                 setState(() {
                   String testlistslot1 = '17:00';
-                  Bookingtimeslot_swimming.insert(0,testlistslot1);
-                  if (Bookingtimeslot_swimming.length == 2){
-                    Bookingtimeslot_swimming.removeLast();
-                  }
+                  Bookingtimeslot_swimming =testlistslot1;
                 });
               },
             ),
             ElevatedButton(
               style: ButtonStyle(
+                  backgroundColor: getColor(Colors.cyan, Colors.white),
                   overlayColor: getColor(Colors.white, Colors.teal)
               ),
               child: Text('19:00'),
               onPressed: () {
                 setState(() {
                   String testlistslot1 = '19:00';
-                  Bookingtimeslot_swimming.insert(0,testlistslot1);
-                  if (Bookingtimeslot_swimming.length == 2){
-                    Bookingtimeslot_swimming.removeLast();
-                  }
+                  Bookingtimeslot_swimming =testlistslot1;
                 });
               },
             ),
             ElevatedButton(
               style: ButtonStyle(
+                  backgroundColor: getColor(Colors.cyan, Colors.white),
                   overlayColor: getColor(Colors.white, Colors.teal)
               ),
               child: Text('21:00'),
               onPressed: () {
                 setState(() {
                   String testlistslot1 = '21:00';
-                  Bookingtimeslot_swimming.insert(0,testlistslot1);
-                  if (Bookingtimeslot_swimming.length == 2){
-                    Bookingtimeslot_swimming.removeLast();
-                  }
+                  Bookingtimeslot_swimming =testlistslot1;
                 });
               },
             ),
@@ -312,65 +323,162 @@ class _swimmingBookingScreenState extends State<swimmingBookingScreen>{
         ),
       ],
     );
-  }//buttons in 4 x 2 rows
+  }
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.black87 ,
         appBar: AppBar(
           title: Text(widget.selected.location),
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              Container(
-                height: 350,
-                width: double.infinity,
-                //margin: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    color: Colors.lightGreen,
-                    borderRadius: BorderRadius.circular(10)
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      height: 150,
-                      decoration: BoxDecoration(
-                        color: Colors.lightBlue,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    Text(widget.selected.location, style: TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold),),
-                    SizedBox(height: 10),
-                    Text(widget.selected.block_And_Level,
-                        style: TextStyle(fontSize: 15)),
-                    SizedBox(height: 10),
-                    Text(widget.selected.Opening_Hour,
-                        style: TextStyle(fontSize: 15)),
-                  ],
-                ),
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              border: Border(
+                  bottom: BorderSide(
+                      color:Colors.black,
+                      width: 2.0
+                  )
               ),
-              //horizontal_date_picker(),
-              Datepicking(),
-              timeSlotButton(),
-              SizedBox(height: 30,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text('Date ' + fomattedDate),
-                  Text('TimeSlot Selected:' + Bookingtimeslot_swimming.join(',')),
-                ],
+              gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end:  Alignment.bottomRight,
+                  colors: [
+                    Color(0xFF135A4F),
+                    Color(0xFF174A63),
+                  ]
               ),
-              SizedBox(height: 30),
-              cfmButton(),
-              SizedBox(height: 30),
-              //Text(valueEntered.toString()),
-            ],
+            ),
           ),
+        ),
+        body: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end:  Alignment.bottomRight,
+                  colors: [
+                    Color(0xFF256F62),
+                    Color(0xFF337095),
+                  ]
+              ),
+            ),
+            child:SingleChildScrollView(
+                child: Column(
+                    children: <Widget>[
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                              height: 250,
+                              margin: EdgeInsets.only(
+                                left: 10,
+                                right: 10,
+                                top: 10,
+                              ),
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: Colors.lightBlue,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(20),
+                                  topLeft: Radius.circular(20),
+                                ), // Image border
+                                child: SizedBox.fromSize(
+                                  size: Size.fromRadius(48), // Image radius
+                                  child: Image.network(widget.selected.Url_image, fit: BoxFit.cover),
+                                ),
+                              )
+                          ),
+                          Container(
+                              height: 130,
+                              margin: EdgeInsets.only(
+                                left: 10,
+                                right: 10,
+                              ),
+                              padding: EdgeInsets.all(10),
+                              width: double.infinity,
+                              //margin: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                      begin: Alignment.topLeft,
+                                      end:  Alignment.bottomRight,
+                                      colors: [
+                                        Color(0xFF1C5A52),
+                                        Color(0xFF2C898E),
+                                      ]
+                                  ),
+                                  borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(20),
+                                    bottomRight: Radius.circular(20),
+                                  )
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(widget.selected.location, style: TextStyle(
+                                      fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),),
+                                  SizedBox(height: 10),
+                                  Text(widget.selected.block_And_Level,
+                                      style: TextStyle(fontSize: 18, color: Colors.white)),
+                                  SizedBox(height: 10),
+                                  Text('Opening Hours: '+ widget.selected.Opening_Hour,
+                                      style: TextStyle(fontSize: 18, color: Colors.white)),
+                                ],
+                              )
+                          ),
+                          //horizontal_date_picker(),
+                          Datepicking(),
+                          SizedBox(height: 10),
+                          timeSlotButton(),
+                          SizedBox(height: 30,),
+                          Container(
+                            height: 140,
+                            width: double.infinity,
+                            margin: EdgeInsets.only(
+                              left: 10,
+                              right: 10,
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  width:double.infinity,
+                                  padding:EdgeInsets.all(10),
+                                  margin: EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Colors.cyan
+                                  ),
+                                  child: Text('Date Selected: ' + dateinput_swimming,
+                                      style: TextStyle(fontSize: 16,fontWeight: FontWeight.w700,color: Colors.white)
+                                  ),
+                                ),
+                                Container(
+                                  width:double.infinity,
+                                  padding:EdgeInsets.all(10),
+                                  margin: EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Colors.cyan
+                                  ),
+                                  child: Text('TimeSlot Selected: ' + Bookingtimeslot_swimming,
+                                      style: TextStyle(fontSize: 16,fontWeight: FontWeight.w700,color: Colors.white)
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 30),
+                          cfmButton(),
+                          SizedBox(height: 30),
+                        ],
+                      ),
+                    ])
+            )
         )
     );
   }
