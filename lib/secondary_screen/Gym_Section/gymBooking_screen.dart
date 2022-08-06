@@ -70,7 +70,38 @@ class _gymbookingScreenState extends State<gymbookingScreen> {
     );
   }
 
-  void createbooking(){
+  errorDialog(){
+    return showDialog(context: context, builder: (BuildContext context){
+      return AlertDialog(
+        title: Text("Error"),
+        content: Text("you have to include your Dateslot"),
+      );
+    });
+  }
+
+  errorDialog2(){
+    return showDialog(context: context, builder: (BuildContext context){
+      return AlertDialog(
+        title: Text("Error"),
+        content: Text("you have to include your TimeSlot"),
+      );
+    });
+  }
+
+  createBooking() {
+    if(dateinput == 'None'){
+      return errorDialog();
+    }else if(Bookingtimeslot == 'None'){
+      return errorDialog2();
+    }
+    else
+      return SentBookingData();
+  }
+
+  void SentBookingData(){
+
+    showMyDialog();
+
     location = widget.selected.location;
     bkandLevel = widget.selected.location;
     timeSlot = Bookingtimeslot;
@@ -147,8 +178,7 @@ class _gymbookingScreenState extends State<gymbookingScreen> {
         ),
         FlatButton(
           onPressed: () {
-            createbooking();
-            showMyDialog();
+            createBooking();
             },
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),

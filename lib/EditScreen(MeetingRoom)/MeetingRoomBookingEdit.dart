@@ -26,9 +26,19 @@ class _editBookingSlot_MeetingRoomState extends State<editBookingSlot_MeetingRoo
   DateTime _selectedValue = DateTime.now(); //date
   TimeOfDay selectedTime = TimeOfDay.now(); //time
   String fomattedDate = "";
-  String? dateselected_change;
-  String? timeSlot_change;//
+  late String dateselected_change = widget.selected.dateSlot;
+  late String timeSlot_change = widget.selected.timeSlot;
+  String? other_request;
   final user = FirebaseAuth.instance.currentUser!;
+
+
+  ///tickbox_chnages///
+  late bool smartTv = widget.selected.smart_tv;
+  late bool whiteBoard = widget.selected.whiteboard;
+  late bool Wifi = widget.selected.wifi;
+  late bool digitalAvSolution = widget.selected.digitalAvSolution;
+  late bool officeSupplies = widget.selected.officeSupplies;
+  late bool accesstoRefreshment = widget.selected.accessToRefreshment;
 
   String? location;
   String? opening_hours;
@@ -39,6 +49,8 @@ class _editBookingSlot_MeetingRoomState extends State<editBookingSlot_MeetingRoo
   String? Room_size;
   String? Room_number;
   String? Email;
+  String? facilities_image;
+  String? User_request;
   bool? tickBox_smartTv;
   bool? tickBox_Whiteboard;
   bool? tickBox_Wifi;
@@ -46,84 +58,20 @@ class _editBookingSlot_MeetingRoomState extends State<editBookingSlot_MeetingRoo
   bool? tickBox_officeSupplies;
   bool? tickBox_accessToRefreshment;
 
-  Widget timePicker(){
-    return Container(
-      height: 80,
-      width: double.infinity,
-      decoration: BoxDecoration(
-          color: Colors.white
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          ElevatedButton(
-            onPressed: () {
-              _selectTime(context);
-            },
-            child: Text("Choose Time"),
-          ),
-          //Text("${selectedTime.hour}:${selectedTime.minute}"),
-        ],
-      ),
-    );
-  }
-
-  _selectTime(BuildContext context) async {
-    final TimeOfDay? timeOfDay = await showTimePicker(
-      context: context,
-      initialTime: selectedTime,
-      initialEntryMode: TimePickerEntryMode.dial,
-
-    );
-    if (timeOfDay != null && timeOfDay != selectedTime) {
-      setState(() {
-        selectedTime = timeOfDay;
-        timeSlot_change = selectedTime.format(context);
-        print(timeSlot_change);
-      });
-    }
-  }
-
-  Widget Datepicking(){
-    return Container(
-        height: 160,
-        width: double.infinity,
-        padding: EdgeInsets.all(20.0),
-        child: Column(
-            children: <Widget>[
-              Text(fomattedDate.toString()),
-              //Text(storedtest.join(',')),
-              DatePickerTimeline(_selectedValue, onDateChange: (date) {
-                setState(() {
-                  _selectedValue = date;
-                  fomattedDate = DateFormat.yMMMEd().format(_selectedValue);
-                  dateselected_change = fomattedDate;
-                  print(dateselected_change);
-                  }
-                );
-              }, key: null, )
-            ]
-        ));
-  }
 
   Widget editButton(){
-    return Container(
-      width: 170,
-      margin: EdgeInsets.only(right: 10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10)
-      ),
-      child:ElevatedButton(
-        onPressed: () {
-          showMyDialog(); changesSent(widget.selected.id);
-        },
-        child: Row(
-          children: [
-            Text('ComfirmChanges'),
-            Icon(Icons.arrow_forward_ios_rounded),
-          ],
-        ),
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        primary: Colors.orangeAccent,
+      ) ,
+      onPressed: () {
+        showMyDialog(); changesSent(widget.selected.id);
+      },
+      child: Row(
+        children: [
+          Text('ComfirmChanges'),
+          Icon(Icons.arrow_forward_ios_rounded),
+        ],
       ),
     );
   }
@@ -134,23 +82,157 @@ class _editBookingSlot_MeetingRoomState extends State<editBookingSlot_MeetingRoo
     timeSlot = timeSlot_change;
     dateSlot = dateselected_change;
     facilities_type =widget.selected.facilities_type;
+    Room_size = widget.selected.Room_Size;
+    Room_number = widget.selected.Room_Number;
     Email = user.email;
+    User_request = other_request;
+    tickBox_smartTv =  smartTv;
+    tickBox_Whiteboard = whiteBoard;
+    tickBox_Wifi = Wifi;
+    tickBox_digitalAvSolution = digitalAvSolution;
+    tickBox_officeSupplies = officeSupplies;
+    tickBox_accessToRefreshment = accesstoRefreshment;
 
-
-    print(location);
-    print(bkandLevel);
-    print(timeSlot);
-    print(dateSlot);
-    print(facilities_type);
-    print(Email);
 
     FirestoreService fsService = FirestoreService();
     fsService.editBookingMeetingRoom(id, location, bkandLevel, facilities_type, dateSlot, timeSlot
-        ,Room_number,Room_size,Email,tickBox_smartTv,tickBox_Whiteboard,tickBox_Wifi,tickBox_digitalAvSolution
+        ,Room_number,Room_size,User_request,Email,tickBox_smartTv,tickBox_Whiteboard,tickBox_Wifi,tickBox_digitalAvSolution
         ,tickBox_officeSupplies,tickBox_accessToRefreshment);
 
     Navigator.push(context, new MaterialPageRoute(builder: (context) =>  new MyApp())); // return back to homepage
   }//edit functions to firebase
+
+  void add_ons_checkBox(){
+
+    smartTv = smartTv;
+    whiteBoard = whiteBoard;
+    Wifi = Wifi;
+    digitalAvSolution = digitalAvSolution;
+    officeSupplies = officeSupplies;
+    accesstoRefreshment = accesstoRefreshment;
+
+    showDialog(
+        context: context,
+        builder:(context){
+          return StatefulBuilder(
+              builder: (context,setState){
+                return SimpleDialog(
+                  title: Text('Add-ons'),
+                  children: [
+                    CheckboxListTile(
+                      controlAffinity: ListTileControlAffinity.leading,
+                      title: Text('Smart_Tv'),
+                      subtitle: Text('items examples'),
+                      //tileColor: Colors.lightBlueAccent,
+                      value: smartTv,
+                      onChanged: (value) {
+                        setState(() {
+                          smartTv = value!;
+                        });
+                      },
+                      activeColor: Colors.lightBlueAccent,
+                      checkColor: Colors.redAccent,
+                    ),
+                    CheckboxListTile(
+                      controlAffinity: ListTileControlAffinity.leading,
+                      title: Text('Whitebaord'),
+                      subtitle: Text('items examples'),
+                      //tileColor: Colors.lightBlueAccent,
+                      value: whiteBoard,
+                      onChanged: (value) {
+                        setState(() {
+                          whiteBoard = value!;
+                        });
+                      },
+                      activeColor: Colors.lightBlueAccent,
+                      checkColor: Colors.redAccent,
+                    ),
+                    CheckboxListTile(
+                      controlAffinity: ListTileControlAffinity.leading,
+                      title: Text('Wifi'),
+                      subtitle: Text('items examples'),
+                      //tileColor: Colors.lightBlueAccent,
+                      value: Wifi,
+                      onChanged: (value) {
+                        setState(() {
+                          Wifi = value!;
+                        });
+                      },
+                      activeColor: Colors.lightBlueAccent,
+                      checkColor: Colors.redAccent,
+                    ),
+                    CheckboxListTile(
+                      controlAffinity: ListTileControlAffinity.leading,
+                      title: Text('Digital Av Solution'),
+                      subtitle: Text('items examples'),
+                      //tileColor: Colors.lightBlueAccent,
+                      value: digitalAvSolution,
+                      onChanged: (value) {
+                        setState(() {
+                          digitalAvSolution = value!;
+                        });
+                      },
+                      activeColor: Colors.lightBlueAccent,
+                      checkColor: Colors.redAccent,
+                    ),
+                    CheckboxListTile(
+                      controlAffinity: ListTileControlAffinity.leading,
+                      title: Text('Offices Supplies'),
+                      subtitle: Text('items examples'),
+                      //tileColor: Colors.lightBlueAccent,
+                      value: officeSupplies,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          officeSupplies = value!;
+                        });
+                      },
+                      activeColor: Colors.lightBlueAccent,
+                      checkColor: Colors.redAccent,
+                    ),
+                    CheckboxListTile(
+                      controlAffinity: ListTileControlAffinity.leading,
+                      title: Text('Access To Refreshment'),
+                      subtitle: Text('items examples'),
+                      //tileColor: Colors.lightBlueAccent,
+                      value: accesstoRefreshment,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          accesstoRefreshment = value!;
+                        });
+                      },
+                      activeColor: Colors.lightBlueAccent,
+                      checkColor: Colors.redAccent,
+                    ),
+                  ],
+                );
+              }
+          );
+        }
+    );
+  }
+
+  Widget add_ons_and_office_Button(){
+    return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          ElevatedButton(
+              onPressed: () {
+                add_ons_checkBox();
+              },
+              style: ElevatedButton.styleFrom(
+                  primary: Colors.orangeAccent
+              ),
+              child: Row(
+                children:[
+                  Text('Add-Ons'),
+                  Icon(Icons.add_circle_rounded)
+                ],
+              )
+          ),
+        ]
+    );
+  }
 
   Future<void> showMyDialog() async {
     return showDialog<void>(
@@ -184,84 +266,241 @@ class _editBookingSlot_MeetingRoomState extends State<editBookingSlot_MeetingRoo
     );
   }
 
+  Widget Datepicking(){
+    return Container(
+        height: 145,
+        width: double.infinity,
+        padding: EdgeInsets.all(20.0),
+        margin: EdgeInsets.only(
+          top: 10,
+          left: 10,
+          right: 10,
+        ),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [
+                  Color(0xFF558D81),
+                  Color(0xFF3A9C9E)
+                ]
+            )
+        ),
+        child: Column(
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text('Swipe',style: TextStyle(fontSize: 20, color: Colors.white)),
+                  Icon(Icons.arrow_forward, color:Colors.white,)
+                ],
+              ),
+              DatePickerTimeline(_selectedValue, onDateChange: (date) {
+                setState(() {
+                  _selectedValue = date;
+                  fomattedDate = DateFormat.yMMMEd().format(_selectedValue);
+                  dateselected_change  = fomattedDate;
+                });
+              }, key: null, )
+            ]
+        ));
+  }
+
+  Widget display_selected_time_and_sort(){
+    return Container(
+      height: 140,
+      width: double.infinity,
+      margin: EdgeInsets.only(
+        left: 10,
+        right: 10,
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width:double.infinity,
+            padding:EdgeInsets.all(10),
+            margin: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.cyan
+            ),
+            child: Text('Date Slot change to : ${dateselected_change} ',
+                style: TextStyle(fontSize: 16,fontWeight: FontWeight.w700,color: Colors.white)
+            ),
+          ),
+          Container(
+            width:double.infinity,
+            padding:EdgeInsets.all(10),
+            margin: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.cyan
+            ),
+            child: Text('TimeSlot change to : ${timeSlot_change}' ,
+                style: TextStyle(fontSize: 16,fontWeight: FontWeight.w700,color: Colors.white)
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
 
-    return StreamBuilder <List<bookingMeetingRoom>>(
-      stream: fsService.getMeetingRoomBookingItem(),
-      builder: (context,snapshot){
-        if(snapshot.connectionState == ConnectionState.waiting)
-          return Center(child: CircularProgressIndicator());
-        else{
-          return Scaffold(
+    _selectTime(BuildContext context) async {
+      final TimeOfDay? timeOfDay = await showTimePicker(
+        context: context,
+        initialTime: selectedTime,
+        initialEntryMode: TimePickerEntryMode.dial,
+
+      );
+      if (timeOfDay != null && timeOfDay != selectedTime) {
+        setState(() {
+          selectedTime = timeOfDay;
+          timeSlot_change = selectedTime.format(context);
+          print(timeSlot_change);
+        });
+      }
+    }
+
+    Widget timePicker(){
+      return Container(
+        height: 80,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end:  Alignment.bottomRight,
+              colors: [
+                Color(0xFF1BBFA3),
+                Color(0xFF11ADB8),
+              ]
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: Colors.cyan,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25)
+                ),
+              ),
+              onPressed: () {
+                _selectTime(context);
+              },
+              child: Text("Choose Time"),
+            ),
+            //Text("${selectedTime.hour}:${selectedTime.minute}"),
+          ],
+        ),
+      );
+    }
+
+
+    return Scaffold(
             appBar: AppBar(
               title: Text(widget.selected.location),
+              flexibleSpace: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end:  Alignment.bottomRight,
+                      colors: [
+                        Color(0xFF135A4F),
+                        Color(0xFF174A63),
+                      ]
+                  ),
+                ),
+              ),
             ),
-            body: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Container(
-                    width: double.infinity,
-                   margin: EdgeInsets.only(top: 10),
-                   height: 200,
-                   decoration: BoxDecoration(
-                     borderRadius: BorderRadius.circular(20),
-                     color: Colors.lightBlueAccent
-                   ),
-                    child:Column(
-                      //mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(widget.selected.location,style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold)),
-                        Text('Booking Date: ' + widget.selected.dateSlot, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
-                        Text('Booking Time: ' + widget.selected.timeSlot, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
-                        Text('Facilities Type: ' + widget.selected.facilities_type, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500))
-                      ],
+            body: Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end:  Alignment.bottomRight,
+                    colors: [
+                      Color(0xFF1BBFA3),
+                      Color(0xFF11ADB8),
+                    ]
+                ),
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: double.infinity,
+                     margin: EdgeInsets.all(10),
+                     height: 180,
+                     decoration: BoxDecoration(
+                         borderRadius: BorderRadius.only(
+                             bottomRight: Radius.circular(10),
+                             bottomLeft: Radius.circular(10)
+                         ),
+                       gradient: LinearGradient(
+                           begin: Alignment.topLeft,
+                           end:  Alignment.bottomRight,
+                           colors: [
+                             Color(0xFF1C5A52),
+                             Color(0xFF2C898E),
+                           ]
+                       ),
+                     ),
+                      child:Column(
+                        //mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(widget.selected.location,style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold, color: Colors.white)),
+                          SizedBox(height: 10),
+                          Text('Booking Date: ' + widget.selected.dateSlot, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500,color: Colors.white70)),
+                          SizedBox(height: 5),
+                          Text('Booking Time: ' + widget.selected.timeSlot, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500,color: Colors.white70)),
+                          SizedBox(height: 5),
+                          Container(
+                            padding: EdgeInsets.all(10),
+                            margin: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.deepOrangeAccent,
+                            ),
+                            child: Text(widget.selected.facilities_type, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500,color: Colors.white)),
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                  Datepicking(),
-                  timePicker(),
-                  Container(
-                    margin: EdgeInsets.all(10),
-                    height: 100,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: Colors.lightBlueAccent,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Column(
-                      children: [
-                        Container(
-                          height: 80,
-                          width: double.infinity,
-                          margin: EdgeInsets.all(10),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Date slot change to: ' + fomattedDate,style: TextStyle(fontSize: 15)),
-                              Text('Time slot change to:  ${timeSlot_change}',style: TextStyle(fontSize: 15)),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      editButton()
-                    ],
-                  )
-                ],
+                    SizedBox(height: 10),
+                    Datepicking(),
+                    SizedBox(height: 20),
+                    Text('Change time', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),textAlign: TextAlign.left,),
+                    timePicker(),
+                    SizedBox(height: 20),
+                    Text('Change Add-ons and Equipment',style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),textAlign: TextAlign.left,),
 
-              )
+                    add_ons_and_office_Button(),
+
+                    display_selected_time_and_sort(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        editButton()
+                      ],
+                    )
+                  ],
+
+                )
+              ),
             ),
 
           );
         }
-      },
-    );
-  }
 }

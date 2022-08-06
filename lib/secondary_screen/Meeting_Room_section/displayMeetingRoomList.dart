@@ -1,6 +1,6 @@
 import 'package:facilitiesbookingapp/models/facilities%20Location%20Models/facilities_Details_For_MeetingRoom.dart';
 import 'package:facilitiesbookingapp/searchfunctions/search_function_meeting_room.dart';
-import 'package:facilitiesbookingapp/secondary_screen/Meeting_Room_section/MeetingRoom_screen.dart';
+import 'package:facilitiesbookingapp/secondary_screen/Meeting_Room_section/MeetingRoomBooking_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

@@ -66,7 +66,38 @@ class _swimmingBookingScreenState extends State<swimmingBookingScreen>{
     );
   }
 
-  void createbooking(){
+  errorDialog(){
+    return showDialog(context: context, builder: (BuildContext context){
+      return AlertDialog(
+        title: Text("Error"),
+        content: Text("you have to include your Dateslot"),
+      );
+    });
+  }
+
+  errorDialog2(){
+    return showDialog(context: context, builder: (BuildContext context){
+      return AlertDialog(
+        title: Text("Error"),
+        content: Text("you have to include your TimeSlot"),
+      );
+    });
+  }
+
+  createBooking() {
+    if(dateinput_swimming == 'None'){
+      return errorDialog();
+    }else if(Bookingtimeslot_swimming == 'None'){
+      return errorDialog2();
+    }
+    else
+      return SentBookingData();
+  }
+
+  void SentBookingData(){
+
+    showMyDialog();
+
     location = widget.selected.location;
     bkandLevel = widget.selected.block_And_Level;
     timeSlot = Bookingtimeslot_swimming;
@@ -143,8 +174,7 @@ class _swimmingBookingScreenState extends State<swimmingBookingScreen>{
         ),
         FlatButton(
           onPressed: () {
-            createbooking();
-            showMyDialog();
+            createBooking();
           },
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),

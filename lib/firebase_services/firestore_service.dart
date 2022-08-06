@@ -152,7 +152,7 @@ Stream<List<Facilities_Details_Meeting_Room>> getDetailsOfFacilities_MeetingRoom
   }
 
   editBookingMeetingRoom(
-      id, location, bkandLevel, facilities_type, dateSlot, timeSlot, Room_Number, Room_Size, email,
+      id, location, bkandLevel, facilities_type, dateSlot, timeSlot, Room_Number, Room_Size, User_request,email,
       smart_tv, whiteboard, wifi, digitalAvSolution, officeSupplies, accessToRefreshment) {
     return FirebaseFirestore.instance
         .collection('MeetingRoom_Booking_Collection')
@@ -165,6 +165,7 @@ Stream<List<Facilities_Details_Meeting_Room>> getDetailsOfFacilities_MeetingRoom
       'timeSlot': timeSlot,
       'Room_number':Room_Number,
       'Room_size': Room_Size,
+      'User_request': User_request,
       'Email': email,
       'Smart_tv': smart_tv,
       'Whiteboard':whiteboard,

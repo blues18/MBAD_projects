@@ -51,7 +51,7 @@ class _DatePickerState extends State<DatePickerTimeline> {
                   monthColor: widget.monthColor,
                   monthSize: widget.monthSize,
                   selectionColor: isSelected
-                      ? Colors.blue.withOpacity(0.1)
+                      ? Colors.deepOrange.withOpacity(0.1)
                       : Colors.transparent,
                   onDateSelected: (selectedDate) {
                     // A date is selected

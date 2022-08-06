@@ -42,6 +42,13 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
   String other_request = 'None';
   final user = FirebaseAuth.instance.currentUser!;
 
+  late bool smartTv = widget.selected.smart_tv;
+  late bool whiteBoard = widget.selected.whiteboard;
+  late bool Wifi = widget.selected.wifi;
+  late bool digitalAvSolution = widget.selected.digitalAvSolution;
+  late bool officeSupplies = widget.selected.officeSupplies;
+  late bool accesstoRefreshment = widget.selected.accessToRefreshment;
+
   String? location;
   String? opening_hours;
   String? dateSlot;
@@ -52,6 +59,7 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
   String? Room_number;
   String? Email;
   String? facilities_image;
+  String? Url_image;
   String? User_request;
   bool? tickBox_smartTv;
   bool? tickBox_Whiteboard;
@@ -231,8 +239,8 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
         ),
         FlatButton(
           onPressed: () {
-            createbooking();
-            showMyDialog();
+            //createbooking();
+            createBooking();
           },
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
@@ -245,15 +253,6 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
             ],
           ),
         ),
-      ],
-    );
-  }
-
-  Widget previousScreenButton(){
-    return Stack(
-      alignment: Alignment.topLeft,
-      children: [
-        Icon(Icons.arrow_back_rounded)
       ],
     );
   }
@@ -279,7 +278,39 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
     );
   }
 
-  void createbooking(){
+  errorDialog(){
+    return showDialog(context: context, builder: (BuildContext context){
+      return AlertDialog(
+        title: Text("Error"),
+        content: Text("you have to include your Dateslot"),
+      );
+    });
+  }
+
+  errorDialog2(){
+    return showDialog(context: context, builder: (BuildContext context){
+      return AlertDialog(
+        title: Text("Error"),
+        content: Text("you have to include your TimeSlot"),
+      );
+    });
+  }
+
+
+  createBooking() {
+    if(dateinput_meetingRoom == 'None'){
+      return errorDialog();
+    }else if(Bookingtimeslot_meetingRoom == 'None'){
+      return errorDialog2();
+    }
+    else
+      return SentBookingData();
+  }
+
+   void SentBookingData(){
+
+     showMyDialog();
+
     location = widget.selected.Location;
     opening_hours = widget.selected.Opening_Hour;
     bkandLevel = widget.selected.Block_And_Level;
@@ -290,33 +321,18 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
     Room_number = widget.selected.Room_Number;
     User_request = other_request;
     Email= user.email;
-    tickBox_smartTv = widget.selected.smart_tv;
-    tickBox_Whiteboard = widget.selected.whiteboard;
-    tickBox_Wifi = widget.selected.wifi;
-    tickBox_digitalAvSolution = widget.selected.digitalAvSolution;
-    tickBox_officeSupplies = widget.selected.officeSupplies;
-    tickBox_accessToRefreshment = widget.selected.accessToRefreshment;
-
-    print(location);
-    print(bkandLevel);
-    print(timeSlot);
-    print(dateSlot);
-    print(facilities_type);
-    print(Email);
-
-    print(tickBox_smartTv);
-    print(tickBox_Whiteboard);
-    print(tickBox_Wifi);
-    print(tickBox_digitalAvSolution);
-    print(tickBox_officeSupplies);
-    print(tickBox_accessToRefreshment);
+    tickBox_smartTv = smartTv;
+    tickBox_Whiteboard = whiteBoard;
+    tickBox_Wifi = Wifi;
+    tickBox_digitalAvSolution = digitalAvSolution;
+    tickBox_officeSupplies = officeSupplies;
+    tickBox_accessToRefreshment = accesstoRefreshment;
 
 
     FirestoreService fsService = FirestoreService();
     fsService.addBookingToFirebase_MeetingRoom(location, bkandLevel, facilities_type, dateSlot, timeSlot
     ,Room_number,Room_size,User_request,Email,tickBox_smartTv,tickBox_Whiteboard,tickBox_Wifi,tickBox_digitalAvSolution
     ,tickBox_officeSupplies,tickBox_accessToRefreshment);
-
   }
 
   Future<void> showMyDialog() async {
@@ -353,12 +369,12 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
 
   void add_ons_checkBox(){
 
-    tickBox_smartTv = widget.selected.smart_tv;
-    tickBox_Whiteboard = widget.selected.whiteboard;
-    tickBox_Wifi = widget.selected.wifi;
-    tickBox_digitalAvSolution = widget.selected.digitalAvSolution;
-    tickBox_officeSupplies = widget.selected.officeSupplies;
-    tickBox_accessToRefreshment = widget.selected.accessToRefreshment;
+    smartTv = smartTv;
+    whiteBoard = whiteBoard;
+    Wifi = Wifi;
+    digitalAvSolution = digitalAvSolution;
+    officeSupplies = officeSupplies;
+    accesstoRefreshment = accesstoRefreshment;
 
     showDialog(
         context: context,
@@ -373,10 +389,10 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
                       title: Text('Smart_Tv'),
                       subtitle: Text('items examples'),
                       //tileColor: Colors.lightBlueAccent,
-                      value: tickBox_smartTv,
+                      value: smartTv,
                       onChanged: (value) {
                         setState(() {
-                          tickBox_smartTv = value!;
+                          smartTv = value!;
                         });
                       },
                       activeColor: Colors.lightBlueAccent,
@@ -387,10 +403,10 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
                       title: Text('Whitebaord'),
                       subtitle: Text('items examples'),
                       //tileColor: Colors.lightBlueAccent,
-                      value: tickBox_Whiteboard,
+                      value: whiteBoard,
                       onChanged: (value) {
                         setState(() {
-                          tickBox_Whiteboard = value!;
+                          whiteBoard = value!;
                         });
                       },
                       activeColor: Colors.lightBlueAccent,
@@ -401,10 +417,10 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
                       title: Text('Wifi'),
                       subtitle: Text('items examples'),
                       //tileColor: Colors.lightBlueAccent,
-                      value: tickBox_Wifi,
+                      value: Wifi,
                       onChanged: (value) {
                         setState(() {
-                          tickBox_Wifi = value!;
+                          Wifi = value!;
                         });
                       },
                       activeColor: Colors.lightBlueAccent,
@@ -415,10 +431,10 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
                       title: Text('Digital Av Solution'),
                       subtitle: Text('items examples'),
                       //tileColor: Colors.lightBlueAccent,
-                      value: tickBox_digitalAvSolution,
+                      value: digitalAvSolution,
                       onChanged: (value) {
                         setState(() {
-                          tickBox_accessToRefreshment = value!;
+                          digitalAvSolution = value!;
                         });
                       },
                       activeColor: Colors.lightBlueAccent,
@@ -429,10 +445,10 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
                       title: Text('Offices Supplies'),
                       subtitle: Text('items examples'),
                       //tileColor: Colors.lightBlueAccent,
-                      value: tickBox_officeSupplies,
+                      value: officeSupplies,
                       onChanged: (bool? value) {
                         setState(() {
-                          tickBox_officeSupplies = value!;
+                          officeSupplies = value!;
                         });
                       },
                       activeColor: Colors.lightBlueAccent,
@@ -443,10 +459,10 @@ class _MeetingRoomBookingScreenState extends State<MeetingRoomBookingScreen>{
                       title: Text('Access To Refreshment'),
                       subtitle: Text('items examples'),
                       //tileColor: Colors.lightBlueAccent,
-                      value: tickBox_accessToRefreshment,
+                      value: accesstoRefreshment,
                       onChanged: (bool? value) {
                         setState(() {
-                          tickBox_accessToRefreshment = value!;
+                          accesstoRefreshment = value!;
                         });
                       },
                       activeColor: Colors.lightBlueAccent,

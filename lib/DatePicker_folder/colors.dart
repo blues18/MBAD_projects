@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 class AppColors {
   AppColors._();
-  static const Color defaultDateColor = Colors.black;
-  static const Color defaultDayColor = Colors.black54;
-  static const Color defaultMonthColor = Colors.black45;
+  static const Color defaultDateColor = Colors.white;
+  static const Color defaultDayColor = Colors.white70;
+  static const Color defaultMonthColor = Colors.white70;
 }
